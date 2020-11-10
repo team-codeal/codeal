@@ -4,15 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
-import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,14 +48,17 @@ class MainActivity : AppCompatActivity() {
             this.statusBar.text = "Please, sign in"
         }
 
-        val procceed_button : Button = findViewById(R.id.button_procceed)
+        val proceedButton : Button = findViewById(R.id.button_procceed)
 
-        procceed_button.setOnClickListener {
+        proceedButton.setOnClickListener {
             val user = FirebaseAuth.getInstance().currentUser
             if (user == null) {
                 this.statusBar.text = "Sorry, first you have to sign in"
             } else {
-                this.statusBar.text = "теперь надо замержить с проектом Матвея"
+                val intent = Intent(this, DatabaseActivity::class.java)
+                startActivity(intent)
+//                val navController = this.findNavController(R.id.nav_host_fragment)
+//                navController.navigate(R.id.action_mainActivity_to_databaseActivity)
             }
         }
 
