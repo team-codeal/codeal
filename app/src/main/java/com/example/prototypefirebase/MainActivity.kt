@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_SIGN_IN) {
-            val response = IdpResponse.fromResultIntent(data)
+            //val response = IdpResponse.fromResultIntent(data)
 
             if (resultCode == Activity.RESULT_OK) {
                 // signed in
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 if (user == null) {
                     this.statusBar.text = "OK SOMETHING WEIRD HAPPENED HERE\n Your user object is null wtf"
                 } else {
-                    this.statusBar.text = "User " + user!!.displayName + " is signed in"
+                    this.statusBar.text = "User " + user.displayName + " is signed in"
                 }
             } else {
                 this.statusBar.text = "AUTH FAILED"
