@@ -73,10 +73,16 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 // signed in
                 val user = FirebaseAuth.getInstance().currentUser
-                this.statusBar.text = "User " + user!!.displayName + " is signed in"
+                if (user == null) {
+                    this.statusBar.text = "OK SOMETHING WEIRD HAPPENED HERE\n Your user object is null wtf"
+                } else {
+                    this.statusBar.text = "User " + user!!.displayName + " is signed in"
                 }
             } else {
                 this.statusBar.text = "AUTH FAILED"
             }
+        } else {
+            this.statusBar.text = "Received some strange requestCode"
         }
+    }
 }
