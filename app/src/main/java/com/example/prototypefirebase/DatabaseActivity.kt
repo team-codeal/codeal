@@ -16,6 +16,11 @@ class DatabaseActivity : AppCompatActivity() {
             val lastName = inputLastName.text.toString()
             saveFireStore(firstName, lastName)
         }
+
+        updateButton.setOnClickListener {
+            readFireStoreData()
+        }
+
         readFireStoreData()
     }
 
