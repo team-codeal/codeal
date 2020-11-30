@@ -9,17 +9,17 @@
         android:id="@+id/navigation_home"
         android:name="com.example.prototypefirebase.ui.userprofile.UserProfileFragment"
         android:label="@string/title_userprofile"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_userprofile" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.prototypefirebase.ui.feed.FeedFragment"
         android:label="@string/title_feed"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_feed" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.prototypefirebase.ui.teams.TeamsFragment"
         android:label="@string/title_teams"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_teams" />
 </navigation>

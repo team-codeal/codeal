@@ -21,8 +21,8 @@ class FeedFragment : Fragment() {
     ): View? {
         dashboardViewModel =
             ViewModelProvider(this).get(FeedViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        val root = inflater.inflate(R.layout.fragment_feed, container, false)
+        val textView: TextView = root.findViewById(R.id.text_feed)
         dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
