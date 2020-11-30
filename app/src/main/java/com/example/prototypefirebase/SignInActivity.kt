@@ -52,7 +52,7 @@ class SignInActivity : AppCompatActivity() {
             if (user == null) {
                 this.statusBar.text = "Sorry, first you have to sign in"
             } else {
-                val intent = Intent(this, DatabaseActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
 //                val navController = this.findNavController(R.id.nav_host_fragment)
 //                navController.navigate(R.id.action_mainActivity_to_databaseActivity)
