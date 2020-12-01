@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.example.prototypefirebase.MainActivity"
+        android:name="com.example.prototypefirebase.SignInActivity"
         android:label="activity_main"
-        tools:layout="@layout/activity_main" />
+        tools:layout="@layout/activity_signin" />
 </navigation>
