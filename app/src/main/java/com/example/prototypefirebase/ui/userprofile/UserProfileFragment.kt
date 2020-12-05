@@ -9,43 +9,18 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.prototypefirebase.R
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.example.prototypefirebase.codeal.CodealUser
 import com.google.firebase.firestore.FirebaseFirestore
-
-//TODO this code needs a drying, especially unifying the database names, or
-// possibly carrying database-related stuff in some other helper class
 
 class UserProfileFragment : Fragment() {
 
     private lateinit var userProfileViewModel: UserProfileViewModel
 
-    private lateinit var user: FirebaseUser
-
-    private var userName: String? = "default_user_name"
-    private var userBio: String? = "default_user_bio"
+    private lateinit var user: CodealUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        user = FirebaseAuth.getInstance().currentUser!! // assertion comes from an assumption that
-                                                        // the user has already signed it
-
-        val db = FirebaseFirestore.getInstance()
-
-        db.collection("user_profiles").document(user.uid).get()
-            .addOnSuccessListener { profile ->
-                userName = profile?.get("name") as String? ?:
-                                          (user.displayName ?: "Your future user name")
-                userBio = profile?.get("bio") as String? ?: ""
-                updateUserProfileUI()
-            }
-            .addOnFailureListener { _ ->
-                userName = "Your future user name"
-                userBio = ""
-                updateUserProfileUI()
-            }
-
+        user = CodealUser()
     }
 
     override fun onCreateView(
@@ -77,10 +52,10 @@ class UserProfileFragment : Fragment() {
     private fun updateUserProfileUI() {
 
         val userNameHolder: EditText? = view?.findViewById(R.id.user_name)
-        userNameHolder?.setText(userName)
+        userNameHolder?.setText(user.name)
 
         val userBioHolder: EditText? = view?.findViewById(R.id.user_bio)
-        userBioHolder?.setText(userBio)
+        userBioHolder?.setText(user.bio)
 
     }
 
@@ -92,14 +67,7 @@ class UserProfileFragment : Fragment() {
         val userBioHolder: EditText? = view?.findViewById(R.id.user_bio)
         val newUserBio = userBioHolder?.text.toString()
 
-        val userData = hashMapOf(
-            "name" to newUserName,
-            "bio" to newUserBio
-        )
-
-        val usersDB = FirebaseFirestore.getInstance().collection("user_profiles")
-
-        usersDB.document(user.uid).set(userData)
+        user.change(name = newUserName, bio = newUserBio)
 
     }
 
