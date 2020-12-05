@@ -5,6 +5,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import java.lang.IllegalStateException
 
+// TODO this class really is begging for a real-time listener which would invoke the callback
+
 class CodealUser {
 
     private lateinit var fbUser: FirebaseUser
