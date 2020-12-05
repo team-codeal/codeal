@@ -20,7 +20,7 @@ class UserProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        user = CodealUser()
+        user = CodealUser(::updateUserProfileUI)
     }
 
     override fun onCreateView(
