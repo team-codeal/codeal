@@ -11,13 +11,17 @@ class CodealUser {
 
     var id: String
         private set
-    lateinit var name: String
+    var name: String = ""
         private set
-    lateinit var bio: String
+    var bio: String = ""
         private set
 
-    var isSelf: Boolean = false
+    private var ready: Boolean = false
+
+    var isSelf: Boolean
         private set
+
+    var updateCallback: (() -> Unit)? = null
 
     companion object {
         private const val USER_DB_COLLECTION_NAME: String = "user_profiles"
@@ -25,15 +29,17 @@ class CodealUser {
         private const val USER_DB_USER_BIO_FIELD_NAME: String = "bio"
     }
 
-    constructor() {
+    constructor(callback: (() -> Unit)? = null) {
         // it is asserted that the user is logged in
+        updateCallback = callback
         fbUser = getUserFromFirebase() ?: throw IllegalStateException("The user is not logged in")
         id = fbUser.uid
         isSelf = true
         initUserInfoById()
     }
 
-    constructor(userID: String) {
+    constructor(userID: String, callback: (() -> Unit)? = null) {
+        updateCallback = callback
         id = userID
         isSelf = false
         initUserInfoById()
@@ -76,6 +82,8 @@ class CodealUser {
                             userDB.document(id).update(USER_DB_USER_BIO_FIELD_NAME, newBio)
                             newBio
                         }
+                ready = true
+                updateCallback?.invoke()
             }
             .addOnFailureListener { exception ->
                 throw exception
