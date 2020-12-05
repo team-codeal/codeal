@@ -9,7 +9,7 @@ class CodealUser {
 
     private lateinit var fbUser: FirebaseUser
 
-    lateinit var id: String
+    var id: String
         private set
     lateinit var name: String
         private set
@@ -22,7 +22,7 @@ class CodealUser {
     companion object {
         private const val USER_DB_COLLECTION_NAME: String = "user_profiles"
         private const val USER_DB_USER_NAME_FIELD_NAME: String = "name"
-        private const val USER_DB_USER_BIO_FIELD_NAME: String = "name"
+        private const val USER_DB_USER_BIO_FIELD_NAME: String = "bio"
     }
 
     constructor() {
