@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.userprofile.UserProfileFragment">
 
+    <Button
+        android:id="@+id/button_log_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LOG OUT"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/user_bio"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_bio"
+        app:layout_constraintTop_toBottomOf="@+id/user_bio"
+        app:layout_constraintVertical_bias="0.027" />
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"

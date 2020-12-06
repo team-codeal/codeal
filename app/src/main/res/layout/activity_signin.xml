@@ -14,38 +14,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_light" />
+        app:srcCompat="@drawable/common_google_signin_btn_text_dark_normal" />
 
-    <ImageButton
-        android:id="@+id/button_log_out"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_log_in"
-        app:srcCompat="@drawable/fui_ic_apple_white_24dp" />
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_log_in"
+        app:layout_constraintEnd_toEndOf="@+id/button_log_in"
+        app:layout_constraintHorizontal_bias="0.116"
+        app:layout_constraintStart_toStartOf="@+id/button_log_in"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal" />
 
-    <TextView
-        android:id="@+id/text_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/button_log_in"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_procceed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Procceed"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button_log_in"
-        app:layout_constraintTop_toTopOf="parent" />
-
-<!--        <androidx.fragment.app.FragmentContainerView-->
+    <!--        <androidx.fragment.app.FragmentContainerView-->
 <!--        android:id="@+id/nav_host_fragment"-->
 <!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
 <!--        android:layout_width="0dp"-->
