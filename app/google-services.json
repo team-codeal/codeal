@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "415063719548",
+    "firebase_url": "https://codeal-project.firebaseio.com",
+    "project_id": "codeal-project",
+    "storage_bucket": "codeal-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415063719548:android:11f66847ea7254ab8d53f9",
+        "android_client_info": {
+          "package_name": "com.example.prototypefirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415063719548-3q8obffoho9htlldo312edb1prrta39p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.prototypefirebase",
+            "certificate_hash": "d5888c622b3cbb4065253afb2676d1a289955065"
+          }
+        },
+        {
+          "client_id": "415063719548-eo7e5ol9np4q4acuqc0ji1n1bpsj92e5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQDKt4vNMRpiN8zSSKgfAUbxkH6BRkMf0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415063719548-eo7e5ol9np4q4acuqc0ji1n1bpsj92e5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

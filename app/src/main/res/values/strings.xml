@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CODEAL: Prototype</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_userprofile">User profile</string>
+    <string name="title_feed">Feed</string>
+    <string name="title_teams">Teams</string>
+    <string name="user_avatar_desc">User avatar</string>
+</resources>
