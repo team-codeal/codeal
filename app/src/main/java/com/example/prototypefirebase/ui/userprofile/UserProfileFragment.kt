@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -43,13 +44,13 @@ class UserProfileFragment : Fragment() {
 
         updateUserProfileUI()
 
-        val saveButton: Button = view.findViewById(R.id.button_send_to_db)
-
-        saveButton.setOnClickListener {
-            saveCurrentUserProfile()
-            // updateUserProfileUI()
-        }
-
+//        val saveButton: Button = view.findViewById(R.id.button_send_to_db)
+//
+//        saveButton.setOnClickListener {
+//            saveCurrentUserProfile()
+//            // updateUserProfileUI()
+//        }
+//
         val ctx = requireContext()
 
         val logoutButton : Button = view.findViewById(R.id.button_log_out)
@@ -65,11 +66,11 @@ class UserProfileFragment : Fragment() {
 
     private fun updateUserProfileUI() {
 
-        val userNameHolder: EditText? = view?.findViewById(R.id.user_name)
-        userNameHolder?.setText(user.name)
+        val userNameHolder: TextView = view?.findViewById(R.id.user_name)!!
+        userNameHolder.text = user.name
 
-        val userBioHolder: EditText? = view?.findViewById(R.id.user_bio)
-        userBioHolder?.setText(user.bio)
+        val userBioHolder: TextView = view?.findViewById(R.id.user_bio)!!
+        userBioHolder.text = user.bio
 
     }
 
