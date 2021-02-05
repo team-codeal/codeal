@@ -6,9 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.layout_list_item.view.*
 import java.util.ArrayList
 
-class TaskAdapter(private val tasks: ArrayList<Task>, private val onTaskClickListener: OnTaskClickListener) : RecyclerView.Adapter<TaskViewHolder>() {
+class TaskAdapter(
+    private val tasks: ArrayList<Task>,
+    private val onTaskClickListener: OnTaskClickListener
+) : RecyclerView.Adapter<TaskViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        return TaskViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.layout_list_item,parent,false))
+        return TaskViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.layout_list_item, parent, false)
+        )
     }
 
     override fun getItemCount(): Int {
@@ -26,7 +31,7 @@ class TaskAdapter(private val tasks: ArrayList<Task>, private val onTaskClickLis
         }
     }
 
-    fun addNewItem(itemsNew: ArrayList<Task>){
+    fun addNewItem(itemsNew: ArrayList<Task>) {
         tasks.clear()
         tasks.addAll(itemsNew)
         notifyDataSetChanged()

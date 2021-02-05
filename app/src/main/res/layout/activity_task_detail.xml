@@ -33,12 +33,19 @@
         android:hint="Enter the task"
         android:layout_margin="10dp"
         android:autofillHints="" />
-    <Button android:id="@+id/saveTask"
+    <Button android:id="@+id/updateTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="SAVE"
+        android:text="UPDATE"
         app:layout_constraintStart_toStartOf="parent"/>
+    <Button android:id="@+id/deleteTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/updateTask"
+        android:text="DELETE"
+        android:layout_marginLeft="180dp"/>
 
 
 

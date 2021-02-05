@@ -16,11 +16,15 @@ class TaskDetail : AppCompatActivity() {
         val id = intent.getStringExtra("TaskID")
         getCurrTask(id!!)
 
-        saveTask.setOnClickListener {
+        updateTask.setOnClickListener {
             val taskName = Name_task.text.toString()
             val taskText = Text_task.text.toString()
 
             updateTask(id, taskName, taskText)
+        }
+
+        deleteTask.setOnClickListener {
+            deleteTask(id)
         }
     }
 
@@ -65,6 +69,20 @@ class TaskDetail : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Toast.makeText(this@TaskDetail, "Error with updating content!", Toast.LENGTH_SHORT)
+                    .show()
+            }
+    }
+
+    private fun deleteTask(id: String) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("tasks1").document(id)
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(this@TaskDetail, "Task successfully deleted!", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this@TaskDetail, "Error with deleting task!", Toast.LENGTH_SHORT)
                     .show()
             }
     }
