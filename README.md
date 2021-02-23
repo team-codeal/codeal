@@ -1,4 +1,4 @@
-CODEAL
+# CODEAL
 
   It’s an android application, which would make your work with kanban methodology much easier, streamline your teamwork and reduce your development time. 
 
@@ -14,13 +14,10 @@ How to install the project?
   We’re still working on the project, but soon there will be a link to the Google Store!
 
 Our team:
-  Roman Brek:
-    Github: https://github.com/ghB111
-  Matvey Kuznetsov:
-    Github: https://github.com/Matvey0123 
-  Artem Plenkin: 
-    Github: https://github.com/ArtemPlenkin 
-  Margo Lobova:
-    Github: https://github.com/MargaritaLobova 
+
+  - [Roman Brek](https://github.com/ghB111)
+  - [Matvey Kuznetsov](https://github.com/Matvey0123)
+  - [Artem Plenkin](https://github.com/ArtemPlenkin)
+  - [Margo Lobova](https://github.com/MargaritaLobova)
 
 Contact us, we will be glad to receive your comments and questions!
