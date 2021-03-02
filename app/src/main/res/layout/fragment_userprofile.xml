@@ -4,13 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".ui.userprofile.UserProfileFragment">
 
     <Button
         android:id="@+id/button_log_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/colorButton"
+        android:fontFamily="@font/poppins_semibold"
         android:text="LOG OUT"
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/user_bio"
         app:layout_constraintHorizontal_bias="0.0"
@@ -22,43 +26,54 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
         android:text="Your bio"
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toTopOf="@+id/user_bio"
         app:layout_constraintEnd_toEndOf="@+id/user_bio"
         app:layout_constraintStart_toStartOf="@+id/user_bio"
         app:layout_constraintTop_toBottomOf="@+id/user_avatar" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/user_avatar"
+        android:src="@drawable/avatar"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:background="@drawable/borders"
-        android:src="@drawable/wolf"
+        android:background="@color/colorBackground"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.056"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026" />
+        app:layout_constraintVertical_bias="0.026"
+        app:civ_border_width="3dp"
+        app:civ_border_color="@color/colorAccent"/>
 
     <EditText
         android:id="@+id/user_name"
-        android:layout_width="168dp"
-        android:layout_height="44dp"
+        android:layout_width="128dp"
+        android:layout_height="54dp"
+        android:autofillHints=""
         android:ems="10"
+        android:fontFamily="@font/poppins_regular"
         android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="@color/colorText"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@+id/user_avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.838"
+        app:layout_constraintHorizontal_bias="0.875"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
-        app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
         android:text="User name"
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="@+id/user_avatar"
         app:layout_constraintEnd_toStartOf="@+id/user_name"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
@@ -68,9 +83,14 @@
         android:id="@+id/user_bio"
         android:layout_width="299dp"
         android:layout_height="103dp"
+        android:background="@color/colorText"
         android:ems="10"
+        android:fontFamily="@font/poppins_regular"
         android:gravity="start|top"
         android:inputType="textMultiLine"
+        android:textAlignment="center"
+        android:textColor="@color/colorBackground"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -82,12 +102,15 @@
         android:id="@+id/button_send_to_db"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/colorButton"
+        android:fontFamily="@font/poppins_semibold"
         android:text="Save"
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/user_bio"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/user_bio"
         app:layout_constraintTop_toBottomOf="@+id/user_bio"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.027" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

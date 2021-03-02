@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TaskDetail"></activity>
+        <activity android:name=".TaskDetail" />
         <activity android:name=".TaskActivity" />
         <activity android:name=".ui.TaskActivity" />
         <activity android:name=".BoardActivity" />
