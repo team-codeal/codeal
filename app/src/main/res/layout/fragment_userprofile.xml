@@ -13,13 +13,13 @@
         android:text="LOG OUT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/user_bio"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/user_bio"
+        app:layout_constraintHorizontal_bias="0.357"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_bio"
         app:layout_constraintVertical_bias="0.361" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/user_bio_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Your bio"
@@ -42,13 +42,15 @@
         app:layout_constraintVertical_bias="0.026" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/user_name_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="User name"
         app:layout_constraintBottom_toBottomOf="@+id/user_avatar"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.494" />
 
     <TextView
         android:id="@+id/user_name"
@@ -56,7 +58,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/user_avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/user_name_tag"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -68,7 +70,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/user_bio_tag"
         app:layout_constraintVertical_bias="0.283" />
+
+    <Button
+        android:id="@+id/button_go_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/user_avatar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/user_avatar"
+        app:layout_constraintVertical_bias="0.057" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
