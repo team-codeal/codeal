@@ -4,13 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".ui.userprofile.UserProfileFragment">
 
     <Button
         android:id="@+id/button_log_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/colorButton"
+        android:fontFamily="@font/poppins_semibold"
         android:text="LOG OUT"
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/user_bio"
         app:layout_constraintHorizontal_bias="0.357"
@@ -22,40 +26,56 @@
         android:id="@+id/user_bio_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
         android:text="Your bio"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/colorText"
+        app:layout_constraintBottom_toTopOf="@+id/user_bio"
+        app:layout_constraintEnd_toEndOf="@+id/user_bio"
+        app:layout_constraintStart_toStartOf="@+id/user_bio"
         app:layout_constraintTop_toBottomOf="@+id/user_avatar" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/user_avatar"
+        android:src="@drawable/avatar"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:background="@drawable/borders"
-        android:src="@drawable/wolf"
+        android:background="@color/colorBackground"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.056"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026" />
+        app:layout_constraintVertical_bias="0.026"
+        app:civ_border_width="3dp"
+        app:civ_border_color="@color/colorAccent"/>
+
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="128dp"
+        android:layout_height="54dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="@font/poppins_regular"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="@color/colorText"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/user_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintStart_toEndOf="@+id/user_avatar"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/user_name_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:fontFamily="@font/poppins_medium"
         android:text="User name"
-        app:layout_constraintBottom_toBottomOf="@+id/user_avatar"
-        app:layout_constraintStart_toEndOf="@+id/user_avatar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.494" />
-
-    <TextView
-        android:id="@+id/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="@+id/user_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/user_name_tag"
@@ -63,9 +83,16 @@
 
     <TextView
         android:id="@+id/user_bio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_width="299dp"
+        android:layout_height="103dp"
+        android:background="@color/colorText"
+        android:ems="10"
+        android:fontFamily="@font/poppins_regular"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:textAlignment="center"
+        android:textColor="@color/colorBackground"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
@@ -77,6 +104,9 @@
         android:id="@+id/button_go_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/colorButton"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/colorText"
         android:text="Edit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/user_avatar"

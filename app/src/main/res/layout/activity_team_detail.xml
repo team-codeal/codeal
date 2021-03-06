@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.teams.TeamDetail">
+    <EditText
+        android:id="@+id/edit_team_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TEAM NAME"
+        android:maxLines="1"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"/>
+    <EditText
+        android:id="@+id/edit_team_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Short description:"
+        android:minLines="3"
+        app:layout_constraintTop_toBottomOf="@id/edit_team_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        android:layout_marginTop="30dp"/>
+    <TextView
+        android:id="@+id/edit_team_members_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MEMBERS"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/edit_team_desc"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"/>
+
+
+    <EditText
+        android:id="@+id/edit_team_members"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="8"
+        app:layout_constraintTop_toBottomOf="@id/edit_team_members_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"/>
+    <Button
+        android:id="@+id/edit_team_update_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        app:layout_constraintTop_toBottomOf="@id/edit_team_members"
+        android:gravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"/>
+    <Button
+        android:id="@+id/edit_team_to_tasks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View the task-board"
+        app:layout_constraintTop_toBottomOf="@id/edit_team_update_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
