@@ -49,23 +49,11 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
                 for (document in result) {
                     val task = Task(
                         document.data["FirebaseID"] as String,
-                        document.data["Name"] as String, document.data["Text"] as String
+                        document.data["Name"] as String,
+                        document.data["Text"] as String
                     )
                     i++
-                    Toast.makeText(
-                        this@BoardActivity,
-                        "Task$i added successfully",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     tasks.add(task)
-                }
-                if (tasks.size == 0) {
-                    Toast.makeText(
-                        this@BoardActivity,
-                        "Tasks have no elements!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
                 }
 
                 val taskAdapter = TaskAdapter(tasks, this)
@@ -94,20 +82,8 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
                         document.data["Name"] as String, document.data["Text"] as String
                     )
                     i++
-                    Toast.makeText(
-                        this@BoardActivity,
-                        "Updates Task$i added successfully",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    updatedTasks.add(task)
-                }
-                if (updatedTasks.size == 0) {
-                    Toast.makeText(
-                        this@BoardActivity,
-                        "Tasks have no elements!",
-                        Toast.LENGTH_SHORT
-                    ).show()
 
+                    updatedTasks.add(task)
                 }
 
                 val taskAdapter = TaskAdapter(tasks, this)

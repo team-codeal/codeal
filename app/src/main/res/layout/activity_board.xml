@@ -28,16 +28,7 @@
         android:text="ADD TASK"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLabel" />
-    <!--<TextView android:id="@+id/tasksText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addTaskButton"
-        android:text=""
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary"/>
-        -->
+
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
