@@ -4,19 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.teams.TeamsFragment">
+    tools:context=".ui.teams.TeamsFragment"
+    >
 
     <TextView
-        android:id="@+id/text_teams"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="40sp"
+        android:id="@+id/TEAMS"
+        android:layout_marginStart="130dp"
+        android:text="TEAMS"
+        tools:ignore="MissingConstraints" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_teams"
+        android:layout_width="411dp"
+        android:layout_height="340dp"
+        app:layout_constraintTop_toTopOf="@id/TEAMS"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/team_row" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="TODO"
+        android:focusable="false"
+        android:onClick="openAddTeam"
+        android:src="@drawable/ic_baseline_add_circle_24"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+        <!--app:layout_constraintBottom_toTopOf="@id/createTeamTxt"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view_teams"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="177dp" /> -->
+
+    <!--<TextView
+        android:id="@+id/createTeamTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create a new team"
+        tools:layout_editor_absoluteX="47dp"
+        tools:layout_editor_absoluteY="645dp"
+        android:layout_marginStart="150dp"
+        app:layout_constraintTop_toBottomOf="@id/floatingActionButton"
+
+        /> -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>
