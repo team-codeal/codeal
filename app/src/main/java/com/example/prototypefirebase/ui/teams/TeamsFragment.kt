@@ -49,7 +49,7 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
 
     override fun onTeamItemClicked(position: Int) {
 
-        val intent = Intent(this.context, TeamDetail::class.java)
+        val intent = Intent(this.context, ViewTeamDetailActivity::class.java)
         intent.putExtra("FirebaseID", teams[position].firebaseID)
         startActivity(intent)
     }
