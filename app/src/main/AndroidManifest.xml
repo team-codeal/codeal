@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.teams.TeamDetail"></activity>
-        <activity android:name=".ui.teams.CreateTeam" />
+        <activity android:name=".ui.teams.CreateTeamActivity" />
         <activity android:name=".TaskDetail" />
         <activity android:name=".TaskActivity" />
         <activity android:name=".ui.TaskActivity" />
