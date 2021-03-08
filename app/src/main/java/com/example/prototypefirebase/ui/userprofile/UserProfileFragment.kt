@@ -4,18 +4,18 @@ import android.annotation.SuppressLint
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.SignInActivity
 import com.example.prototypefirebase.codeal.CodealUser
 import com.firebase.ui.auth.AuthUI
 
 class UserProfileFragment : Fragment() {
-
-    private lateinit var userProfileViewModel: UserProfileViewModel
 
     private lateinit var user: CodealUser
 
@@ -29,9 +29,6 @@ class UserProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        userProfileViewModel =
-            ViewModelProvider(this).get(UserProfileViewModel::class.java)
 
         return inflater.inflate(R.layout.fragment_userprofile, container, false)
     }
