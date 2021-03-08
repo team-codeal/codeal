@@ -18,7 +18,7 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board)
-
+        supportActionBar?.hide();
 
         val taskAdapter = TaskAdapter(tasks, this)
         item_tasks_list.layoutManager = LinearLayoutManager(this)

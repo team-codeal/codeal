@@ -12,10 +12,9 @@ class TaskDetail : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_detail)
-
+        supportActionBar?.hide();
         val id = intent.getStringExtra("TaskID")
         getCurrTask(id!!)
-
         updateTask.setOnClickListener {
             val taskName = Name_task.text.toString()
             val taskText = Text_task.text.toString()

@@ -5,48 +5,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".TaskDetail">
 
     <TextView
         android:id="@+id/task_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="202dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="32dp"
         android:text="Task Details"
+        android:gravity="center"
         android:textSize="24sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
-    <EditText android:id="@+id/Name_task"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        app:layout_constraintTop_toBottomOf="@id/task_title"
-        app:layout_constraintStart_toStartOf="parent"
-        android:hint="Enter the name of task"
-        android:layout_margin="10dp"
-        android:autofillHints="" />
-    <EditText android:id="@+id/Text_task"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        app:layout_constraintTop_toBottomOf="@id/Name_task"
-        app:layout_constraintStart_toStartOf="parent"
-        android:hint="Enter the task"
-        android:layout_margin="10dp"
-        android:autofillHints="" />
-    <Button android:id="@+id/updateTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="UPDATE"
-        app:layout_constraintStart_toStartOf="parent"/>
-    <Button android:id="@+id/deleteTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/updateTask"
-        android:text="DELETE"
-        android:layout_marginLeft="180dp"/>
 
+    <EditText
+        android:id="@+id/Name_task"
+        android:layout_width="294dp"
+        android:layout_height="55dp"
+        android:layout_margin="15dp"
+        android:autofillHints=""
+        android:fontFamily="@font/poppins_italic"
+        android:hint="Enter the name of task"
+        android:maxLines="1"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/task_title" />
+
+    <EditText
+        android:id="@+id/Text_task"
+        android:layout_width="287dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:autofillHints=""
+        android:fontFamily="@font/poppins_italic"
+        android:hint="Enter the task"
+        android:inputType="textMultiLine"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Name_task" />
+
+    <Button
+        android:id="@+id/updateTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginBottom="48dp"
+        android:background="@color/colorButton"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="UPDATE"
+        android:textColor="@color/colorText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/deleteTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:background="@color/colorButton"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="DELETE"
+        android:textColor="@color/colorText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.67"
+        app:layout_constraintStart_toEndOf="@+id/updateTask" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

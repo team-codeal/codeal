@@ -7,40 +7,54 @@
     android:background="@color/colorBackground"
     tools:context=".ui.teams.TeamsFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:id="@+id/TEAMS"
-        android:layout_marginStart="130dp"
-        android:text="TEAMS"
-        tools:ignore="MissingConstraints" />
 
+    <TextView
+        android:id="@+id/TEAMS"
+        android:layout_width="366dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center"
+        android:text="TEAMS"
+        android:textColor="@color/colorText"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.438"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_teams"
-        android:layout_width="411dp"
-        android:layout_height="340dp"
-        app:layout_constraintTop_toTopOf="@id/TEAMS"
+        android:layout_width="313dp"
+        android:layout_height="599dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TEAMS"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/team_row" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
         android:clickable="true"
         android:contentDescription="TODO"
         android:focusable="false"
         android:onClick="openAddTeam"
         android:src="@drawable/ic_baseline_add_circle_24"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
-        <!--app:layout_constraintBottom_toTopOf="@id/createTeamTxt"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view_teams"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="177dp" /> -->
+    <!--app:layout_constraintBottom_toTopOf="@id/createTeamTxt"
+    app:layout_constraintTop_toBottomOf="@id/recycler_view_teams"
+    tools:ignore="MissingConstraints"
+    tools:layout_editor_absoluteX="177dp" /> -->
 
     <!--<TextView
         android:id="@+id/createTeamTxt"

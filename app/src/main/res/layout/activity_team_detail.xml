@@ -4,66 +4,98 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".ui.teams.TeamDetail">
+
     <EditText
         android:id="@+id/edit_team_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TEAM NAME"
-        android:maxLines="1"
+        android:layout_width="369dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/poppins_semibold"
         android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"/>
+        android:maxLines="1"
+        android:text="TEAM"
+        android:textColor="@color/colorText"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/edit_team_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Short description:"
+        android:layout_width="361dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_regular "
         android:minLines="3"
-        app:layout_constraintTop_toBottomOf="@id/edit_team_name"
+        android:text="Short description:"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
-        android:layout_marginTop="30dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_team_name" />
+
     <TextView
         android:id="@+id/edit_team_members_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="MEMBERS"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/edit_team_desc"
+        android:layout_width="258dp"
+        android:layout_height="37dp"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center"
+        android:text="MEMBERS"
+        android:textColor="@color/colorText"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"/>
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_team_desc" />
 
 
     <EditText
         android:id="@+id/edit_team_members"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="357dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_italic"
         android:minLines="8"
-        app:layout_constraintTop_toBottomOf="@id/edit_team_members_title"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"/>
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_team_members_title" />
+
     <Button
         android:id="@+id/edit_team_update_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SAVE"
-        app:layout_constraintTop_toBottomOf="@id/edit_team_members"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="28dp"
+        android:background="@color/colorButton"
+        android:fontFamily="@font/poppins_semibold"
         android:gravity="center"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"/>
+        android:text="SAVE"
+        android:textColor="@color/colorText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_team_members" />
+
     <Button
         android:id="@+id/edit_team_to_tasks"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View the task-board"
-        app:layout_constraintTop_toBottomOf="@id/edit_team_update_button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"/>
-
+        android:layout_width="84dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="28dp"
+        android:background="@color/colorButton"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Board"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.539"
+        app:layout_constraintStart_toEndOf="@+id/edit_team_update_button"
+        app:layout_constraintTop_toBottomOf="@+id/edit_team_members" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
