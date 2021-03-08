@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:background="@color/colorText"
         >
 
         <TextView
@@ -18,6 +19,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/team_name"
             android:text="Name"
+            android:textColor="@color/colorBackground"
+            android:fontFamily="@font/poppins_medium"
             android:layout_centerHorizontal="true"
             android:textSize="25sp"
             />
@@ -26,6 +29,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/team_short_desc"
             android:text="Short description..."
+            android:fontFamily="@font/poppins_medium_italic"
+            android:textColor="@color/colorAccentDark"
             android:paddingTop="10dp"
             android:layout_below="@id/team_name"/>
 
