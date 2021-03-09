@@ -10,7 +10,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.prototypefirebase.ui.teams.CreateTeam
+import com.example.prototypefirebase.ui.teams.CreateTeamActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(boardIntent)
     }
     fun openAddTeam(view: View){
-        val teamIntent = Intent(this, CreateTeam::class.java)
+        val teamIntent = Intent(this, CreateTeamActivity::class.java)
         startActivity(teamIntent)
     }
 }

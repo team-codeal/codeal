@@ -9,11 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.teams.TeamDetail"></activity>
-        <activity android:name=".ui.teams.CreateTeam" />
+        <activity android:name=".ui.teams.ViewTeamDetailActivity"></activity>
+        <activity android:name=".ui.teams.CreateTeamActivity" />
         <activity android:name=".TaskDetail" />
         <activity android:name=".TaskActivity" />
-        <activity android:name=".ui.TaskActivity" />
         <activity android:name=".BoardActivity" />
         <activity
             android:name=".MainActivity"

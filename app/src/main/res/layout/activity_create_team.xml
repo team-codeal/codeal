@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ui.teams.CreateTeam">
+    tools:context=".ui.teams.CreateTeamActivity">
 
     <TextView
         android:id="@+id/team_creation_txt"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ui.teams.TeamDetail">
+    tools:context=".ui.teams.ViewTeamDetailActivity">
 
     <EditText
         android:id="@+id/edit_team_name"

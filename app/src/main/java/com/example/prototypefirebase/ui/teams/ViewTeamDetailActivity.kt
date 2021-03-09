@@ -10,7 +10,7 @@ import com.example.prototypefirebase.R
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_team_detail.*
 
-class TeamDetail : AppCompatActivity() {
+class ViewTeamDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_team_detail)
@@ -63,7 +63,7 @@ class TeamDetail : AppCompatActivity() {
         docRef.update("Desc", desc)
         docRef.update("Members", members)
             .addOnSuccessListener {
-                Toast.makeText(this@TeamDetail,"Team saved successfully!",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ViewTeamDetailActivity,"Team saved successfully!",Toast.LENGTH_SHORT).show()
             }
     }
 }

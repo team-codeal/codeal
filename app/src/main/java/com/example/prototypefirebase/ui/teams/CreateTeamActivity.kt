@@ -7,7 +7,7 @@ import com.example.prototypefirebase.R
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_create_team.*
 
-class CreateTeam : AppCompatActivity() {
+class CreateTeamActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_team)
@@ -36,11 +36,11 @@ class CreateTeam : AppCompatActivity() {
         db.collection("teams").document(id)
             .set(team)
             .addOnSuccessListener {
-                Toast.makeText(this@CreateTeam, "Team created successfully!", Toast.LENGTH_SHORT)
+                Toast.makeText(this@CreateTeamActivity, "Team created successfully!", Toast.LENGTH_SHORT)
                     .show()
             }
             .addOnFailureListener {
-                Toast.makeText(this@CreateTeam, "Failed to create!", Toast.LENGTH_SHORT)
+                Toast.makeText(this@CreateTeamActivity, "Failed to create!", Toast.LENGTH_SHORT)
                     .show()
             }
     }
