@@ -21,7 +21,7 @@ class UserProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        user = CodealUser{ updateUserProfileUI(view) }
+        user = CodealUser{ user -> updateUserProfileUI(view, user) }
     }
 
     override fun onCreateView(
@@ -39,7 +39,7 @@ class UserProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        updateUserProfileUI(view)
+        updateUserProfileUI(view, user)
 
         val ctx = requireContext()
 
@@ -67,11 +67,11 @@ class UserProfileFragment : Fragment() {
         val size = LinearLayout.LayoutParams.MATCH_PARENT
         val popupWindow = PopupWindow(popupView, size, size, focusable)
 
-        updateUserProfileUI(popupView)
-        popupWindow.setOnDismissListener{ updateUserProfileUI(this.view) }
+        updateUserProfileUI(popupView, user)
+        popupWindow.setOnDismissListener{ updateUserProfileUI(this.view, user) }
         val saveButton : Button = popupView.findViewById(R.id.button_save)
         saveButton.setOnClickListener {
-            saveCurrentUserProfile(popupView)
+            saveCurrentUserProfile(popupView, user)
             popupWindow.dismiss()
         }
 
@@ -80,7 +80,7 @@ class UserProfileFragment : Fragment() {
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
-    private fun updateUserProfileUI(view: View?) {
+    private fun updateUserProfileUI(view: View?, user: CodealUser) {
 
         val userNameHolder: TextView? = view?.findViewById(R.id.user_name)
         userNameHolder?.text = user.name
@@ -93,7 +93,7 @@ class UserProfileFragment : Fragment() {
 
     }
 
-    private fun saveCurrentUserProfile(view: View?) {
+    private fun saveCurrentUserProfile(view: View?, user: CodealUser) {
 
         val userNameHolder: EditText? = view?.findViewById(R.id.user_name)
         val newUserName = userNameHolder?.text.toString()
