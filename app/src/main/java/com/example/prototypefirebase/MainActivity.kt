@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.platform.setContent
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -28,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
+        navController.popBackStack(R.id.navigation_home, true);
+        navController.navigate(R.id.navigation_notifications);
     }
 
     fun openBoard(view: View){
