@@ -15,6 +15,8 @@ class CodealUser {
         private set
     var name: String = ""
         private set
+    var status: String = ""
+        private set
     var bio: String = ""
         private set
 
@@ -29,6 +31,7 @@ class CodealUser {
         private const val USER_DB_COLLECTION_NAME: String = "user_profiles"
         private const val USER_DB_USER_NAME_FIELD_NAME: String = "name"
         private const val USER_DB_USER_BIO_FIELD_NAME: String = "bio"
+        private const val USER_DB_USER_STATUS_FIELD_NAME: String = "status"
     }
 
     constructor(callback: (() -> Unit)? = null) {
@@ -52,10 +55,11 @@ class CodealUser {
                 "app user")
     }
 
-    fun change(name: String = this.name, bio: String = this.bio) {
+    fun change(name: String = this.name, bio: String = this.bio, status: String = this.status) {
         //TODO only update changed values. Use reflection?
         this.name = name
         this.bio = bio
+        this.status = status
         uploadUserInfoToDB()
     }
 
@@ -63,7 +67,8 @@ class CodealUser {
         val userDB = FirebaseFirestore.getInstance().collection(USER_DB_COLLECTION_NAME)
         val userInfo = mutableMapOf<String, Any>(
             USER_DB_USER_NAME_FIELD_NAME to this.name,
-            USER_DB_USER_BIO_FIELD_NAME to this.bio
+            USER_DB_USER_BIO_FIELD_NAME to this.bio,
+            USER_DB_USER_STATUS_FIELD_NAME to this.status
         )
         userDB.document(id).update(userInfo)
     }
@@ -84,6 +89,12 @@ class CodealUser {
                             userDB.document(id).update(USER_DB_USER_BIO_FIELD_NAME, newBio)
                             newBio
                         }
+                status = profile?.get(USER_DB_USER_STATUS_FIELD_NAME) as String? ?:
+                    run {
+                        val newStatus = ""
+                        userDB.document(id).update(USER_DB_USER_STATUS_FIELD_NAME, newStatus)
+                        newStatus
+                    }
                 ready = true
                 updateCallback?.invoke()
             }

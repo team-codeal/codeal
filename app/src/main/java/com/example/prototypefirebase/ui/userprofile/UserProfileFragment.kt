@@ -88,6 +88,9 @@ class UserProfileFragment : Fragment() {
         val userBioHolder: TextView? = view?.findViewById(R.id.user_bio)
         userBioHolder?.text = user.bio
 
+        val userStatusHolder: TextView? = view?.findViewById(R.id.user_status)
+        userStatusHolder?.text = user.status
+
     }
 
     private fun saveCurrentUserProfile(view: View?) {
@@ -98,7 +101,10 @@ class UserProfileFragment : Fragment() {
         val userBioHolder: EditText? = view?.findViewById(R.id.user_bio)
         val newUserBio = userBioHolder?.text.toString()
 
-        user.change(name = newUserName, bio = newUserBio)
+        val userStatusHolder: EditText? = view?.findViewById(R.id.user_status)
+        val newUserStatus = userStatusHolder?.text.toString()
+
+        user.change(name = newUserName, bio = newUserBio, status = newUserStatus)
 
     }
 
