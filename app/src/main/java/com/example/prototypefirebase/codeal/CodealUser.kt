@@ -7,7 +7,10 @@ import java.lang.IllegalStateException
 
 // TODO this class really is begging for a real-time listener which would invoke the callback
 
+typealias CodealUserCallback = ((CodealUser) -> Unit)
+
 class CodealUser {
+
 
     private lateinit var fbUser: FirebaseUser
 
@@ -23,7 +26,7 @@ class CodealUser {
     var isSelf: Boolean
         private set
 
-    var updateCallback: (() -> Unit)? = null
+    var updateCallback: CodealUserCallback? = null
 
     companion object {
         private const val USER_DB_COLLECTION_NAME: String = "user_profiles"
@@ -31,7 +34,7 @@ class CodealUser {
         private const val USER_DB_USER_BIO_FIELD_NAME: String = "bio"
     }
 
-    constructor(callback: (() -> Unit)? = null) {
+    constructor(callback: CodealUserCallback? = null) {
         // it is asserted that the user is logged in
         updateCallback = callback
         fbUser = getUserFromFirebase() ?: throw IllegalStateException("The user is not logged in")
@@ -40,7 +43,7 @@ class CodealUser {
         initUserInfoById()
     }
 
-    constructor(userID: String, callback: (() -> Unit)? = null) {
+    constructor(userID: String, callback: CodealUserCallback? = null) {
         updateCallback = callback
         id = userID
         isSelf = false
@@ -85,7 +88,7 @@ class CodealUser {
                             newBio
                         }
                 ready = true
-                updateCallback?.invoke()
+                updateCallback?.invoke(this)
             }
             .addOnFailureListener { exception ->
                 throw exception
