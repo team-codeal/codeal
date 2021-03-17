@@ -1,4 +1,4 @@
-package com.example.managerclasses
+package com.example.prototypefirebase.codeal
 
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
