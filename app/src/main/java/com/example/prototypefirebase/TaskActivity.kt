@@ -12,7 +12,7 @@ class TaskActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_task)
+        setContentView(R.layout.activity_create_task)
         supportActionBar?.hide();
         saveTask.setOnClickListener {
             val taskName = Name_task.text.toString()
