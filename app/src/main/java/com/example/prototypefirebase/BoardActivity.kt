@@ -45,14 +45,12 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
         db.collection("tasks1")
             .get()
             .addOnSuccessListener { result ->
-                var i = 0
                 for (document in result) {
                     val task = Task(
                         document.data["FirebaseID"] as String,
                         document.data["Name"] as String,
                         document.data["Text"] as String
                     )
-                    i++
                     tasks.add(task)
                 }
 
@@ -75,13 +73,11 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
         db.collection("tasks1")
             .get()
             .addOnSuccessListener { result ->
-                var i = 0
                 for (document in result) {
                     val task = Task(
                         document.data["FirebaseID"] as String,
                         document.data["Name"] as String, document.data["Text"] as String
                     )
-                    i++
 
                     updatedTasks.add(task)
                 }
