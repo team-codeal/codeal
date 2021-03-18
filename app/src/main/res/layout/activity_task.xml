@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".TaskActivity">
+
+
+    <EditText
+        android:id="@+id/Name_task"
+        android:layout_width="334dp"
+        android:layout_height="58dp"
+        android:layout_margin="30dp"
+        android:fontFamily="@font/poppins_italic"
+        android:hint="Enter the name of task"
+        android:maxLines="1"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/Text_task"
+        android:layout_width="334dp"
+        android:layout_height="49dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/poppins_italic"
+        android:hint="Enter the task"
+        android:inputType="textMultiLine"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Name_task" />
+
+    <Button
+        android:id="@+id/saveTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="SAVE"
+        android:background="@color/colorButton"
+        android:textColor="@color/colorText"
+        android:fontFamily="@font/poppins_semibold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Text_task" />
+</androidx.constraintlayout.widget.ConstraintLayout>

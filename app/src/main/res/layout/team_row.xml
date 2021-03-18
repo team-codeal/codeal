@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@color/colorText"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/team_name"
+            android:text="Name"
+            android:textColor="@color/colorBackground"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_centerHorizontal="true"
+            android:textSize="25sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/team_short_desc"
+            android:text="Short description..."
+            android:fontFamily="@font/poppins_medium_italic"
+            android:textColor="@color/colorAccentDark"
+            android:paddingTop="10dp"
+            android:layout_below="@id/team_name"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
