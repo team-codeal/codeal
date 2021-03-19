@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_board.*
-import kotlinx.android.synthetic.main.activity_task.*
+import kotlinx.android.synthetic.main.activity_create_task.*
 
 class TaskActivity : AppCompatActivity() {
 
