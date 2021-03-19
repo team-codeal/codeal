@@ -30,10 +30,4 @@ class TaskAdapter(
             onTaskClickListener.onTaskItemClicked(position)
         }
     }
-
-    fun addNewItem(itemsNew: ArrayList<Task>) {
-        tasks.clear()
-        tasks.addAll(itemsNew)
-        notifyDataSetChanged()
-    }
 }
