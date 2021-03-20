@@ -2,10 +2,10 @@ package com.example.prototypefirebase
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_board.*
-import kotlinx.android.synthetic.main.activity_create_task.*
 
 class TaskActivity : AppCompatActivity() {
 
@@ -14,9 +14,14 @@ class TaskActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_task)
         supportActionBar?.hide();
-        saveTask.setOnClickListener {
-            val taskName = Name_task.text.toString()
-            val taskText = Text_task.text.toString()
+
+        val saveTaskButton: Button = findViewById(R.id.saveTask)
+        val taskNameHolder: TextView = findViewById(R.id.Name_task)
+        val taskTextHolder: TextView = findViewById(R.id.Text_task)
+
+        saveTaskButton.setOnClickListener {
+            val taskName = taskNameHolder.text.toString()
+            val taskText = taskTextHolder.text.toString()
             saveTask(taskName, taskText)
         }
     }

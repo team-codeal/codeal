@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.list_item_view.*
 import java.util.ArrayList
 
 class BoardActivity : AppCompatActivity(), OnTaskClickListener {
@@ -21,8 +21,10 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
         setContentView(R.layout.activity_board)
         supportActionBar?.hide();
 
-        item_tasks_list.layoutManager = LinearLayoutManager(this)
-        item_tasks_list.adapter = taskAdapter
+        val tasksRecyclerView: RecyclerView = findViewById(R.id.item_tasks_list)
+        tasksRecyclerView.layoutManager = LinearLayoutManager(this)
+        tasksRecyclerView.adapter = taskAdapter
+
         taskAdapter.notifyDataSetChanged()
 
         getTasks()
