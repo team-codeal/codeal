@@ -3,11 +3,12 @@ package com.example.prototypefirebase
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.prototypefirebase.codeal.CodealTask
 import kotlinx.android.synthetic.main.layout_list_item.view.*
 import java.util.ArrayList
 
 class TaskAdapter(
-    private val tasks: ArrayList<Task>,
+    private val tasks: ArrayList<CodealTask>,
     private val onTaskClickListener: OnTaskClickListener
 ) : RecyclerView.Adapter<TaskViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {

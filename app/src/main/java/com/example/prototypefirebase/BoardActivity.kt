@@ -6,13 +6,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.prototypefirebase.codeal.CodealTask
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.list_item_view.*
 import java.util.ArrayList
 
 class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
-    private var tasks = ArrayList<Task>()
+    private var tasks = ArrayList<CodealTask>()
 
     private var taskAdapter: TaskAdapter = TaskAdapter(tasks, this)
 
@@ -40,16 +41,11 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
         db.collection("tasks1")
             .get()
             .addOnSuccessListener { result ->
+
                 for (document in result) {
-                    val task = Task(
-                        document.data["FirebaseID"] as String,
-                        document.data["Name"] as String,
-                        document.data["Text"] as String
-                    )
+                    val task = CodealTask(document.id) {taskAdapter.notifyDataSetChanged()}
                     tasks.add(task)
                 }
-
-                taskAdapter.notifyDataSetChanged()
 
             }
             .addOnFailureListener {
@@ -60,7 +56,7 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
     override fun onTaskItemClicked(position: Int) {
 
         val intent = Intent(this, TaskDetail::class.java)
-        intent.putExtra("TaskID", tasks[position].firebaseID)
+        intent.putExtra("TaskID", tasks[position].id)
         startActivity(intent)
     }
 }
