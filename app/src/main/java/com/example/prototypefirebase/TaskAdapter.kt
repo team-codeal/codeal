@@ -2,8 +2,8 @@ package com.example.prototypefirebase
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.layout_list_item.view.*
 import java.util.ArrayList
 
 class TaskAdapter(
@@ -24,7 +24,8 @@ class TaskAdapter(
 
         val task = tasks[position]
 
-        holder.itemView.task_name.text = task.name
+        val taskNameHolder: TextView = holder.itemView.findViewById(R.id.task_name)
+        taskNameHolder.text = task.name
 
         holder.itemView.setOnClickListener {
             onTaskClickListener.onTaskItemClicked(position)
