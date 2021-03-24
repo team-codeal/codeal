@@ -6,38 +6,38 @@ import com.google.firebase.firestore.ktx.toObject
 
 class CodealTeam {
 
-    var teamName: String = "Default team"
-        set(value) {
-            if (value != "Default team") field = value
-        }
+    var teamName: String = ""
+        private set
     var members: List<String> = emptyList()
         private set
-    var tid: String = FirebaseFirestore.getInstance().collection("teams").document().id
+    var id: String
+        private set
 
-    init {
-        addTeamToDatabase()
-    }
+    private lateinit var user: CodealUser
 
-
+    //constructor for an existing command
     constructor(id: String) {
-        tid = id;
+        this.id = id;
+        user = CodealUser()
     }
 
+    //constructor for a new command
     constructor(tName: String, tMembers: List<String>) {
         teamName = tName
         members = tMembers
+        id = ""
     }
 
 
     private fun addTeamToDatabase() {
         val db = FirebaseFirestore.getInstance()
 
-        // добавляем команду в базу данных
-        db.collection("teams").document(this.tid).set(this)
+        // add team to database
+        db.collection("teams").document(this.id).set(this)
 
-        // добавляем команду к списку команд каждого участника
+        // for each user, add this team to this user
         for (uid in this.members) {
-            db.collection("users").document(uid).update("teams", FieldValue.arrayUnion(this.tid))
+            db.collection("users").document(uid).update("teams", FieldValue.arrayUnion(this.id))
         }
     }
 
@@ -45,40 +45,40 @@ class CodealTeam {
         this.members.toMutableList().add(uid)
         val db = FirebaseFirestore.getInstance()
 
-        // Добавляем разработчика к списку участников команды
-        db.collection("teams").document(this.tid).update("members", FieldValue.arrayUnion(uid))
+        // add user to the team
+        db.collection("teams").document(this.id).update("members", FieldValue.arrayUnion(uid))
 
-        // Добавляем команду к списку команд разработчика (уточнить по поводу названия полей)
-        db.collection("users").document(uid).update("teams", FieldValue.arrayUnion(this.tid))
+        // add team to the user
+        db.collection("users").document(uid).update("teams", FieldValue.arrayUnion(this.id))
     }
 
     internal fun deletePersonFromTeam(uid: String) {
         this.members.toMutableList().remove(uid)
         val db = FirebaseFirestore.getInstance()
 
-        // Удаляем разработчика из команды
-        db.collection("teams").document(this.tid).update("members", FieldValue.arrayRemove(uid))
+        // delete user from team
+        db.collection("teams").document(this.id).update("members", FieldValue.arrayRemove(uid))
 
-        // Удаляем команду у разработчика
-        db.collection("users").document(uid).update("teams", FieldValue.arrayRemove(this.tid))
+        // delete team from the user
+        db.collection("users").document(uid).update("teams", FieldValue.arrayRemove(this.id))
     }
 
     internal fun deleteTeam() {
 
         val db = FirebaseFirestore.getInstance()
 
-        // удаляем команду из списка команд всех её участников
-        val teamRef = db.collection("teams").document(this.tid)
+        // for every user, delete team from their teams
+        val teamRef = db.collection("teams").document(this.id)
         teamRef.get().addOnSuccessListener { documentSnapshot ->
             val team = documentSnapshot.toObject<CodealTeam>()
             if (team != null) {
                 for (uid in team.members)
                     db.collection("users").document(uid)
-                        .update("teams", FieldValue.arrayRemove(this.tid))
+                        .update("teams", FieldValue.arrayRemove(this.id))
             }
         }
 
-        // удаляем команду из базы данных
+        // delete team from database
         val updates = hashMapOf<String, Any>(
             "teamName" to FieldValue.delete(),
             "members" to FieldValue.delete(),
