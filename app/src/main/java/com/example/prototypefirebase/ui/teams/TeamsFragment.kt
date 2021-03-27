@@ -8,14 +8,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_teams.*
-import kotlinx.android.synthetic.main.fragment_teams.view.*
 
 class TeamsFragment : Fragment(), OnTeamClickListener {
 
     private var teams = ArrayList<Model>()
+
+    private lateinit var teamsRecyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +33,11 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
         //})
 
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        teamsRecyclerView = view.findViewById(R.id.recycler_view_teams)!!
     }
 
     override fun onStart() {
@@ -64,8 +70,8 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                     teams.add(team)
                 }
                 val teamAdapter = TeamAdapter(teams, this)
-                recycler_view_teams.adapter = teamAdapter
-                recycler_view_teams.layoutManager = LinearLayoutManager(activity)
+                teamsRecyclerView.adapter = teamAdapter
+                teamsRecyclerView.layoutManager = LinearLayoutManager(activity)
                 teamAdapter.notifyDataSetChanged()
 
             }
@@ -98,8 +104,8 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                     newTeams.add(team)
                 }
                 val teamAdapter = TeamAdapter(teams, this)
-                recycler_view_teams.adapter = teamAdapter
-                recycler_view_teams.layoutManager = LinearLayoutManager(activity)
+                teamsRecyclerView.adapter = teamAdapter
+                teamsRecyclerView.layoutManager = LinearLayoutManager(activity)
                 teamAdapter.addNewItem(newTeams)
 
             }
