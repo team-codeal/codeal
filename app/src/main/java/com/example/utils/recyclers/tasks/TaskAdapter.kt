@@ -1,9 +1,11 @@
-package com.example.prototypefirebase
+package com.example.utils.recyclers.tasks
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.prototypefirebase.R
+import com.example.prototypefirebase.Task
 import java.util.ArrayList
 
 class TaskAdapter(
