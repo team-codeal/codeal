@@ -12,7 +12,7 @@
         <activity android:name=".ui.teams.ViewTeamDetailActivity"></activity>
         <activity android:name=".ui.teams.CreateTeamActivity" />
         <activity android:name=".TaskDetail" />
-        <activity android:name=".TaskActivity" />
+        <activity android:name=".AddTaskActivity" />
         <activity android:name=".BoardActivity" />
         <activity
             android:name=".MainActivity"
