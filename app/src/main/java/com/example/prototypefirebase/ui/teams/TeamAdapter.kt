@@ -2,9 +2,9 @@ package com.example.prototypefirebase.ui.teams
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
-import kotlinx.android.synthetic.main.team_row.view.*
 import java.util.ArrayList
 
 class TeamAdapter(
@@ -24,8 +24,11 @@ class TeamAdapter(
     override fun onBindViewHolder(holder: TeamViewHolder, position: Int) {
         val team = teams[position]
 
-        holder.itemView.team_name.text = team.name
-        holder.itemView.team_short_desc.text = team.des
+        val teamNameHolder: TextView = holder.itemView.findViewById(R.id.team_name)
+        val teamDescriptionHolder: TextView = holder.itemView.findViewById(R.id.team_short_desc)
+
+        teamNameHolder.text = team.name
+        teamDescriptionHolder.text = team.des
         holder.itemView.setOnClickListener {
             onTeamClickListener.onTeamItemClicked(position)
         }
