@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.teams.ViewTeamDetailActivity"></activity>
         <activity android:name=".ui.teams.CreateTeamActivity" />
-        <activity android:name=".TaskDetail" />
+        <activity android:name=".ViewTaskDetailActivity" />
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".BoardActivity" />
         <activity

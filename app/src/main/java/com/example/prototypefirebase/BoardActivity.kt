@@ -61,7 +61,7 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
     override fun onTaskItemClicked(position: Int) {
 
-        val intent = Intent(this, TaskDetail::class.java)
+        val intent = Intent(this, ViewTaskDetailActivity::class.java)
         intent.putExtra("TaskID", tasks[position].firebaseID)
         startActivity(intent)
     }
