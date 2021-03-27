@@ -7,7 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 
-class TaskActivity : AppCompatActivity() {
+class AddTaskActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,11 +39,11 @@ class TaskActivity : AppCompatActivity() {
         db.collection("tasks1").document(id)
             .set(task)
             .addOnSuccessListener {
-                Toast.makeText(this@TaskActivity, "Task saved successfully!", Toast.LENGTH_SHORT)
+                Toast.makeText(this@AddTaskActivity, "Task saved successfully!", Toast.LENGTH_SHORT)
                     .show()
             }
             .addOnFailureListener {
-                Toast.makeText(this@TaskActivity, "Failed to save!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@AddTaskActivity, "Failed to save!", Toast.LENGTH_SHORT).show()
             }
 
     }

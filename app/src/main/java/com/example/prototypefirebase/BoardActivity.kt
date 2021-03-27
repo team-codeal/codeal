@@ -31,7 +31,7 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
     }
 
     fun openAddTask(view: View) {
-        val taskIntent = Intent(this, TaskActivity::class.java)
+        val taskIntent = Intent(this, AddTaskActivity::class.java)
         startActivity(taskIntent)
     }
 
