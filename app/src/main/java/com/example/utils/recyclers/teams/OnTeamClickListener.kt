@@ -1,4 +1,4 @@
-package com.example.prototypefirebase.ui.teams
+package com.example.utils.recyclers.teams
 
 interface OnTeamClickListener {
 

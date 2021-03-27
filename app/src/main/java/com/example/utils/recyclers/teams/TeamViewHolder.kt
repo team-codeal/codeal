@@ -1,4 +1,4 @@
-package com.example.prototypefirebase.ui.teams
+package com.example.utils.recyclers.teams
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

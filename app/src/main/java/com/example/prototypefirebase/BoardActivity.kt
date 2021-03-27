@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.utils.recyclers.tasks.OnTaskClickListener
+import com.example.utils.recyclers.tasks.TaskAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.ArrayList
 

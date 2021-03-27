@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
+import com.example.utils.recyclers.teams.OnTeamClickListener
+import com.example.utils.recyclers.teams.TeamAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 
 class TeamsFragment : Fragment(), OnTeamClickListener {
