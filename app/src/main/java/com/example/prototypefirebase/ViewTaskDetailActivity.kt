@@ -8,7 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_task_detail.*
 import kotlinx.android.synthetic.main.layout_list_item.*
 
-class TaskDetail : AppCompatActivity() {
+class ViewTaskDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_detail)
@@ -51,23 +51,23 @@ class TaskDetail : AppCompatActivity() {
         docRef
             .update("Name", taskName)
             .addOnSuccessListener {
-                Toast.makeText(this@TaskDetail, "Name updated successfully!", Toast.LENGTH_SHORT)
+                Toast.makeText(this@ViewTaskDetailActivity, "Name updated successfully!", Toast.LENGTH_SHORT)
                     .show()
 
             }
             .addOnFailureListener {
-                Toast.makeText(this@TaskDetail, "Error with updating name!", Toast.LENGTH_SHORT)
+                Toast.makeText(this@ViewTaskDetailActivity, "Error with updating name!", Toast.LENGTH_SHORT)
                     .show()
             }
 
         docRef
             .update("Text", taskText)
             .addOnSuccessListener {
-                Toast.makeText(this@TaskDetail, "Content updated successfully!", Toast.LENGTH_SHORT)
+                Toast.makeText(this@ViewTaskDetailActivity, "Content updated successfully!", Toast.LENGTH_SHORT)
                     .show()
             }
             .addOnFailureListener {
-                Toast.makeText(this@TaskDetail, "Error with updating content!", Toast.LENGTH_SHORT)
+                Toast.makeText(this@ViewTaskDetailActivity, "Error with updating content!", Toast.LENGTH_SHORT)
                     .show()
             }
     }
@@ -77,11 +77,11 @@ class TaskDetail : AppCompatActivity() {
         db.collection("tasks1").document(id)
             .delete()
             .addOnSuccessListener {
-                Toast.makeText(this@TaskDetail, "Task successfully deleted!", Toast.LENGTH_SHORT)
+                Toast.makeText(this@ViewTaskDetailActivity, "Task successfully deleted!", Toast.LENGTH_SHORT)
                     .show()
             }
             .addOnFailureListener {
-                Toast.makeText(this@TaskDetail, "Error with deleting task!", Toast.LENGTH_SHORT)
+                Toast.makeText(this@ViewTaskDetailActivity, "Error with deleting task!", Toast.LENGTH_SHORT)
                     .show()
             }
     }
