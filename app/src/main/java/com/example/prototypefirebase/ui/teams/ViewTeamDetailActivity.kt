@@ -4,13 +4,19 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import com.example.prototypefirebase.BoardActivity
 import com.example.prototypefirebase.R
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_team_detail.*
 
 class ViewTeamDetailActivity : AppCompatActivity() {
+
+    private lateinit var editTeamName: EditText
+    private lateinit var editTeamDesc: EditText
+    private lateinit var editTeamMembers: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_team_detail)
@@ -18,14 +24,21 @@ class ViewTeamDetailActivity : AppCompatActivity() {
         val id = intent.getStringExtra("FirebaseID")
         getCurrTeam(id!!)
 
-        edit_team_update_button.setOnClickListener {
-            val newTaskName = edit_team_name.text.toString()
-            val newTaskDesc = edit_team_desc.text.toString()
-            val newTeamMembers = edit_team_members.text.toString()
+        editTeamName = findViewById(R.id.edit_team_name)
+        editTeamDesc = findViewById(R.id.edit_team_desc)
+        editTeamMembers = findViewById(R.id.edit_team_members)
+
+        val editTeamUpdateButton: Button = findViewById(R.id.edit_team_update_button)
+        editTeamUpdateButton.setOnClickListener {
+            val newTaskName = editTeamName.text.toString()
+            val newTaskDesc = editTeamDesc.text.toString()
+            val newTeamMembers = editTeamMembers.text.toString()
 
             saveCurrTeam(id,newTaskName,newTaskDesc,newTeamMembers)
         }
-        edit_team_to_tasks.setOnClickListener {
+
+        val editTeamToTaskButton: Button = findViewById(R.id.edit_team_to_tasks)
+        editTeamToTaskButton.setOnClickListener {
             toBoard(id)
         }
     }
@@ -49,9 +62,9 @@ class ViewTeamDetailActivity : AppCompatActivity() {
                     val teamDesc = data?.get("Desc")
                     val teamMembers = data?.get("Members")
 
-                    edit_team_name.text = Editable.Factory.getInstance().newEditable(teamName.toString())
-                    edit_team_desc.text = Editable.Factory.getInstance().newEditable(teamDesc.toString())
-                    edit_team_members.text = Editable.Factory.getInstance().newEditable(teamMembers.toString())
+                    editTeamName.text = Editable.Factory.getInstance().newEditable(teamName.toString())
+                    editTeamDesc.text = Editable.Factory.getInstance().newEditable(teamDesc.toString())
+                    editTeamMembers.text = Editable.Factory.getInstance().newEditable(teamMembers.toString())
                 }
             }
     }
