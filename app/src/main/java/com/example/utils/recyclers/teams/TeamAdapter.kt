@@ -35,10 +35,4 @@ class TeamAdapter(
         }
     }
 
-    fun addNewItem(itemsNew: ArrayList<Model>) {
-        teams.clear()
-        teams.addAll(itemsNew)
-        notifyDataSetChanged()
-    }
-
 }
