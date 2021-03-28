@@ -18,6 +18,8 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
 
     private var teams = ArrayList<Model>()
 
+    private var teamAdapter: TeamAdapter = TeamAdapter(teams, this)
+
     private lateinit var teamsRecyclerView: RecyclerView
 
     override fun onCreateView(
@@ -40,12 +42,14 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         teamsRecyclerView = view.findViewById(R.id.recycler_view_teams)!!
+        teamsRecyclerView.adapter = teamAdapter
+        teamsRecyclerView.layoutManager = LinearLayoutManager(activity)
     }
 
-    override fun onStart() {
-        super.onStart()
-        getUpdateTeams()
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        getUpdateTeams()
+//    }
 
     override fun onTeamItemClicked(position: Int) {
 
@@ -55,7 +59,9 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
     }
 
     private fun getTeams() {
-
+        // TODO clearing teams every time could be inefficient. Consider using
+        //  callbacks/updaters etc
+        teams.clear()
         val db = FirebaseFirestore.getInstance()
         db.collection("teams")
             .get()
@@ -69,9 +75,6 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                     )
                     teams.add(team)
                 }
-                val teamAdapter = TeamAdapter(teams, this)
-                teamsRecyclerView.adapter = teamAdapter
-                teamsRecyclerView.layoutManager = LinearLayoutManager(activity)
                 teamAdapter.notifyDataSetChanged()
 
             }
@@ -84,35 +87,4 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
             }
     }
 
-    private fun getUpdateTeams() {
-
-        val newTeams = ArrayList<Model>()
-
-        val db = FirebaseFirestore.getInstance()
-        db.collection("teams")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val team = Model(
-                        document.data["Name"] as String,
-                        document.data["Desc"] as String,
-                        document.data["FirebaseID"] as String,
-                        document.data["Members"] as String
-                    )
-                    newTeams.add(team)
-                }
-                val teamAdapter = TeamAdapter(teams, this)
-                teamsRecyclerView.adapter = teamAdapter
-                teamsRecyclerView.layoutManager = LinearLayoutManager(activity)
-                teamAdapter.addNewItem(newTeams)
-
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    this@TeamsFragment.context,
-                    "Failed to find!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-    }
 }
