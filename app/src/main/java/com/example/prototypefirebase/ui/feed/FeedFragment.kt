@@ -4,21 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.OnTaskClickListener
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.Task
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_feed.*
 
 class FeedFragment : Fragment(), OnTaskClickListener {
 
     private lateinit var dashboardViewModel: FeedViewModel
+    private lateinit var feedRecyclerView : RecyclerView
     private var tasks = ArrayList<Task>()
 
 
@@ -30,13 +29,15 @@ class FeedFragment : Fragment(), OnTaskClickListener {
         dashboardViewModel =
             ViewModelProvider(this).get(FeedViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_feed, container, false)
-
+        
         getTasks()
-        /*val textView: TextView = root.findViewById(R.id.text_feed)
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })*/
+
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        feedRecyclerView = view.findViewById(R.id.recycler_view_feed)!!
     }
 
     private fun getTasks() {
@@ -57,8 +58,8 @@ class FeedFragment : Fragment(), OnTaskClickListener {
                 }
 
                 val taskAdapter = FeedTasksAdapter(tasks, this)
-                recycler_view_feed.layoutManager = LinearLayoutManager(this.context)
-                recycler_view_feed.adapter = taskAdapter
+                feedRecyclerView.adapter = taskAdapter
+                feedRecyclerView.layoutManager = LinearLayoutManager(activity)
                 taskAdapter.notifyDataSetChanged()
 
             }
