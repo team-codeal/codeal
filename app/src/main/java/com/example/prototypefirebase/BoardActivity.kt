@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.utils.recyclers.tasks.OnTaskClickListener
+import com.example.utils.recyclers.tasks.TaskAdapter
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.list_item_view.*
 import java.util.ArrayList
 
 class BoardActivity : AppCompatActivity(), OnTaskClickListener {
@@ -16,14 +18,17 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
     private lateinit var tid: String
 
 
+    private var taskAdapter: TaskAdapter = TaskAdapter(tasks, this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board)
         supportActionBar?.hide();
 
-        val taskAdapter = TaskAdapter(tasks, this)
-        item_tasks_list.layoutManager = LinearLayoutManager(this)
-        item_tasks_list.adapter = taskAdapter
+        val tasksRecyclerView: RecyclerView = findViewById(R.id.item_tasks_list)
+        tasksRecyclerView.layoutManager = LinearLayoutManager(this)
+        tasksRecyclerView.adapter = taskAdapter
+
         taskAdapter.notifyDataSetChanged()
 
         tid = intent.getStringExtra("TeamID").toString()
@@ -44,6 +49,9 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
     private fun getTasks() {
         val db = FirebaseFirestore.getInstance()
+
+        // todo clearing every time is pointless. could use live updating
+
         tasks.clear()
         db.collection("tasks1")
             .whereEqualTo("Team", tid)
@@ -55,13 +63,10 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
                         document.data["Name"] as String,
                         document.data["Text"] as String
                     )
-                    Toast.makeText(this@BoardActivity, "Task added!", Toast.LENGTH_SHORT).show()
+
                     tasks.add(task)
                 }
 
-                val taskAdapter = TaskAdapter(tasks, this)
-                item_tasks_list.layoutManager = LinearLayoutManager(this)
-                item_tasks_list.adapter = taskAdapter
                 taskAdapter.notifyDataSetChanged()
 
             }
@@ -69,6 +74,7 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
                 Toast.makeText(this@BoardActivity, "Failed to find!", Toast.LENGTH_SHORT).show()
             }
     }
+
 
    /* private fun getUpdatedTasks() {
 
@@ -101,7 +107,7 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
     override fun onTaskItemClicked(position: Int) {
 
-        val intent = Intent(this, TaskDetail::class.java)
+        val intent = Intent(this, ViewTaskDetailActivity::class.java)
         intent.putExtra("TaskID", tasks[position].firebaseID)
         startActivity(intent)
     }

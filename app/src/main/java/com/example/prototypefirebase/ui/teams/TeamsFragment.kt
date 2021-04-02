@@ -8,14 +8,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
+import com.example.utils.recyclers.teams.OnTeamClickListener
+import com.example.utils.recyclers.teams.TeamAdapter
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_teams.*
-import kotlinx.android.synthetic.main.fragment_teams.view.*
 
 class TeamsFragment : Fragment(), OnTeamClickListener {
 
     private var teams = ArrayList<Model>()
+
+    private var teamAdapter: TeamAdapter = TeamAdapter(teams, this)
+
+    private lateinit var teamsRecyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,10 +39,17 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
         return root
     }
 
-    override fun onStart() {
-        super.onStart()
-        getUpdateTeams()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        teamsRecyclerView = view.findViewById(R.id.recycler_view_teams)!!
+        teamsRecyclerView.adapter = teamAdapter
+        teamsRecyclerView.layoutManager = LinearLayoutManager(activity)
     }
+
+//    override fun onStart() {
+//        super.onStart()
+//        getUpdateTeams()
+//    }
 
     override fun onTeamItemClicked(position: Int) {
 
@@ -47,7 +59,9 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
     }
 
     private fun getTeams() {
-
+        // TODO clearing teams every time could be inefficient. Consider using
+        //  callbacks/updaters etc
+        teams.clear()
         val db = FirebaseFirestore.getInstance()
         db.collection("teams")
             .get()
@@ -61,9 +75,6 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                     )
                     teams.add(team)
                 }
-                val teamAdapter = TeamAdapter(teams, this)
-                recycler_view_teams.adapter = teamAdapter
-                recycler_view_teams.layoutManager = LinearLayoutManager(activity)
                 teamAdapter.notifyDataSetChanged()
 
             }
@@ -75,6 +86,7 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                 ).show()
             }
     }
+
 
     private fun getUpdateTeams() {
 
@@ -107,4 +119,5 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                 ).show()
             }
     }
+
 }
