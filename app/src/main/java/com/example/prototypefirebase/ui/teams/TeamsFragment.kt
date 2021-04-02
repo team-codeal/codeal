@@ -42,7 +42,7 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
     override fun onTeamItemClicked(position: Int) {
 
         val intent = Intent(this.context, ViewTeamDetailActivity::class.java)
-        intent.putExtra("FirebaseID", teams[position].firebaseID)
+        intent.putExtra("TeamID", teams[position].firebaseID)
         startActivity(intent)
     }
 
@@ -52,7 +52,6 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
         db.collection("teams")
             .get()
             .addOnSuccessListener { result ->
-                var i = 0
                 for (document in result) {
                     val team = Model(
                         document.data["Name"] as String,
@@ -60,7 +59,6 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                         document.data["FirebaseID"] as String,
                         document.data["Members"] as String
                     )
-                    i++
                     teams.add(team)
                 }
                 val teamAdapter = TeamAdapter(teams, this)
@@ -86,7 +84,6 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
         db.collection("teams")
             .get()
             .addOnSuccessListener { result ->
-                var i = 0
                 for (document in result) {
                     val team = Model(
                         document.data["Name"] as String,
@@ -94,7 +91,6 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                         document.data["FirebaseID"] as String,
                         document.data["Members"] as String
                     )
-                    i++
                     newTeams.add(team)
                 }
                 val teamAdapter = TeamAdapter(teams, this)

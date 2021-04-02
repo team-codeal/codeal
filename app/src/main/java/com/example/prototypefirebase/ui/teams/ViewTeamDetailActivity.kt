@@ -11,35 +11,38 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_team_detail.*
 
 class ViewTeamDetailActivity : AppCompatActivity() {
+
+    private lateinit var tid: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_team_detail)
         supportActionBar?.hide();
-        val id = intent.getStringExtra("FirebaseID")
-        getCurrTeam(id!!)
+        tid = intent.getStringExtra("TeamID").toString()
+        getCurrTeam()
 
         edit_team_update_button.setOnClickListener {
             val newTaskName = edit_team_name.text.toString()
             val newTaskDesc = edit_team_desc.text.toString()
             val newTeamMembers = edit_team_members.text.toString()
 
-            saveCurrTeam(id,newTaskName,newTaskDesc,newTeamMembers)
+            saveCurrTeam(newTaskName,newTaskDesc,newTeamMembers)
         }
         edit_team_to_tasks.setOnClickListener {
-            toBoard(id)
+            toBoard()
         }
     }
 
-    private fun toBoard(id: String){
+    private fun toBoard(){
         val intent = Intent(this,BoardActivity::class.java)
-        intent.putExtra("FirebaseID",id)
+        intent.putExtra("TeamID",tid)
         startActivity(intent)
     }
 
-    private fun getCurrTeam(id: String){
+    private fun getCurrTeam(){
         val docRef = FirebaseFirestore.getInstance()
             .collection("teams")
-            .document(id)
+            .document(tid)
 
         docRef.get()
             .addOnSuccessListener { document ->
@@ -56,8 +59,8 @@ class ViewTeamDetailActivity : AppCompatActivity() {
             }
     }
 
-    private fun saveCurrTeam(id: String, name: String, desc: String, members: String){
-        val docRef = FirebaseFirestore.getInstance().collection("teams").document(id)
+    private fun saveCurrTeam(name: String, desc: String, members: String){
+        val docRef = FirebaseFirestore.getInstance().collection("teams").document(tid)
 
         docRef.update("Name", name)
         docRef.update("Desc", desc)
