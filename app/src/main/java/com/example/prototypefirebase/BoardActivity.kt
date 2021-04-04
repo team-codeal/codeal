@@ -7,8 +7,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.prototypefirebase.codeal.CodealTask
+import androidx.recyclerview.widget.RecyclerView
+import com.example.utils.recyclers.tasks.OnTaskClickListener
+import com.example.utils.recyclers.tasks.TaskAdapter
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.list_item_view.*
 import java.util.ArrayList
 
 class BoardActivity : AppCompatActivity(), OnTaskClickListener {
@@ -22,15 +24,17 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
         setContentView(R.layout.activity_board)
         supportActionBar?.hide();
 
-        item_tasks_list.layoutManager = LinearLayoutManager(this)
-        item_tasks_list.adapter = taskAdapter
+        val tasksRecyclerView: RecyclerView = findViewById(R.id.item_tasks_list)
+        tasksRecyclerView.layoutManager = LinearLayoutManager(this)
+        tasksRecyclerView.adapter = taskAdapter
+
         taskAdapter.notifyDataSetChanged()
 
         getTasks()
     }
 
     fun openAddTask(view: View) {
-        val taskIntent = Intent(this, TaskActivity::class.java)
+        val taskIntent = Intent(this, AddTaskActivity::class.java)
         startActivity(taskIntent)
     }
 
@@ -55,7 +59,7 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
     override fun onTaskItemClicked(position: Int) {
 
-        val intent = Intent(this, TaskDetail::class.java)
+        val intent = Intent(this, ViewTaskDetailActivity::class.java)
         intent.putExtra("TaskID", tasks[position].id)
         startActivity(intent)
     }

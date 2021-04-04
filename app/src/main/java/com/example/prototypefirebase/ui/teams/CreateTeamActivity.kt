@@ -2,21 +2,34 @@ package com.example.prototypefirebase.ui.teams
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import com.example.prototypefirebase.R
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_create_team.*
 
 class CreateTeamActivity : AppCompatActivity() {
+
+    lateinit var teamNameHolder: EditText
+    lateinit var teamDescriptionHolder: EditText
+    lateinit var teamMembersHolder: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_team)
         supportActionBar?.hide();
-        create_team_button.setOnClickListener {
+
+        val createTeamButton: Button = findViewById(R.id.create_team_button)
+
+        teamNameHolder = findViewById(R.id.Enter_name)
+        teamDescriptionHolder = findViewById(R.id.Enter_desc)
+        teamMembersHolder = findViewById(R.id.members_add)
+
+        createTeamButton.setOnClickListener {
             //Toast.makeText(this@CreateTeam,"SUCCESS!", Toast.LENGTH_SHORT).show()
-            val teamName = Enter_name.text.toString()
-            val teamDesc = Enter_desc.text.toString()
-            val teamMembers = members_add.text.toString()
+            val teamName = teamNameHolder.text.toString()
+            val teamDesc = teamDescriptionHolder.text.toString()
+            val teamMembers = teamMembersHolder.text.toString()
             //Toast.makeText(this@CreateTeam,"Save team func!", Toast.LENGTH_SHORT).show()
             saveTeam(teamName, teamDesc, teamMembers)
         }
