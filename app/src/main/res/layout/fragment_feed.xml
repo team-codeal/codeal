@@ -7,17 +7,28 @@
     android:background="@color/colorBackground"
     tools:context=".ui.feed.FeedFragment">
 
+
     <TextView
-        android:id="@+id/text_feed"
+        android:id="@+id/feed_heading"
+        android:layout_width="366dp"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="User's tasks"
+        android:textSize="30dp"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.438"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_feed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/feed_heading"
+        tools:listitem="@layout/layout_list_item" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
