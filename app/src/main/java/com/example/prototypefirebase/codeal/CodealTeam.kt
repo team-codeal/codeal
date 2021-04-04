@@ -33,6 +33,10 @@ class CodealTeam {
         private set
 
     var updateCallback: CodealTeamCallback? = null
+        set(value) {
+            field = value
+            if (ready) value?.invoke(this)
+        }
 
     companion object {
         private const val TEAMS_DB_COLLECTION_NAME: String = "teams"
@@ -51,10 +55,11 @@ class CodealTeam {
     }
 
     //constructor for a new command
-    constructor(teamName: String, teamMembers: List<String>) {
+    constructor(teamName: String, teamMembers: List<String>, callback: CodealTeamCallback? = null) {
         id = ""
         name = teamName
         members = teamMembers
+        updateCallback = callback
         uploadTeamInfoToDB()
     }
 
