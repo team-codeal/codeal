@@ -42,7 +42,7 @@ class ViewTeamDetailActivity : AppCompatActivity() {
 
         val editTeamToTaskButton: Button = findViewById(R.id.edit_team_to_tasks)
         editTeamToTaskButton.setOnClickListener {
-            toBoard(id)
+            toBoard()
 
         }
     }

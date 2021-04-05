@@ -106,9 +106,9 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                     newTeams.add(team)
                 }
                 val teamAdapter = TeamAdapter(teams, this)
-                recycler_view_teams.adapter = teamAdapter
-                recycler_view_teams.layoutManager = LinearLayoutManager(activity)
-                teamAdapter.addNewItem(newTeams)
+                teamsRecyclerView.adapter = teamAdapter
+                teamsRecyclerView.layoutManager = LinearLayoutManager(activity)
+                //teamAdapter.addNewItem(newTeams)
 
             }
             .addOnFailureListener {

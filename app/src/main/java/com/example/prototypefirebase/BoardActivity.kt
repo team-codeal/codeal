@@ -42,7 +42,7 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
     }
 
     fun openAddTask(view: View) {
-        val taskIntent = Intent(this, TaskActivity::class.java)
+        val taskIntent = Intent(this, AddTaskActivity::class.java)
         taskIntent.putExtra("TeamID", tid)
         startActivity(taskIntent)
     }
