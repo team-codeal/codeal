@@ -49,7 +49,7 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
 //    override fun onStart() {
 //        super.onStart()
 //        getUpdateTeams()
-//    }
+//}
 
     override fun onTeamItemClicked(position: Int) {
 

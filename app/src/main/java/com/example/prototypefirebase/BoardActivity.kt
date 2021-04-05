@@ -32,12 +32,11 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
         taskAdapter.notifyDataSetChanged()
 
         tid = intent.getStringExtra("TeamID").toString()
-        getTasks()
     }
 
 
-    override fun onRestart() {
-        super.onRestart()
+    override fun onResume() {
+        super.onResume()
         getTasks()
     }
 
@@ -74,37 +73,6 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
                 Toast.makeText(this@BoardActivity, "Failed to find!", Toast.LENGTH_SHORT).show()
             }
     }
-
-
-   /* private fun getUpdatedTasks() {
-
-        val updatedTasks = ArrayList<Task>()
-
-        val db = FirebaseFirestore.getInstance()
-        db.collection("tasks1")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val task = Task(
-                        document.data["FirebaseID"] as String,
-                        document.data["Name"] as String, document.data["Text"] as String
-                    )
-
-                    updatedTasks.add(task)
-                }
-
-                val taskAdapter = TaskAdapter(tasks, this)
-                item_tasks_list.layoutManager = LinearLayoutManager(this)
-                item_tasks_list.adapter = taskAdapter
-                taskAdapter.addNewItem(updatedTasks)
-
-            }
-            .addOnFailureListener {
-                Toast.makeText(this@BoardActivity, "Failed to find!", Toast.LENGTH_SHORT).show()
-            }
-    }
-*/
-
     override fun onTaskItemClicked(position: Int) {
 
         val intent = Intent(this, ViewTaskDetailActivity::class.java)
