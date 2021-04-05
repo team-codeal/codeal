@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.prototypefirebase.OnTaskClickListener
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.Task
+import com.example.utils.recyclers.tasks.OnTaskClickListener
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FeedFragment : Fragment(), OnTaskClickListener {

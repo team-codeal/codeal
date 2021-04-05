@@ -3,9 +3,9 @@ package com.example.prototypefirebase.ui.feed
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.prototypefirebase.OnTaskClickListener
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.Task
+import com.example.utils.recyclers.tasks.OnTaskClickListener
 import kotlinx.android.synthetic.main.layout_list_item.view.*
 import java.util.ArrayList
 
