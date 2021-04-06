@@ -27,16 +27,8 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_teams, container, false)
 
-        getTeams()
-
-        //val textView: TextView = root.findViewById(R.id.TEAMS)
-        //notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
-        //    textView.text = it
-        //})
-
-        return root
+        return inflater.inflate(R.layout.fragment_teams, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,10 +38,10 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
         teamsRecyclerView.layoutManager = LinearLayoutManager(activity)
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        getUpdateTeams()
-//}
+    override fun onStart() {
+        super.onStart()
+        getTeams()
+    }
 
     override fun onTeamItemClicked(position: Int) {
 
@@ -76,39 +68,6 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                     teams.add(team)
                 }
                 teamAdapter.notifyDataSetChanged()
-
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    this@TeamsFragment.context,
-                    "Failed to find!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-    }
-
-
-    private fun getUpdateTeams() {
-
-        val newTeams = ArrayList<Model>()
-
-        val db = FirebaseFirestore.getInstance()
-        db.collection("teams")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val team = Model(
-                        document.data["Name"] as String,
-                        document.data["Desc"] as String,
-                        document.data["FirebaseID"] as String,
-                        document.data["Members"] as String
-                    )
-                    newTeams.add(team)
-                }
-                val teamAdapter = TeamAdapter(teams, this)
-                teamsRecyclerView.adapter = teamAdapter
-                teamsRecyclerView.layoutManager = LinearLayoutManager(activity)
-                //teamAdapter.addNewItem(newTeams)
 
             }
             .addOnFailureListener {

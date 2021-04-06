@@ -14,7 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class ViewTeamDetailActivity : AppCompatActivity() {
 
 
-    private lateinit var tid: String
+    private lateinit var teamID: String
     private lateinit var editTeamName: EditText
     private lateinit var editTeamDesc: EditText
     private lateinit var editTeamMembers: EditText
@@ -24,7 +24,7 @@ class ViewTeamDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_team_detail)
         supportActionBar?.hide();
-        tid = intent.getStringExtra("TeamID").toString()
+        teamID = intent.getStringExtra("TeamID").toString()
         getCurrTeam()
 
         editTeamName = findViewById(R.id.edit_team_name)
@@ -49,14 +49,14 @@ class ViewTeamDetailActivity : AppCompatActivity() {
 
     private fun toBoard(){
         val intent = Intent(this,BoardActivity::class.java)
-        intent.putExtra("TeamID",tid)
+        intent.putExtra("TeamID",teamID)
         startActivity(intent)
     }
 
     private fun getCurrTeam(){
         val docRef = FirebaseFirestore.getInstance()
             .collection("teams")
-            .document(tid)
+            .document(teamID)
 
         docRef.get()
             .addOnSuccessListener { document ->
@@ -74,7 +74,7 @@ class ViewTeamDetailActivity : AppCompatActivity() {
     }
 
     private fun saveCurrTeam(name: String, desc: String, members: String){
-        val docRef = FirebaseFirestore.getInstance().collection("teams").document(tid)
+        val docRef = FirebaseFirestore.getInstance().collection("teams").document(teamID)
 
         docRef.update("Name", name)
         docRef.update("Desc", desc)

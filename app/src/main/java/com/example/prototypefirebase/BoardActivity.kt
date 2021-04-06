@@ -15,7 +15,7 @@ import java.util.ArrayList
 class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
     private var tasks = ArrayList<Task>()
-    private lateinit var tid: String
+    private lateinit var teamID: String
 
 
     private var taskAdapter: TaskAdapter = TaskAdapter(tasks, this)
@@ -31,7 +31,7 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
         taskAdapter.notifyDataSetChanged()
 
-        tid = intent.getStringExtra("TeamID").toString()
+        teamID = intent.getStringExtra("TeamID").toString()
     }
 
 
@@ -42,7 +42,7 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
     fun openAddTask(view: View) {
         val taskIntent = Intent(this, AddTaskActivity::class.java)
-        taskIntent.putExtra("TeamID", tid)
+        taskIntent.putExtra("TeamID", teamID)
         startActivity(taskIntent)
     }
 
@@ -53,7 +53,7 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
         tasks.clear()
         db.collection("tasks1")
-            .whereEqualTo("Team", tid)
+            .whereEqualTo("Team", teamID)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
