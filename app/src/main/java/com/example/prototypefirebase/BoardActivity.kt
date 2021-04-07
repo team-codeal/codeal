@@ -15,6 +15,8 @@ import java.util.ArrayList
 class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
     private var tasks = ArrayList<Task>()
+    private lateinit var teamID: String
+
 
     private var taskAdapter: TaskAdapter = TaskAdapter(tasks, this)
 
@@ -29,19 +31,29 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
         taskAdapter.notifyDataSetChanged()
 
+        teamID = intent.getStringExtra("TeamID").toString()
+    }
+
+
+    override fun onResume() {
+        super.onResume()
         getTasks()
     }
 
     fun openAddTask(view: View) {
         val taskIntent = Intent(this, AddTaskActivity::class.java)
+        taskIntent.putExtra("TeamID", teamID)
         startActivity(taskIntent)
     }
 
     private fun getTasks() {
         val db = FirebaseFirestore.getInstance()
+
         // todo clearing every time is pointless. could use live updating
+
         tasks.clear()
         db.collection("tasks1")
+            .whereEqualTo("Team", teamID)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
@@ -50,6 +62,7 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
                         document.data["Name"] as String,
                         document.data["Text"] as String
                     )
+
                     tasks.add(task)
                 }
 
@@ -60,7 +73,6 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
                 Toast.makeText(this@BoardActivity, "Failed to find!", Toast.LENGTH_SHORT).show()
             }
     }
-
     override fun onTaskItemClicked(position: Int) {
 
         val intent = Intent(this, ViewTaskDetailActivity::class.java)

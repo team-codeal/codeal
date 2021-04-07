@@ -13,16 +13,19 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class ViewTeamDetailActivity : AppCompatActivity() {
 
+
+    private lateinit var teamID: String
     private lateinit var editTeamName: EditText
     private lateinit var editTeamDesc: EditText
     private lateinit var editTeamMembers: EditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_team_detail)
         supportActionBar?.hide();
-        val id = intent.getStringExtra("FirebaseID")
-        getCurrTeam(id!!)
+        teamID = intent.getStringExtra("TeamID").toString()
+        getCurrTeam()
 
         editTeamName = findViewById(R.id.edit_team_name)
         editTeamDesc = findViewById(R.id.edit_team_desc)
@@ -34,25 +37,26 @@ class ViewTeamDetailActivity : AppCompatActivity() {
             val newTaskDesc = editTeamDesc.text.toString()
             val newTeamMembers = editTeamMembers.text.toString()
 
-            saveCurrTeam(id,newTaskName,newTaskDesc,newTeamMembers)
+            saveCurrTeam(newTaskName,newTaskDesc,newTeamMembers)
         }
 
         val editTeamToTaskButton: Button = findViewById(R.id.edit_team_to_tasks)
         editTeamToTaskButton.setOnClickListener {
-            toBoard(id)
+            toBoard()
+
         }
     }
 
-    private fun toBoard(id: String){
+    private fun toBoard(){
         val intent = Intent(this,BoardActivity::class.java)
-        intent.putExtra("FirebaseID",id)
+        intent.putExtra("TeamID",teamID)
         startActivity(intent)
     }
 
-    private fun getCurrTeam(id: String){
+    private fun getCurrTeam(){
         val docRef = FirebaseFirestore.getInstance()
             .collection("teams")
-            .document(id)
+            .document(teamID)
 
         docRef.get()
             .addOnSuccessListener { document ->
@@ -69,8 +73,8 @@ class ViewTeamDetailActivity : AppCompatActivity() {
             }
     }
 
-    private fun saveCurrTeam(id: String, name: String, desc: String, members: String){
-        val docRef = FirebaseFirestore.getInstance().collection("teams").document(id)
+    private fun saveCurrTeam(name: String, desc: String, members: String){
+        val docRef = FirebaseFirestore.getInstance().collection("teams").document(teamID)
 
         docRef.update("Name", name)
         docRef.update("Desc", desc)

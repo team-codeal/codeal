@@ -5,13 +5,17 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AddTaskActivity : AppCompatActivity() {
 
+    private lateinit var teamID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        teamID = intent.getStringExtra("TeamID").toString()
+        
         setContentView(R.layout.activity_create_task)
         supportActionBar?.hide();
 
@@ -32,9 +36,9 @@ class AddTaskActivity : AppCompatActivity() {
         val task = hashMapOf<String, String>(
             "FirebaseID" to id,
             "Name" to name,
+            "Team" to teamID,
             "Text" to text
         )
-
 
         db.collection("tasks1").document(id)
             .set(task)
@@ -46,6 +50,9 @@ class AddTaskActivity : AppCompatActivity() {
                 Toast.makeText(this@AddTaskActivity, "Failed to save!", Toast.LENGTH_SHORT).show()
             }
 
+        // add task to team
+        db.collection("teams").document(teamID)
+            .update("Tasks", FieldValue.arrayUnion(id))
     }
 
 
