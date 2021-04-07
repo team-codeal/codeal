@@ -29,6 +29,10 @@ class CodealTeam {
     var tasks: List<String> = emptyList()
         private set
 
+    // a list of "List" names, e.g. "To Do", "Doing", "Done" etc
+    var lists: List<String> = emptyList()
+        private set
+
     var ready: Boolean = false
         private set
 
@@ -45,6 +49,7 @@ class CodealTeam {
         private const val TEAMS_DB_TEAM_MEMBERS_FIELD_NAME: String = "Members"
         private const val TEAMS_DB_TEAM_TASKS_FIELD_NAME: String = "Tasks"
         private const val TEAMS_DB_TEAM_OWNER_ID_FIELD_NAME: String = "Owner"
+        private const val TEAMS_DB_TEAM_LISTS_FIELD_NAME: String = "Lists"
     }
 
     //constructor for an existing command
@@ -101,6 +106,18 @@ class CodealTeam {
                             teamsDB.document(id)
                                 .update(TEAMS_DB_TEAM_DESCRIPTION_FIELD_NAME, newOwnerID)
                             newOwnerID
+                        }
+                lists = (teamDocument?.get(TEAMS_DB_TEAM_LISTS_FIELD_NAME) as? List<*>?)
+                    ?.filterIsInstance<String>() ?:
+                        run {
+                            val newLists = ArrayList<String>().apply {
+                                add("Todo")
+                                add("Doing")
+                                add("Done")
+                            }
+                            teamsDB.document(id)
+                                .update(TEAMS_DB_TEAM_LISTS_FIELD_NAME, newLists)
+                            newLists
                         }
                 ready = true
                 updateCallback?.invoke(this)
