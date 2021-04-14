@@ -9,7 +9,7 @@ import com.example.prototypefirebase.R
 import java.util.ArrayList
 
 class TaskAdapter(
-    private val tasks: ArrayList<CodealTask>,
+    private val tasks: MutableList<CodealTask>,
     private val onTaskClickListener: OnTaskClickListener
 ) : RecyclerView.Adapter<TaskViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {

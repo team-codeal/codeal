@@ -1,22 +1,24 @@
 package com.example.prototypefirebase
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.prototypefirebase.codeal.CodealTask
 import androidx.recyclerview.widget.RecyclerView
+import com.example.prototypefirebase.codeal.CodealTask
+import com.example.prototypefirebase.codeal.CodealTeam
 import com.example.utils.recyclers.tasks.OnTaskClickListener
 import com.example.utils.recyclers.tasks.TaskAdapter
-import com.google.firebase.firestore.FirebaseFirestore
-import java.util.ArrayList
+import java.util.*
+import java.util.stream.Collectors
 
 class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
-    private var tasks = ArrayList<CodealTask>()
+    private var tasks: MutableList<CodealTask> = mutableListOf()
     private lateinit var teamID: String
+
+    private lateinit var team: CodealTeam
 
     private var taskAdapter: TaskAdapter = TaskAdapter(tasks, this)
 
@@ -32,12 +34,14 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
         taskAdapter.notifyDataSetChanged()
 
         teamID = intent.getStringExtra("TeamID").toString()
+
+        team = CodealTeam(teamID, ::getTasks)
     }
 
 
     override fun onResume() {
         super.onResume()
-        getTasks()
+        if (team.ready) getTasks(team)
     }
 
     fun openAddTask(view: View) {
@@ -46,27 +50,16 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
         startActivity(taskIntent)
     }
 
-    private fun getTasks() {
-        val db = FirebaseFirestore.getInstance()
-
+    private fun getTasks(team: CodealTeam) {
         // todo clearing every time is pointless. could use live updating
 
         tasks.clear()
-        db.collection("tasks1")
-            .whereEqualTo("Team", teamID)
-            .get()
-            .addOnSuccessListener { result ->
+        tasks.addAll(team.tasks.stream()
+            .map { x -> CodealTask(x) { taskAdapter.notifyDataSetChanged() } }
+            .collect(Collectors.toList()))
 
-                for (document in result) {
-                    val task = CodealTask(document.id) {taskAdapter.notifyDataSetChanged()}
-                    tasks.add(task)
-                }
-
-            }
-            .addOnFailureListener {
-                Toast.makeText(this@BoardActivity, "Failed to find!", Toast.LENGTH_SHORT).show()
-            }
     }
+
     override fun onTaskItemClicked(position: Int) {
 
         val intent = Intent(this, ViewTaskDetailActivity::class.java)
