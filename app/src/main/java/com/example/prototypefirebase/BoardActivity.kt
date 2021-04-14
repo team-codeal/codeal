@@ -10,11 +10,11 @@ import com.example.prototypefirebase.codeal.CodealTask
 import com.example.prototypefirebase.codeal.CodealTeam
 import com.example.utils.recyclers.tasks.OnTaskClickListener
 import com.example.utils.recyclers.tasks.TaskAdapter
-import java.util.*
 import java.util.stream.Collectors
 
 class BoardActivity : AppCompatActivity(), OnTaskClickListener {
 
+    private var lists: MutableList<String> = mutableListOf()
     private var tasks: MutableList<CodealTask> = mutableListOf()
     private lateinit var teamID: String
 
