@@ -5,43 +5,34 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.prototypefirebase.codeal.CodealTask
 import com.example.prototypefirebase.codeal.CodealTeam
-import com.example.utils.recyclers.tasks.OnTaskClickListener
-import com.example.utils.recyclers.tasks.TaskAdapter
-import java.util.stream.Collectors
+import com.example.utils.recyclers.lists.ListAdapter
 
-class BoardActivity : AppCompatActivity(), OnTaskClickListener {
+class BoardActivity : AppCompatActivity() {
 
-    private var lists: MutableList<String> = mutableListOf()
-    private var tasks: MutableList<CodealTask> = mutableListOf()
     private lateinit var teamID: String
 
     private lateinit var team: CodealTeam
 
-    private var taskAdapter: TaskAdapter = TaskAdapter(tasks, this)
+    private lateinit var tasksRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board)
         supportActionBar?.hide();
 
-        val tasksRecyclerView: RecyclerView = findViewById(R.id.item_tasks_list)
-        tasksRecyclerView.layoutManager = LinearLayoutManager(this)
-        tasksRecyclerView.adapter = taskAdapter
-
-        taskAdapter.notifyDataSetChanged()
+        tasksRecyclerView = findViewById(R.id.item_list_list)
+        PagerSnapHelper().attachToRecyclerView(tasksRecyclerView)
+        tasksRecyclerView.layoutManager = LinearLayoutManager(this,
+            LinearLayoutManager.HORIZONTAL, false)
 
         teamID = intent.getStringExtra("TeamID").toString()
 
-        team = CodealTeam(teamID, ::getTasks)
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        if (team.ready) getTasks(team)
+        team = CodealTeam(teamID) {
+            tasksRecyclerView.adapter = ListAdapter(it.lists, this)
+        }
     }
 
     fun openAddTask(view: View) {
@@ -50,20 +41,4 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
         startActivity(taskIntent)
     }
 
-    private fun getTasks(team: CodealTeam) {
-        // todo clearing every time is pointless. could use live updating
-
-        tasks.clear()
-        tasks.addAll(team.tasks.stream()
-            .map { x -> CodealTask(x) { taskAdapter.notifyDataSetChanged() } }
-            .collect(Collectors.toList()))
-
-    }
-
-    override fun onTaskItemClicked(position: Int) {
-
-        val intent = Intent(this, ViewTaskDetailActivity::class.java)
-        intent.putExtra("TaskID", tasks[position].id)
-        startActivity(intent)
-    }
 }
