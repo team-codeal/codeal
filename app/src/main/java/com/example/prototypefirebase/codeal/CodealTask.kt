@@ -9,11 +9,9 @@ import java.lang.IllegalStateException
 
 typealias CodealTaskCallback = ((CodealTask) -> Unit)
 
-class CodealTask(taskID: String, callback: CodealTaskCallback? = null) {
+class CodealTask {
 
-    private var fbUser: FirebaseUser
-
-    var id: String = taskID
+    var id: String = ""
         private set
     var name: String = ""
         private set
@@ -21,21 +19,35 @@ class CodealTask(taskID: String, callback: CodealTaskCallback? = null) {
         private set
     var listName: String = ""
         private set
+    var teamID: String = ""
 
     private var ready: Boolean = false
 
-    var updateCallback: CodealTaskCallback? = callback
+    var updateCallback: CodealTaskCallback? = null
 
     companion object {
         private const val TASKS_DB_COLLECTION_NAME: String = "tasks1"
         private const val TASKS_DB_TASK_NAME: String = "Name"
         private const val TASKS_DB_TASK_CONTENT: String = "Text"
         private const val TASK_DB_TASK_LIST: String = "list"
+        private const val TASKS_DB_TEAM_ID: String = "teamID"
     }
 
-    init {
-        fbUser = getUserFromFirebase() ?: throw IllegalStateException("The user is not logged in")
+    // constructor for an existing task
+    constructor(taskID: String, callback: CodealTaskCallback? = null) {
+        updateCallback = callback
         initTaskInfoByID()
+    }
+
+    // constructor for a new
+    constructor(taskName: String, taskContent: String, teamID: String, listName: String,
+                callback: CodealTaskCallback? = null) {
+        name = taskName
+        content = taskContent
+        this.teamID = teamID
+        this.listName = listName
+        updateCallback = callback
+        uploadTaskInfoToDB()
     }
 
     fun change(name: String = this.name,
@@ -55,7 +67,18 @@ class CodealTask(taskID: String, callback: CodealTaskCallback? = null) {
             TASKS_DB_TASK_CONTENT to this.content,
             TASK_DB_TASK_LIST to this.listName
         )
-        tasksDB.document(id).update(taskInfo)
+        if (id != ""){
+            // if the task already existed in the database
+            tasksDB.document(id).update(taskInfo)
+        } else {
+            // if the task is new
+            tasksDB.add(taskInfo).addOnSuccessListener { taskDocument ->
+                this.id = taskDocument.id
+                CodealTeam(teamID) {it.addTask(id, listName)}
+                ready = true
+                updateCallback?.invoke(this)
+            }
+        }
     }
 
     private fun initTaskInfoByID() {
@@ -79,6 +102,12 @@ class CodealTask(taskID: String, callback: CodealTaskCallback? = null) {
                             val newList = ""
                             tasksDB.document(id).update(TASK_DB_TASK_LIST, newList)
                             newList
+                        }
+                teamID = tasksDocument?.get(TASKS_DB_TEAM_ID) as String? ?:
+                        run {
+                            val newTeamID = ""
+                            tasksDB.document(id).update(TASKS_DB_TEAM_ID, newTeamID)
+                            newTeamID
                         }
                 ready = true
                 updateCallback?.invoke(this)
