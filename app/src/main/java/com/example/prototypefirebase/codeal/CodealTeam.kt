@@ -72,6 +72,22 @@ class CodealTeam {
         uploadTeamInfoToDB()
     }
 
+    // TODO this is very bad, should implement a change() method instead
+    internal fun addTask(taskID: String, listName: String) {
+        val teamsDB = FirebaseFirestore.getInstance().collection(TEAMS_DB_COLLECTION_NAME)
+        if (lists.containsKey(listName)) {
+            lists[listName] = ArrayList<String>().apply {
+                lists[listName]?.let { addAll(it) }
+                add(taskID)
+            }
+        } else {
+            lists[listName] = listOf(taskID)
+        }
+        teamsDB.document(id).update(mapOf(
+            TEAMS_DB_TEAM_LISTS_FIELD_NAME to lists
+        ))
+    }
+
     private fun initTeamInfoById() {
         val teamsDB = FirebaseFirestore.getInstance().collection(TEAMS_DB_COLLECTION_NAME)
         teamsDB.document(id).get()
@@ -103,14 +119,6 @@ class CodealTeam {
                                 .update(TEAMS_DB_TEAM_DESCRIPTION_FIELD_NAME, newOwnerID)
                             newOwnerID
                         }
-//                tasks = (teamDocument?.get(TEAMS_DB_TEAM_TASKS_FIELD_NAME) as? List<*>?)
-//                    ?.filterIsInstance<String>() ?:
-//                        run {
-//                            val newOwnerID = emptyList<String>()
-//                            teamsDB.document(id)
-//                                .update(TEAMS_DB_TEAM_DESCRIPTION_FIELD_NAME, newOwnerID)
-//                            newOwnerID
-//                        }
                 val listsRaw = (teamDocument?.get(TEAMS_DB_TEAM_LISTS_FIELD_NAME)
                         as Map<*, *>?)
                         ?:
@@ -143,7 +151,6 @@ class CodealTeam {
         val db = FirebaseFirestore.getInstance()
 
         val teamDB = db.collection(TEAMS_DB_COLLECTION_NAME)
-        // val userDB = db.collection(CodealUser.USER_DB_COLLECTION_NAME)
 
         val teamInfo = mutableMapOf(
             TEAMS_DB_TEAM_NAME_FIELD_NAME to this.name,
