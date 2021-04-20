@@ -35,6 +35,7 @@ class CodealTask {
 
     // constructor for an existing task
     constructor(taskID: String, callback: CodealTaskCallback? = null) {
+        id = taskID
         updateCallback = callback
         initTaskInfoByID()
     }
