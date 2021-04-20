@@ -31,6 +31,7 @@ class AddTaskActivity : AppCompatActivity() {
             val taskListName = taskListHolder.text.toString()
 
             CodealTask(taskName, taskText, teamID, taskListName)
+            finish()
         }
     }
 }
