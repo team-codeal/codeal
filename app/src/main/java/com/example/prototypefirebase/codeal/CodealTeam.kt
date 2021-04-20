@@ -124,9 +124,9 @@ class CodealTeam {
                         ?:
                         run {
                             val newLists = HashMap<String, List<String>>().apply {
-                                put("Todo", listOf("Hello! Here is your new task"))
+                                put("Todo", emptyList())
                                 put("Doing", emptyList())
-                                put("Well Done", emptyList())
+                                put("Done", emptyList())
                             }
                             teamsDB.document(id)
                                 .update(TEAMS_DB_TEAM_LISTS_FIELD_NAME, newLists)
