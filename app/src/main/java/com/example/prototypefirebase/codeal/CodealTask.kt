@@ -19,8 +19,6 @@ class CodealTask(taskID: String, callback: CodealTaskCallback? = null) {
         private set
     var content: String = ""
         private set
-    var listName: String = ""
-        private set
 
     private var ready: Boolean = false
 
@@ -30,7 +28,6 @@ class CodealTask(taskID: String, callback: CodealTaskCallback? = null) {
         private const val TASKS_DB_COLLECTION_NAME: String = "tasks1"
         private const val TASKS_DB_TASK_NAME: String = "Name"
         private const val TASKS_DB_TASK_CONTENT: String = "Text"
-        private const val TASK_DB_TASK_LIST: String = "list"
     }
 
     init {
@@ -39,12 +36,10 @@ class CodealTask(taskID: String, callback: CodealTaskCallback? = null) {
     }
 
     fun change(name: String = this.name,
-               content: String = this.content,
-               listName: String = this.listName) {
+               content: String = this.content) {
         // TODO only update changed values. Use reflection?
         this.name = name
         this.content = content
-        this.listName = listName
         uploadTaskInfoToDB()
     }
 
@@ -52,8 +47,7 @@ class CodealTask(taskID: String, callback: CodealTaskCallback? = null) {
         val tasksDB = FirebaseFirestore.getInstance().collection(TASKS_DB_COLLECTION_NAME)
         val taskInfo = mutableMapOf<String, Any>(
             TASKS_DB_TASK_NAME to this.name,
-            TASKS_DB_TASK_CONTENT to this.content,
-            TASK_DB_TASK_LIST to this.listName
+            TASKS_DB_TASK_CONTENT to this.content
         )
         tasksDB.document(id).update(taskInfo)
     }
@@ -73,12 +67,6 @@ class CodealTask(taskID: String, callback: CodealTaskCallback? = null) {
                             val newContent = ""
                             tasksDB.document(id).update(TASKS_DB_TASK_CONTENT, newContent)
                             newContent
-                        }
-                listName = tasksDocument?.get(TASK_DB_TASK_LIST) as String? ?:
-                        run {
-                            val newList = ""
-                            tasksDB.document(id).update(TASK_DB_TASK_LIST, newList)
-                            newList
                         }
                 ready = true
                 updateCallback?.invoke(this)
