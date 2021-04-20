@@ -2,74 +2,47 @@ package com.example.prototypefirebase
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import com.example.prototypefirebase.codeal.CodealTask
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_task_detail.*
-import kotlinx.android.synthetic.main.layout_list_item.*
+
 
 class ViewTaskDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_detail)
         supportActionBar?.hide();
-        val id = intent.getStringExtra("TaskID")
-        getCurrTask(id!!)
-        updateTask.setOnClickListener {
-            val taskName = Name_task.text.toString()
-            val taskText = Text_task.text.toString()
 
-            updateTask(id, taskName, taskText)
+        val taskID = intent.getStringExtra("TaskID")!!
+
+        val updateTaskButton: Button = findViewById(R.id.updateTask)
+        val deleteTaskButton: Button = findViewById(R.id.deleteTask)
+        val taskNameHolder: TextView = findViewById(R.id.Name_task)
+        val taskTextHolder: TextView = findViewById(R.id.Text_task)
+        val taskListHolder: TextView = findViewById(R.id.List_task)
+
+        val task = CodealTask(taskID){
+            taskNameHolder.text = it.name
+            taskTextHolder.text = it.content
+            taskListHolder.text = it.listName
         }
 
-        deleteTask.setOnClickListener {
-            deleteTask(id)
+        updateTaskButton.setOnClickListener {
+            val taskName = taskNameHolder.text.toString()
+            val taskText = taskTextHolder.text.toString()
+            val taskListName = taskListHolder.text.toString()
+
+            task.change(taskName, taskText, taskListName)
+            Toast.makeText(this@ViewTaskDetailActivity, "Task updated successfully!", Toast.LENGTH_SHORT).show()
         }
-    }
 
-    private fun getCurrTask(id: String) {
-        val docRef = FirebaseFirestore.getInstance()
-            .collection("tasks1")
-            .document(id)
-
-        docRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    val data = document.data
-                    val name = data?.get("Name")
-                    val content = data?.get("Text")
-
-                    Name_task.text = Editable.Factory.getInstance().newEditable(name.toString())
-                    Text_task.text = Editable.Factory.getInstance().newEditable(content.toString())
-                }
-            }
-    }
-
-    private fun updateTask(id: String, taskName: String, taskText: String) {
-        val docRef = FirebaseFirestore.getInstance().collection("tasks1").document(id)
-
-        docRef
-            .update("Name", taskName)
-            .addOnSuccessListener {
-                Toast.makeText(this@ViewTaskDetailActivity, "Name updated successfully!", Toast.LENGTH_SHORT)
-                    .show()
-
-            }
-            .addOnFailureListener {
-                Toast.makeText(this@ViewTaskDetailActivity, "Error with updating name!", Toast.LENGTH_SHORT)
-                    .show()
-            }
-
-        docRef
-            .update("Text", taskText)
-            .addOnSuccessListener {
-                Toast.makeText(this@ViewTaskDetailActivity, "Content updated successfully!", Toast.LENGTH_SHORT)
-                    .show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(this@ViewTaskDetailActivity, "Error with updating content!", Toast.LENGTH_SHORT)
-                    .show()
-            }
+        deleteTaskButton.setOnClickListener {
+            deleteTask(taskID)
+            Toast.makeText(this@ViewTaskDetailActivity, "Task deleted successfully!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun deleteTask(id: String) {
@@ -77,11 +50,19 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         db.collection("tasks1").document(id)
             .delete()
             .addOnSuccessListener {
-                Toast.makeText(this@ViewTaskDetailActivity, "Task successfully deleted!", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this@ViewTaskDetailActivity,
+                    "Task successfully deleted!",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
             .addOnFailureListener {
-                Toast.makeText(this@ViewTaskDetailActivity, "Error with deleting task!", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this@ViewTaskDetailActivity,
+                    "Error with deleting task!",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
     }

@@ -3,8 +3,10 @@ package com.example.prototypefirebase
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.prototypefirebase.codeal.CodealTask
+
 
 class AddTaskActivity : AppCompatActivity() {
 
@@ -28,6 +30,10 @@ class AddTaskActivity : AppCompatActivity() {
             val taskListName = taskListHolder.text.toString()
 
             CodealTask(taskName, taskText, teamID, taskListName)
+
+            Toast.makeText(this@AddTaskActivity, "Task added successfully!", Toast.LENGTH_SHORT)
+                .show()
+
             finish()
         }
     }
