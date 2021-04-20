@@ -16,7 +16,7 @@ class AddTaskActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         teamID = intent.getStringExtra("TeamID").toString()
-        
+
         setContentView(R.layout.activity_create_task)
         supportActionBar?.hide();
 
@@ -30,6 +30,7 @@ class AddTaskActivity : AppCompatActivity() {
             val taskText = taskTextHolder.text.toString()
             val taskListName = taskListHolder.text.toString()
 
-            val newTask = CodealTask(taskName, taskText, teamID, taskListName)
+            CodealTask(taskName, taskText, teamID, taskListName)
         }
     }
+}
