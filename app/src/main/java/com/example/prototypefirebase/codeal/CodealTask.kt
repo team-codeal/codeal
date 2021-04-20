@@ -3,7 +3,6 @@ package com.example.prototypefirebase.codeal
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import java.lang.IllegalStateException
 
 //TODO This Task class is for the global team "ultimate team". change later, delete the todo
 
@@ -99,10 +98,10 @@ class CodealTask {
                             tasksDB.document(id).update(TASKS_DB_TASK_CONTENT, newContent)
                             newContent
                         }
-                listName = tasksDocument?.get(TASK_DB_TASK_LIST) as String? ?:
+                listName = tasksDocument?.get(TASKS_DB_TASK_LIST) as String? ?:
                         run {
                             val newList = ""
-                            tasksDB.document(id).update(TASK_DB_TASK_LIST, newList)
+                            tasksDB.document(id).update(TASKS_DB_TASK_LIST, newList)
                             newList
                         }
                 teamID = tasksDocument?.get(TASKS_DB_TEAM_ID) as String? ?:
