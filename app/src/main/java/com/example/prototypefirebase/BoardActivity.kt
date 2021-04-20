@@ -30,9 +30,16 @@ class BoardActivity : AppCompatActivity() {
 
         teamID = intent.getStringExtra("TeamID").toString()
 
-        team = CodealTeam(teamID) {
-            tasksRecyclerView.adapter = ListAdapter(it.lists, this)
-        }
+        team = CodealTeam(teamID, ::getTasks)
+    }
+
+    private fun getTasks(team: CodealTeam) {
+        tasksRecyclerView.adapter = ListAdapter(team.lists, this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        team = CodealTeam(teamID, ::getTasks)
     }
 
     fun openAddTask(view: View) {
