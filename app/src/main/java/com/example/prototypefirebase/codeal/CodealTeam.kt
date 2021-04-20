@@ -72,6 +72,22 @@ class CodealTeam {
         uploadTeamInfoToDB()
     }
 
+    // TODO this is very bad, should implement a change() method instead
+    internal fun addTask(taskID: String, listName: String) {
+        val teamsDB = FirebaseFirestore.getInstance().collection(TEAMS_DB_COLLECTION_NAME)
+        if (lists.containsKey(listName)) {
+            lists[listName] = ArrayList<String>().apply {
+                lists[listName]?.let { addAll(it) }
+                add(taskID)
+            }
+        } else {
+            lists[listName] = listOf(taskID)
+        }
+        teamsDB.document(id).update(mapOf(
+            TEAMS_DB_TEAM_LISTS_FIELD_NAME to lists
+        ))
+    }
+
     private fun initTeamInfoById() {
         val teamsDB = FirebaseFirestore.getInstance().collection(TEAMS_DB_COLLECTION_NAME)
         teamsDB.document(id).get()
