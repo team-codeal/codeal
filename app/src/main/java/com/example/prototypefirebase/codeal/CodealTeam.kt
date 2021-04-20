@@ -103,14 +103,6 @@ class CodealTeam {
                                 .update(TEAMS_DB_TEAM_DESCRIPTION_FIELD_NAME, newOwnerID)
                             newOwnerID
                         }
-//                tasks = (teamDocument?.get(TEAMS_DB_TEAM_TASKS_FIELD_NAME) as? List<*>?)
-//                    ?.filterIsInstance<String>() ?:
-//                        run {
-//                            val newOwnerID = emptyList<String>()
-//                            teamsDB.document(id)
-//                                .update(TEAMS_DB_TEAM_DESCRIPTION_FIELD_NAME, newOwnerID)
-//                            newOwnerID
-//                        }
                 val listsRaw = (teamDocument?.get(TEAMS_DB_TEAM_LISTS_FIELD_NAME)
                         as Map<*, *>?)
                         ?:
@@ -143,7 +135,6 @@ class CodealTeam {
         val db = FirebaseFirestore.getInstance()
 
         val teamDB = db.collection(TEAMS_DB_COLLECTION_NAME)
-        // val userDB = db.collection(CodealUser.USER_DB_COLLECTION_NAME)
 
         val teamInfo = mutableMapOf(
             TEAMS_DB_TEAM_NAME_FIELD_NAME to this.name,
