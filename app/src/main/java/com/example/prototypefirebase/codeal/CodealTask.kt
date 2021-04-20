@@ -30,7 +30,7 @@ class CodealTask {
         private const val TASKS_DB_COLLECTION_NAME: String = "tasks1"
         private const val TASKS_DB_TASK_NAME: String = "Name"
         private const val TASKS_DB_TASK_CONTENT: String = "Text"
-        private const val TASK_DB_TASK_LIST: String = "list"
+        private const val TASKS_DB_TASK_LIST: String = "list"
         private const val TASKS_DB_TEAM_ID: String = "teamID"
         private const val TASKS_DB_COMMENTS_IDs: String = "comments_ids"
     }
@@ -68,9 +68,9 @@ class CodealTask {
         val taskInfo = mutableMapOf<String, Any>(
             TASKS_DB_TASK_NAME to this.name,
             TASKS_DB_TASK_CONTENT to this.content,
-            TASK_DB_TASK_LIST to this.listName,
             TASKS_DB_COMMENTS_IDs to commentsIDs,
-            TASKS_DB_TEAM_ID to teamID
+            TASKS_DB_TASK_LIST to this.listName,
+            TASKS_DB_TEAM_ID to this.teamID
         )
         if (id != ""){
             // if the task already existed in the database
