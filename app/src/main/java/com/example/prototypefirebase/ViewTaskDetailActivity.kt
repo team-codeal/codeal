@@ -17,7 +17,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class ViewTaskDetailActivity : AppCompatActivity() {
 
-    var comments: MutableList<CodealComment> = mutableListOf()
+    private var comments: MutableList<CodealComment> = mutableListOf()
+
+    private lateinit var commentsRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +36,8 @@ class ViewTaskDetailActivity : AppCompatActivity() {
 
         val newCommentHolder: EditText = findViewById(R.id.new_comment_plain_text)
         val uploadCommentButton: Button = findViewById(R.id.add_new_comment_button)
-        val commentsRecyclerView: RecyclerView = findViewById(R.id.comments_recycler_view)
+
+        commentsRecyclerView = findViewById(R.id.comments_recycler_view)
 
         commentsRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -46,20 +49,12 @@ class ViewTaskDetailActivity : AppCompatActivity() {
 
                 commentsRecyclerView.adapter = CommentAdapter(comments)
                 task.commentsIDs.forEach { commentID ->
-                    CodealComment(commentID) { comment ->
-                        comments.add(comment)
-                        (commentsRecyclerView.adapter as CommentAdapter)
-                            .notifyItemInserted(comments.size - 1)
-                    }
+                    CodealComment(commentID, ::addComment)
                 }
 
                 uploadCommentButton.setOnClickListener {
                     val commentContent = newCommentHolder.text.toString()
-                    CodealComment(task.id, commentContent, user.id) {
-                        comments.add(it)
-                        (commentsRecyclerView.adapter as CommentAdapter)
-                            .notifyItemInserted(comments.size - 1)
-                    }
+                    CodealComment(task.id, commentContent, user.id, ::addComment)
                 }
             }
         }
@@ -71,16 +66,29 @@ class ViewTaskDetailActivity : AppCompatActivity() {
 
             CodealTask(taskID) {
                 it.change(taskName, taskText, taskListName)
-                Toast.makeText(this@ViewTaskDetailActivity, "Task updated successfully!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ViewTaskDetailActivity,
+                    "Task updated successfully!",
+                    Toast.LENGTH_SHORT).show()
             }
         }
 
         deleteTaskButton.setOnClickListener {
             deleteTask(taskID)
-            Toast.makeText(this@ViewTaskDetailActivity, "Task deleted successfully!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@ViewTaskDetailActivity,
+                "Task deleted successfully!",
+                Toast.LENGTH_SHORT).show()
         }
     }
 
+    private fun addComment(comment: CodealComment) {
+        if (!comment.ready) throw Exception("comment wasn't ready")
+
+        comments.add(comment)
+        (commentsRecyclerView.adapter as CommentAdapter)
+            .notifyItemInserted(comments.size - 1)
+    }
+
+    // TODO fix, doesn't delete team reference
     private fun deleteTask(id: String) {
         val db = FirebaseFirestore.getInstance()
         db.collection("tasks1").document(id)
