@@ -1,11 +1,13 @@
 package com.example.prototypefirebase
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.codeal.CodealComment
@@ -57,6 +59,15 @@ class ViewTaskDetailActivity : AppCompatActivity() {
                 uploadCommentButton.setOnClickListener {
                     val commentContent = newCommentHolder.text.toString()
                     CodealComment(task.id, commentContent, user.id, ::addComment)
+                    // https://stackoverflow.com/questions/1109022/how-do-you-close-hide-the-android-soft-keyboard-programmatically
+                    // Only runs if there is a view that is currently focused
+                    this@ViewTaskDetailActivity.currentFocus?.let { view ->
+                        val imm = getSystemService(Context.INPUT_METHOD_SERVICE)
+                                as? InputMethodManager
+                        imm?.hideSoftInputFromWindow(view.windowToken, 0)
+                    }
+                    newCommentHolder.clearFocus()
+                    newCommentHolder.setText("")
                 }
             }
         }
