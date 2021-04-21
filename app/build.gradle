@@ -15,6 +15,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // https://developer.android.com/studio/write/java8-support#library-desugaring
+        // Required when setting minSdkVersion to 20 or lower
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -26,6 +30,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+
+        // https://developer.android.com/studio/write/java8-support#library-desugaring
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -74,5 +82,11 @@ dependencies {
 
     // Jetpack Compose Integration
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha01"
+
+    // https://developer.android.com/studio/write/java8-support#library-desugaring
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.0.9"
+
+    // https://stackoverflow.com/questions/60310873/execution-failed-for-task-appmergedexdebug-firestore-flutter
+    implementation 'com.android.support:multidex:1.0.3'
 
 }

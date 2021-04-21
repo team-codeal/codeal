@@ -10,15 +10,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
-import com.example.prototypefirebase.Task
+import com.example.prototypefirebase.codeal.CodealTask
 import com.example.utils.recyclers.tasks.OnTaskClickListener
+import com.example.utils.recyclers.tasks.TaskAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FeedFragment : Fragment(), OnTaskClickListener {
 
     private lateinit var dashboardViewModel: FeedViewModel
-    private lateinit var feedRecyclerView : RecyclerView
-    private var tasks = ArrayList<Task>()
+    private var tasks = ArrayList<CodealTask>()
+    private var taskAdapter: FeedTasksAdapter = FeedTasksAdapter(tasks, this)
 
 
     override fun onCreateView(
@@ -37,7 +38,11 @@ class FeedFragment : Fragment(), OnTaskClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        feedRecyclerView = view.findViewById(R.id.recycler_view_feed)!!
+        val feedRecyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_feed)!!
+
+        taskAdapter = FeedTasksAdapter(tasks, this)
+        feedRecyclerView.adapter = taskAdapter
+        feedRecyclerView.layoutManager = LinearLayoutManager(activity)
     }
 
     private fun getTasks() {
@@ -49,18 +54,9 @@ class FeedFragment : Fragment(), OnTaskClickListener {
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    val task = Task(
-                        document.data["FirebaseID"] as String,
-                        document.data["Name"] as String,
-                        document.data["Text"] as String
-                    )
+                    val task = CodealTask(document.id) { taskAdapter.notifyDataSetChanged() }
                     tasks.add(task)
                 }
-
-                val taskAdapter = FeedTasksAdapter(tasks, this)
-                feedRecyclerView.adapter = taskAdapter
-                feedRecyclerView.layoutManager = LinearLayoutManager(activity)
-                taskAdapter.notifyDataSetChanged()
 
             }
             .addOnFailureListener {

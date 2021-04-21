@@ -1,43 +1,45 @@
 package com.example.prototypefirebase
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.utils.recyclers.tasks.OnTaskClickListener
-import com.example.utils.recyclers.tasks.TaskAdapter
-import com.google.firebase.firestore.FirebaseFirestore
-import java.util.ArrayList
+import com.example.prototypefirebase.codeal.CodealTeam
+import com.example.utils.recyclers.lists.ListAdapter
 
-class BoardActivity : AppCompatActivity(), OnTaskClickListener {
+class BoardActivity : AppCompatActivity() {
 
-    private var tasks = ArrayList<Task>()
     private lateinit var teamID: String
 
+    private lateinit var team: CodealTeam
 
-    private var taskAdapter: TaskAdapter = TaskAdapter(tasks, this)
+    private lateinit var tasksRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board)
         supportActionBar?.hide();
 
-        val tasksRecyclerView: RecyclerView = findViewById(R.id.item_tasks_list)
-        tasksRecyclerView.layoutManager = LinearLayoutManager(this)
-        tasksRecyclerView.adapter = taskAdapter
-
-        taskAdapter.notifyDataSetChanged()
+        tasksRecyclerView = findViewById(R.id.item_list_list)
+        PagerSnapHelper().attachToRecyclerView(tasksRecyclerView)
+        tasksRecyclerView.layoutManager = LinearLayoutManager(this,
+            LinearLayoutManager.HORIZONTAL, false)
 
         teamID = intent.getStringExtra("TeamID").toString()
+
+        team = CodealTeam(teamID, ::getTasks)
     }
 
+    private fun getTasks(team: CodealTeam) {
+        tasksRecyclerView.adapter = ListAdapter(team.lists, this)
+    }
 
     override fun onResume() {
         super.onResume()
-        getTasks()
+        team = CodealTeam(teamID, ::getTasks)
     }
 
     fun openAddTask(view: View) {
@@ -46,37 +48,4 @@ class BoardActivity : AppCompatActivity(), OnTaskClickListener {
         startActivity(taskIntent)
     }
 
-    private fun getTasks() {
-        val db = FirebaseFirestore.getInstance()
-
-        // todo clearing every time is pointless. could use live updating
-
-        tasks.clear()
-        db.collection("tasks1")
-            .whereEqualTo("Team", teamID)
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val task = Task(
-                        document.data["FirebaseID"] as String,
-                        document.data["Name"] as String,
-                        document.data["Text"] as String
-                    )
-
-                    tasks.add(task)
-                }
-
-                taskAdapter.notifyDataSetChanged()
-
-            }
-            .addOnFailureListener {
-                Toast.makeText(this@BoardActivity, "Failed to find!", Toast.LENGTH_SHORT).show()
-            }
-    }
-    override fun onTaskItemClicked(position: Int) {
-
-        val intent = Intent(this, ViewTaskDetailActivity::class.java)
-        intent.putExtra("TaskID", tasks[position].firebaseID)
-        startActivity(intent)
-    }
 }

@@ -31,10 +31,10 @@ class CodealUser {
     var updateCallback: CodealUserCallback? = null
 
     companion object {
-        private const val USER_DB_COLLECTION_NAME: String = "user_profiles"
-        private const val USER_DB_USER_NAME_FIELD_NAME: String = "name"
-        private const val USER_DB_USER_BIO_FIELD_NAME: String = "bio"
-        private const val USER_DB_USER_STATUS_FIELD_NAME: String = "status"
+        const val USER_DB_COLLECTION_NAME: String = "user_profiles"
+        const val USER_DB_USER_NAME_FIELD_NAME: String = "name"
+        const val USER_DB_USER_BIO_FIELD_NAME: String = "bio"
+        const val USER_DB_USER_STATUS_FIELD_NAME: String = "status"
     }
 
     constructor(callback: CodealUserCallback? = null) {
