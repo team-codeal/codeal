@@ -1,7 +1,9 @@
 package com.example.prototypefirebase.codeal
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
+import kotlin.collections.ArrayList
 
 typealias CodealCommentCallback = ((CodealComment) -> Unit)
 
@@ -13,7 +15,7 @@ class CodealComment {
         private set
     var content: String = ""
         private set
-    lateinit var date: Date
+    var date: Date = Date()
     var parentTaskID: String = ""
 
     private var ready: Boolean = false
@@ -60,6 +62,11 @@ class CodealComment {
         )
         commentsDB.add(commentInfo).addOnSuccessListener { commentDocument ->
             id = commentDocument.id
+            CodealTask(parentTaskID) { task ->
+                val oldCommentsIDs: List<String> = task.commentsIDs
+                val newCommentsIDs = ArrayList(oldCommentsIDs).apply { add(id) }
+                task.change(commentsIDs = newCommentsIDs)
+            }
             ready = true
             updateCallback?.invoke(this)
         }
@@ -93,7 +100,8 @@ class CodealComment {
                                 newContent)
                             newContent
                         }
-                date = commentDocument?.get(COMMENTS_DB_DATE_FIELD_NAME) as Date? ?:
+                date = (commentDocument?.get(COMMENTS_DB_DATE_FIELD_NAME) as Timestamp?)?.toDate()
+                    ?:
                         run {
                             val newDate = Date()
                             commentsDB.document(id).update(COMMENTS_DB_DATE_FIELD_NAME, newDate)
