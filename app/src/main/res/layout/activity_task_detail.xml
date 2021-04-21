@@ -10,8 +10,8 @@
 
     <EditText
         android:id="@+id/new_comment_plain_text"
-        android:layout_width="236dp"
-        android:layout_height="36dp"
+        android:layout_width="243dp"
+        android:layout_height="49dp"
         android:layout_margin="10dp"
         android:layout_marginTop="164dp"
         android:autofillHints=""
