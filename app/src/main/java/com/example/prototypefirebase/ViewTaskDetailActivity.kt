@@ -13,6 +13,8 @@ import com.example.prototypefirebase.codeal.CodealTask
 import com.example.prototypefirebase.codeal.CodealUser
 import com.example.utils.recyclers.comments.CommentAdapter
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.*
+import kotlin.Comparator
 
 
 class ViewTaskDetailActivity : AppCompatActivity() {
@@ -83,9 +85,16 @@ class ViewTaskDetailActivity : AppCompatActivity() {
     private fun addComment(comment: CodealComment) {
         if (!comment.ready) throw Exception("comment wasn't ready")
 
-        comments.add(comment)
+        // that comparator sorts so that 0th is the newest
+        val index = comments.binarySearch(comment,
+            Comparator { x, y -> -1 * x.date.compareTo(y.date) })
+
+        val insertionIndex = if (index >= 0) index else (-index - 1)
+
+        comments.add(insertionIndex, comment)
         (commentsRecyclerView.adapter as CommentAdapter)
-            .notifyItemInserted(comments.size - 1)
+            .notifyItemInserted(insertionIndex)
+        commentsRecyclerView.smoothScrollToPosition(0)
     }
 
     // TODO fix, doesn't delete team reference
