@@ -3,7 +3,6 @@ package com.example.prototypefirebase.codeal
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import java.lang.IllegalStateException
 
 //TODO This Task class is for the global team "ultimate team". change later, delete the todo
 
@@ -20,6 +19,8 @@ class CodealTask {
     var listName: String = ""
         private set
     var teamID: String = ""
+    var commentsIDs: List<String> = emptyList()
+        private set
 
     private var ready: Boolean = false
 
@@ -31,6 +32,7 @@ class CodealTask {
         private const val TASKS_DB_TASK_CONTENT: String = "Text"
         private const val TASK_DB_TASK_LIST: String = "list"
         private const val TASKS_DB_TEAM_ID: String = "teamID"
+        private const val TASKS_DB_COMMENTS_IDs: String = "comments_ids"
     }
 
     // constructor for an existing task
@@ -66,7 +68,9 @@ class CodealTask {
         val taskInfo = mutableMapOf<String, Any>(
             TASKS_DB_TASK_NAME to this.name,
             TASKS_DB_TASK_CONTENT to this.content,
-            TASK_DB_TASK_LIST to this.listName
+            TASK_DB_TASK_LIST to this.listName,
+            TASKS_DB_COMMENTS_IDs to commentsIDs,
+            TASKS_DB_TEAM_ID to teamID
         )
         if (id != ""){
             // if the task already existed in the database
@@ -109,6 +113,13 @@ class CodealTask {
                             val newTeamID = ""
                             tasksDB.document(id).update(TASKS_DB_TEAM_ID, newTeamID)
                             newTeamID
+                        }
+                commentsIDs = (tasksDocument?.get(TASKS_DB_COMMENTS_IDs)
+                        as? List<*>)?.filterIsInstance<String>() ?:
+                        run {
+                            val newComments = emptyList<String>()
+                            tasksDB.document(id).update(TASKS_DB_COMMENTS_IDs, newComments)
+                            newComments
                         }
                 ready = true
                 updateCallback?.invoke(this)

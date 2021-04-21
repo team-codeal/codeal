@@ -14,6 +14,7 @@ class CodealComment {
     var content: String = ""
         private set
     lateinit var date: Date
+    var parentTaskID: String = ""
 
     private var ready: Boolean = false
 
@@ -25,9 +26,10 @@ class CodealComment {
 
     companion object {
         private const val COMMENTS_DB_COLLECTION_NAME: String = "comments"
-        private const val COMMENTS_DB_CONTENT_FIELD_NAME: String = "comments"
+        private const val COMMENTS_DB_CONTENT_FIELD_NAME: String = "content"
         private const val COMMENTS_DB_DATE_FIELD_NAME: String = "date"
         private const val COMMENTS_DB_OWNER_ID_FIELD_NAME: String = "owner_id"
+        private const val COMMENTS_DB_PARENT_TASK_ID_FIELD_NAME: String = "parent_comment_id"
     }
 
 
@@ -39,7 +41,8 @@ class CodealComment {
     }
 
     //constructor for a new comment
-    constructor(content: String, ownerID: String, callback: CodealCommentCallback? = null) {
+    constructor(parentTaskID: String, content: String, ownerID: String, callback: CodealCommentCallback? = null) {
+        this.parentTaskID = parentTaskID
         this.content = content
         this.ownerID = ownerID
         this.date = Date()
@@ -52,7 +55,8 @@ class CodealComment {
         val commentInfo = mutableMapOf(
             COMMENTS_DB_CONTENT_FIELD_NAME to content,
             COMMENTS_DB_OWNER_ID_FIELD_NAME to ownerID,
-            COMMENTS_DB_DATE_FIELD_NAME to date
+            COMMENTS_DB_DATE_FIELD_NAME to date,
+            COMMENTS_DB_PARENT_TASK_ID_FIELD_NAME to parentTaskID
         )
         commentsDB.add(commentInfo).addOnSuccessListener { commentDocument ->
             id = commentDocument.id
@@ -72,6 +76,15 @@ class CodealComment {
                             commentsDB.document(id).update(COMMENTS_DB_OWNER_ID_FIELD_NAME,
                                 newOwnerID)
                             newOwnerID
+                        }
+                parentTaskID = commentDocument?.get(COMMENTS_DB_PARENT_TASK_ID_FIELD_NAME) as String? ?:
+                        run {
+                            // TODO such kind of database state is illegal. should delete document
+                            //  then?
+                            val newParentTaskID = ""
+                            commentsDB.document(id).update(COMMENTS_DB_OWNER_ID_FIELD_NAME,
+                                newParentTaskID)
+                            newParentTaskID
                         }
                 content = commentDocument?.get(COMMENTS_DB_CONTENT_FIELD_NAME) as String? ?:
                         run {
