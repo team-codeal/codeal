@@ -55,11 +55,13 @@ class CodealTask {
 
     fun change(name: String = this.name,
                content: String = this.content,
-               listName: String = this.listName) {
+               listName: String = this.listName,
+               commentsIDs: List<String> = this.commentsIDs) {
         // TODO only update changed values. Use reflection?
         this.name = name
         this.content = content
         this.listName = listName
+        this.commentsIDs = commentsIDs
         uploadTaskInfoToDB()
     }
 
