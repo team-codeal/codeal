@@ -18,7 +18,8 @@ class CodealComment {
     var date: Date = Date()
     var parentTaskID: String = ""
 
-    private var ready: Boolean = false
+    var ready: Boolean = false
+        private set
 
     var updateCallback: CodealCommentCallback? = null
         set(value) {
