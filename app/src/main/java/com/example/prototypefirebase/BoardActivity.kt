@@ -37,11 +37,6 @@ class BoardActivity : AppCompatActivity() {
         tasksRecyclerView.adapter = ListAdapter(team.lists, this)
     }
 
-    override fun onResume() {
-        super.onResume()
-        team = CodealTeam(teamID, ::getTasks)
-    }
-
     fun openAddTask(view: View) {
         val taskIntent = Intent(this, AddTaskActivity::class.java)
         taskIntent.putExtra("TeamID", teamID)
