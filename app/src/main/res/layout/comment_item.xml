@@ -8,27 +8,28 @@
     app:cardCornerRadius="10dp"
     app:cardUseCompatPadding="true">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <TextView
-            android:id="@+id/task_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/comment_content"
+            android:layout_width="385dp"
+            android:layout_height="57dp"
             android:fontFamily="@font/poppins_regular"
             android:gravity="center"
+            android:text="Comment content"
             android:textColor="@color/colorAccentDark"
             android:textSize="15dp" />
 
         <TextView
-            android:id="@+id/comment_count"
+            android:id="@+id/comment_owner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:translationX="310dp" />
+            android:text="Comment owner" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/comment_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:translationY="35dp" />
 
 
 </androidx.cardview.widget.CardView>
