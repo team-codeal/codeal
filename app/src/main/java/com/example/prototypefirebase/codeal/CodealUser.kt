@@ -23,7 +23,8 @@ class CodealUser {
     var bio: String = ""
         private set
 
-    private var ready: Boolean = false
+    var ready: Boolean = false
+        private set
 
     var isSelf: Boolean
         private set
