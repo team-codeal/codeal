@@ -33,6 +33,13 @@ class BoardActivity : AppCompatActivity() {
         team = CodealTeam(teamID, ::getTasks)
     }
 
+    override fun onResume() {
+        super.onResume()
+        // TODO understand which item was updated, if it was updated at all
+        //  for efficiency and right animations
+        team = CodealTeam(teamID, ::getTasks)
+    }
+
     private fun getTasks(team: CodealTeam) {
         tasksRecyclerView.adapter = ListAdapter(team.lists, this)
     }
