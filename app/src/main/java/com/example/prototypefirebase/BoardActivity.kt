@@ -14,7 +14,8 @@ class BoardActivity : AppCompatActivity() {
 
     private lateinit var teamID: String
 
-    private lateinit var team: CodealTeam
+    private lateinit var listNames: MutableList<String>
+    private lateinit var listNameToTasksList: MutableMap<String, MutableList<String>>
 
     private lateinit var tasksRecyclerView: RecyclerView
 
@@ -30,11 +31,16 @@ class BoardActivity : AppCompatActivity() {
 
         teamID = intent.getStringExtra("TeamID").toString()
 
-        team = CodealTeam(teamID, ::getTasks)
+        CodealTeam(teamID, ::getTasks)
     }
 
     private fun getTasks(team: CodealTeam) {
-        tasksRecyclerView.adapter = ListAdapter(team.lists, this)
+        listNames = ArrayList(team.lists.keys)
+        listNameToTasksList = hashMapOf()
+        team.lists.forEach { (listName, taskList) ->
+            listNameToTasksList[listName] = taskList.toMutableList()
+        }
+        tasksRecyclerView.adapter = ListAdapter(listNames, listNameToTasksList, this)
     }
 
     fun openAddTask(view: View) {

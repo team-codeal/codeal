@@ -11,15 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.ViewTaskDetailActivity
 import com.example.prototypefirebase.codeal.CodealTask
-import com.example.utils.recyclers.tasks.OnTaskClickListener
 import com.example.utils.recyclers.tasks.TaskAdapter
 
 class ListAdapter(
-    private val lists: Map<String, List<String>>,
+    private val listNames: MutableList<String>,
+    private val listNameToTasksList: MutableMap<String, MutableList<String>>,
     private val context: Context
 ) : RecyclerView.Adapter<ListViewHolder>() {
-
-    private val listNames = lists.keys.toList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         return ListViewHolder(
@@ -28,7 +26,7 @@ class ListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return lists.size
+        return listNames.size
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
@@ -40,11 +38,12 @@ class ListAdapter(
 
         val tasksRecyclerView: RecyclerView = holder.itemView.findViewById(R.id.item_item_list)
         tasksRecyclerView.layoutManager = LinearLayoutManager(context)
-        tasksRecyclerView.adapter = TaskAdapter(lists[list]!!.map { x -> CodealTask(x) {
-            tasksRecyclerView.adapter?.notifyDataSetChanged()
-        } }) {
+        tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[list]!!.map { x ->
+            CodealTask(x) {
+                tasksRecyclerView.adapter?.notifyDataSetChanged()
+            } }) {
             val intent = Intent(context, ViewTaskDetailActivity::class.java)
-            intent.putExtra("TaskID", lists[list]?.get(it))
+            intent.putExtra("TaskID", listNameToTasksList[list]?.get(it))
             startActivity(context, intent, null)
         }
 
