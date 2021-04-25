@@ -68,7 +68,7 @@ class CodealUser {
     }
 
     private fun uploadUserInfoToDB() {
-        val userDB = FirebaseFirestore.getInstance().collection(USER_DB_COLLECTION_NAME)
+        val userDB = userDB()
         val userInfo = mutableMapOf<String, Any>(
             USER_DB_USER_NAME_FIELD_NAME to this.name,
             USER_DB_USER_BIO_FIELD_NAME to this.bio,
@@ -77,8 +77,10 @@ class CodealUser {
         userDB.document(id).update(userInfo)
     }
 
+    private fun userDB() = FirebaseFirestore.getInstance().collection(USER_DB_COLLECTION_NAME)
+
     private fun initUserInfoById() {
-        val userDB = FirebaseFirestore.getInstance().collection(USER_DB_COLLECTION_NAME)
+        val userDB = userDB()
         userDB.document(id).get()
             .addOnSuccessListener { profile ->
                 name = profile?.get(USER_DB_USER_NAME_FIELD_NAME) as String? ?:
