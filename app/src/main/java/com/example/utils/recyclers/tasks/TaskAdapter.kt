@@ -6,10 +6,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.codeal.CodealTask
 import com.example.prototypefirebase.R
-import java.util.ArrayList
 
 class TaskAdapter(
-    private val tasks: List<CodealTask>,
+    private val taskIDs: MutableList<String>,
     private val onTaskClickListenerCallback: ((Int) -> Unit)
 ) : RecyclerView.Adapter<TaskViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -19,18 +18,20 @@ class TaskAdapter(
     }
 
     override fun getItemCount(): Int {
-        return tasks.size
+        return taskIDs.size
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
 
-        val task = tasks[position]
+        val taskID = taskIDs[position]
 
         val taskNameHolder: TextView = holder.itemView.findViewById(R.id.task_name)
-        taskNameHolder.text = task.name
-
         val taskCommentCountHolder: TextView = holder.itemView.findViewById(R.id.comment_count)
-        taskCommentCountHolder.text = task.commentsIDs.size.toString()
+
+        CodealTask(taskID) { task ->
+            taskCommentCountHolder.text = task.commentsIDs.size.toString()
+            taskNameHolder.text = task.name
+        }
 
         holder.itemView.setOnClickListener {
             onTaskClickListenerCallback.invoke(position)

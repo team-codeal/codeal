@@ -89,4 +89,8 @@ dependencies {
     // https://stackoverflow.com/questions/60310873/execution-failed-for-task-appmergedexdebug-firestore-flutter
     implementation 'com.android.support:multidex:1.0.3'
 
+    // https://stackoverflow.com/questions/27816217/how-to-save-recyclerviews-scroll-position-using-recyclerview-state/61609823#61609823
+    implementation "androidx.recyclerview:recyclerview:1.2.0"
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
 }

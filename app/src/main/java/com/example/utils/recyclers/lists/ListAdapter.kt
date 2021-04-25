@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.ViewTaskDetailActivity
-import com.example.prototypefirebase.codeal.CodealTask
 import com.example.utils.recyclers.tasks.TaskAdapter
 
 class ListAdapter(
@@ -18,6 +17,8 @@ class ListAdapter(
     private val listNameToTasksList: MutableMap<String, MutableList<String>>,
     private val context: Context
 ) : RecyclerView.Adapter<ListViewHolder>() {
+
+    private var taskAdapters: MutableMap<String, TaskAdapter> = HashMap()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         return ListViewHolder(
@@ -38,15 +39,45 @@ class ListAdapter(
 
         val tasksRecyclerView: RecyclerView = holder.itemView.findViewById(R.id.item_item_list)
         tasksRecyclerView.layoutManager = LinearLayoutManager(context)
-        tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[list]!!.map { x ->
-            CodealTask(x) {
-                tasksRecyclerView.adapter?.notifyDataSetChanged()
-            } }) {
+        tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[list]!!) {
             val intent = Intent(context, ViewTaskDetailActivity::class.java)
             intent.putExtra("TaskID", listNameToTasksList[list]?.get(it))
             startActivity(context, intent, null)
         }
+        taskAdapters[list] = tasksRecyclerView.adapter as TaskAdapter
 
+    }
+
+    enum class TaskChangingCommitment {
+        TASK_ADDED,
+        TASK_DELETED
+    }
+
+    data class TaskChangedMessage(val commitment: TaskChangingCommitment, val idx: Int)
+
+    override fun onBindViewHolder(
+        holder: ListViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        }
+
+        for (payload in payloads) {
+            if (payload is TaskChangedMessage) {
+                val listName = listNames[position]
+                val taskAdapter = taskAdapters[listName]
+                val taskPosition = payload.idx
+                when (payload.commitment) {
+                    TaskChangingCommitment.TASK_ADDED ->
+                        taskAdapter?.notifyItemInserted(taskPosition)
+                    TaskChangingCommitment.TASK_DELETED ->
+                        taskAdapter?.notifyItemRemoved(taskPosition)
+                }
+            }
+        }
     }
 
 }
