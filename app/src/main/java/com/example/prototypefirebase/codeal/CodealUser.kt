@@ -81,6 +81,12 @@ class CodealUser {
         val userDB = FirebaseFirestore.getInstance().collection(USER_DB_COLLECTION_NAME)
         userDB.document(id).get()
             .addOnSuccessListener { profile ->
+                if (!profile.exists()) {
+                    // user doesn't have a profile yet
+                    userDB.document(id).set(emptyMap<String, Any>())
+                        .addOnSuccessListener{ _ -> initUserInfoById() }
+                    return@addOnSuccessListener
+                }
                 name = profile?.get(USER_DB_USER_NAME_FIELD_NAME) as String? ?:
                         run {
                             val newName = fbUser.displayName ?: ""
