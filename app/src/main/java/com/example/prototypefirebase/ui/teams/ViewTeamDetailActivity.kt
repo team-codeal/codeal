@@ -49,6 +49,7 @@ class ViewTeamDetailActivity : AppCompatActivity() {
             val newTaskDesc = editTeamDesc.text.toString()
 
             saveCurrTeam(newTaskName, newTaskDesc)
+            finish()
         }
 
         val editTeamToTaskButton: Button = findViewById(R.id.edit_team_to_tasks)

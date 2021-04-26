@@ -1,11 +1,14 @@
 package com.example.prototypefirebase.ui.teams
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.prototypefirebase.BoardActivity
 import com.example.prototypefirebase.R
+import com.example.prototypefirebase.codeal.CodealTeam
 import com.google.firebase.firestore.FirebaseFirestore
 
 class CreateTeamActivity : AppCompatActivity() {
@@ -26,35 +29,18 @@ class CreateTeamActivity : AppCompatActivity() {
         teamMembersHolder = findViewById(R.id.members_add)
 
         createTeamButton.setOnClickListener {
-            //Toast.makeText(this@CreateTeam,"SUCCESS!", Toast.LENGTH_SHORT).show()
             val teamName = teamNameHolder.text.toString()
             val teamDesc = teamDescriptionHolder.text.toString()
-            val teamMembers = teamMembersHolder.text.toString()
-            //Toast.makeText(this@CreateTeam,"Save team func!", Toast.LENGTH_SHORT).show()
-            saveTeam(teamName, teamDesc, teamMembers)
-        }
+            val teamMembers: List<String> = emptyList()
 
-    }
-
-
-    private fun saveTeam(name: String, desc: String, members: String){
-        val db = FirebaseFirestore.getInstance()
-        val id = db.collection("teams").document().id
-        val team = hashMapOf<String,Any>(
-            "FirebaseID" to id,
-            "Name" to name,
-            "Desc" to desc,
-            "Members" to members
-        )
-        db.collection("teams").document(id)
-            .set(team)
-            .addOnSuccessListener {
+            CodealTeam(teamName,teamDesc,teamMembers){
                 Toast.makeText(this@CreateTeamActivity, "Team created successfully!", Toast.LENGTH_SHORT)
                     .show()
+                val intent = Intent(this, BoardActivity::class.java)
+                intent.putExtra("TeamID", it.id)
+                startActivity(intent)
             }
-            .addOnFailureListener {
-                Toast.makeText(this@CreateTeamActivity, "Failed to create!", Toast.LENGTH_SHORT)
-                    .show()
-            }
+        }
+
     }
 }
