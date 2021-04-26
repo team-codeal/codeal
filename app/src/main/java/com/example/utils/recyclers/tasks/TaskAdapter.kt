@@ -26,10 +26,12 @@ class TaskAdapter(
         val taskID = taskIDs[position]
 
         val taskNameHolder: TextView = holder.itemView.findViewById(R.id.task_name)
+        val taskContentHolder: TextView = holder.itemView.findViewById(R.id.task_content)
         val taskCommentCountHolder: TextView = holder.itemView.findViewById(R.id.comment_count)
 
         CodealTask(taskID) { task ->
             taskCommentCountHolder.text = task.commentsIDs.size.toString()
+            taskContentHolder.text = task.content
             taskNameHolder.text = task.name
         }
 
