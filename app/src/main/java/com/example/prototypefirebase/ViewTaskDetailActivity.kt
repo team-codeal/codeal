@@ -52,7 +52,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
                 taskTextHolder.text = task.content
                 taskListHolder.text = task.listName
 
-                commentsRecyclerView.adapter = CommentAdapter(comments)
+                commentsRecyclerView.adapter = CommentAdapter(comments, this)
                 task.commentsIDs.forEach { commentID ->
                     CodealComment(commentID, ::addComment)
                 }
