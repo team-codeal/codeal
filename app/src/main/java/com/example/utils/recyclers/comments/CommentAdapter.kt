@@ -1,6 +1,7 @@
 package com.example.utils.recyclers.comments
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -77,6 +78,7 @@ class CommentAdapter(
         if (comment.ownerID != "") {
             CodealUser(comment.ownerID) { user ->
                 commentAuthorHolder.text = user.name
+                if (user.photoURL == Uri.EMPTY) return@CodealUser
                 Glide.with(context).load(user.photoURL)
                     .apply(
                         RequestOptions()
