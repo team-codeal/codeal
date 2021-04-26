@@ -4,8 +4,8 @@ interface Likeable {
 
     val emotions: List<String>
 
-    fun likeBy(userID: String)
+    fun likeBy(userID: String, callback: Any? = null)
 
-    fun removeLikeBy(userID: String)
+    fun removeLikeBy(userID: String, callback: Any? = null)
 
 }

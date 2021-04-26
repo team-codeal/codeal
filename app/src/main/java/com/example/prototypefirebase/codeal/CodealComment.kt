@@ -8,6 +8,7 @@ import kotlin.collections.ArrayList
 
 typealias CodealCommentCallback = ((CodealComment) -> Unit)
 
+@Suppress("UNCHECKED_CAST")
 class CodealComment : Likeable {
 
     var id: String = ""
@@ -59,17 +60,18 @@ class CodealComment : Likeable {
         uploadCommentInfoToDB()
     }
 
-    override fun likeBy(userID: String) {
+    override fun likeBy(userID: String, callback: Any?) {
 
         CodealEmotion(userID, id) { emotion ->
             emotions = emotions.toMutableList().also { it.add(emotion.id) }
             val commentsDB = commentsDB()
             commentsDB.document(id).update(COMMENTS_DB_EMOTIONS_IDS_FIELD_NAME,
                 FieldValue.arrayUnion(emotion.id))
+            (callback as? CodealCommentCallback)?.invoke(this)
         }
     }
 
-    override fun removeLikeBy(userID: String) {
+    override fun removeLikeBy(userID: String, callback: Any?) {
 
         // find an emotion which was posted by user under userID
         // and delete it then
@@ -85,7 +87,14 @@ class CodealComment : Likeable {
                 if (queryResult.isEmpty) return@addOnSuccessListener
 
                 val emotionID = queryResult.documents[0].id
-                CodealEmotion(emotionID) { it.delete() }
+                CodealEmotion(emotionID) { emotion ->
+                    emotions = emotions.toMutableList().also { it.remove(emotion.id) }
+                    val commentsDB = commentsDB()
+                    commentsDB.document(id).update(COMMENTS_DB_EMOTIONS_IDS_FIELD_NAME,
+                        FieldValue.arrayRemove(emotion.id))
+                    emotion.delete()
+                    (callback as? CodealCommentCallback?)?.invoke(this)
+                }
 
             }
 
