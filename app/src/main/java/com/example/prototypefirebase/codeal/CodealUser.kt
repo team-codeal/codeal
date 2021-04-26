@@ -22,6 +22,10 @@ class CodealUser {
         private set
     var bio: String = ""
         private set
+    var mail: String = ""
+        private set
+    var teams: List<String> = emptyList()
+        private set
 
     var ready: Boolean = false
         private set
@@ -36,6 +40,8 @@ class CodealUser {
         const val USER_DB_USER_NAME_FIELD_NAME: String = "name"
         const val USER_DB_USER_BIO_FIELD_NAME: String = "bio"
         const val USER_DB_USER_STATUS_FIELD_NAME: String = "status"
+        const val USER_DB_USER_MAIL_FIELD_NAME: String = "mail"
+        const val USER_DB_USER_TEAMS_FIELD_NAME: String = "teams"
     }
 
     constructor(callback: CodealUserCallback? = null) {
@@ -43,6 +49,7 @@ class CodealUser {
         updateCallback = callback
         fbUser = getUserFromFirebase() ?: throw IllegalStateException("The user is not logged in")
         id = fbUser.uid
+        mail = fbUser.email.toString()
         isSelf = true
         initUserInfoById()
     }
@@ -72,7 +79,9 @@ class CodealUser {
         val userInfo = mutableMapOf<String, Any>(
             USER_DB_USER_NAME_FIELD_NAME to this.name,
             USER_DB_USER_BIO_FIELD_NAME to this.bio,
-            USER_DB_USER_STATUS_FIELD_NAME to this.status
+            USER_DB_USER_STATUS_FIELD_NAME to this.status,
+            USER_DB_USER_MAIL_FIELD_NAME to this.mail,
+            USER_DB_USER_TEAMS_FIELD_NAME to this.teams
         )
         userDB.document(id).update(userInfo)
     }
@@ -107,6 +116,19 @@ class CodealUser {
                         userDB.document(id).update(USER_DB_USER_STATUS_FIELD_NAME, newStatus)
                         newStatus
                     }
+                mail = profile?.get(USER_DB_USER_MAIL_FIELD_NAME) as String? ?:
+                        run {
+                            val newMail = ""
+                            userDB.document(id).update(USER_DB_USER_MAIL_FIELD_NAME, newMail)
+                            newMail
+                        }
+                teams = (profile?.get(USER_DB_USER_TEAMS_FIELD_NAME)
+                        as? List<*>)?.filterIsInstance<String>() ?:
+                        run {
+                            val newTeams = emptyList<String>()
+                            userDB.document(id).update(USER_DB_USER_TEAMS_FIELD_NAME, newTeams)
+                            newTeams
+                        }
                 ready = true
                 updateCallback?.invoke(this)
             }

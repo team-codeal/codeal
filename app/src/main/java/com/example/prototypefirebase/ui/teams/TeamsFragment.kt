@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
+import com.example.prototypefirebase.codeal.CodealTeam
+import com.example.prototypefirebase.codeal.CodealUser
 import com.example.utils.recyclers.teams.OnTeamClickListener
 import com.example.utils.recyclers.teams.TeamAdapter
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,9 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class TeamsFragment : Fragment(), OnTeamClickListener {
 
     private var teams = ArrayList<Model>()
-
     private var teamAdapter: TeamAdapter = TeamAdapter(teams, this)
-
     private lateinit var teamsRecyclerView: RecyclerView
 
     override fun onCreateView(
@@ -40,7 +40,11 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
 
     override fun onStart() {
         super.onStart()
-        getTeams()
+        CodealUser {
+            val userTeams = it.teams
+            getTeams(userTeams)
+        }
+
     }
 
     override fun onTeamItemClicked(position: Int) {
@@ -50,33 +54,22 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
         startActivity(intent)
     }
 
-    private fun getTeams() {
+    private fun getTeams(userTeams: List<String>) {
         // TODO clearing teams every time could be inefficient. Consider using
         //  callbacks/updaters etc
         teams.clear()
-        val db = FirebaseFirestore.getInstance()
-        db.collection("teams")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val team = Model(
-                        document.data["Name"] as String,
-                        document.data["Desc"] as String,
-                        document.data["FirebaseID"] as String,
-                        document.data["Members"] as String
+        for (team in userTeams) {
+            CodealTeam(team) {
+                teams.add(
+                    Model(
+                        it.name,
+                        it.description,
+                        it.id
                     )
-                    teams.add(team)
-                }
+                )
                 teamAdapter.notifyDataSetChanged()
-
             }
-            .addOnFailureListener {
-                Toast.makeText(
-                    this@TeamsFragment.context,
-                    "Failed to find!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        }
     }
 
 }
