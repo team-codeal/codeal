@@ -131,6 +131,16 @@ class CodealTask {
             }
     }
 
+    fun delete(){
+        val db = FirebaseFirestore.getInstance()
+        db.collection(TASKS_DB_COLLECTION_NAME).document(id)
+            .delete()
+        // TODO get constant from CodealTeam which describes the name of teams collection
+        CodealTeam(teamID){
+            it.deleteTask(id,listName)
+        }
+    }
+
     private fun getUserFromFirebase(): FirebaseUser? {
         return FirebaseAuth.getInstance().currentUser
     }

@@ -90,6 +90,16 @@ class CodealTeam {
         ))
     }
 
+    internal fun deleteTask(taskID: String, listName: String){
+        val teamsDB = FirebaseFirestore.getInstance().collection(TEAMS_DB_COLLECTION_NAME)
+        lists[listName] = ArrayList<String>().apply {
+            lists[listName]?.let{ addAll(it.stream().filter{x -> x != taskID}.collect(Collectors.toList()))}
+        }
+        teamsDB.document(id).update(mapOf(
+            TEAMS_DB_TEAM_LISTS_FIELD_NAME to lists
+        ))
+    }
+
     private fun initTeamInfoById() {
         val teamsDB = FirebaseFirestore.getInstance().collection(TEAMS_DB_COLLECTION_NAME)
         teamsDB.document(id).get()

@@ -88,11 +88,14 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         }
 
         deleteTaskButton.setOnClickListener {
-            deleteTask(taskID)
-            Toast.makeText(this@ViewTaskDetailActivity,
-                "Task deleted successfully!",
-                Toast.LENGTH_SHORT).show()
-            finish()
+            CodealTask(taskID){
+                it.delete()
+
+                Toast.makeText(this@ViewTaskDetailActivity,
+                    "Task deleted successfully!",
+                    Toast.LENGTH_SHORT).show()
+                finish()
+            }
         }
     }
 
@@ -111,26 +114,5 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         commentsRecyclerView.smoothScrollToPosition(0)
     }
 
-    // TODO fix, doesn't delete team reference
-    private fun deleteTask(id: String) {
-        val db = FirebaseFirestore.getInstance()
-        db.collection("tasks1").document(id)
-            .delete()
-            .addOnSuccessListener {
-                Toast.makeText(
-                    this@ViewTaskDetailActivity,
-                    "Task successfully deleted!",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    this@ViewTaskDetailActivity,
-                    "Error with deleting task!",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-    }
+
 }
