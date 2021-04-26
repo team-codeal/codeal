@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.codeal.CodealComment
+import com.example.prototypefirebase.codeal.CodealEmotion
 import com.example.prototypefirebase.codeal.CodealUser
 import java.text.DateFormat.getDateInstance
 import java.text.Format
@@ -33,15 +34,44 @@ class CommentAdapter(
         val commentDateHolder: TextView = holder.itemView.findViewById(R.id.comment_date)
         val commentContentHolder: TextView = holder.itemView.findViewById(R.id.comment_content)
 
+        val commentLikedInfoHolder: TextView = holder.itemView.findViewById(R.id.comment_liked_info)
+        val commentLikeCountHolder: TextView = holder.itemView.findViewById(R.id.comment_like_count)
+        val commentLikeButton: TextView = holder.itemView.findViewById(R.id.comment_like_button)
+
         val formatter: Format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
+        commentLikedInfoHolder.text = "No"
+
         if (comment.ownerID != "") {
-            CodealUser(comment.ownerID) {
-                commentAuthorHolder.text = it.name
+            CodealUser(comment.ownerID) { user ->
+                commentLikeButton.setOnClickListener { _ ->
+                    // TODO explicitly typing the _ argument is disgusting
+                    //  this looks like an architecture issue
+                    comment.likeBy(user.id) { _: CodealComment ->
+                        notifyItemChanged(position)
+                    }
+                }
+                commentAuthorHolder.text = user.name
+
+                comment.emotions.forEach { emotionID ->
+                    CodealEmotion(emotionID) {
+                        if (it.ownerID == user.id) {
+                            commentLikedInfoHolder.text = "Yes"
+                            commentLikeButton.setOnClickListener { _ ->
+                                comment.removeLikeBy(user.id) { _: CodealComment ->
+                                    notifyItemChanged(position)
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         commentDateHolder.text = formatter.format(comment.date)
         commentContentHolder.text = comment.content
+
+        commentLikeCountHolder.text = comment.emotions.size.toString()
+
     }
 
 }

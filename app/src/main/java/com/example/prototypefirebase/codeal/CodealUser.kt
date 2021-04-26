@@ -12,7 +12,8 @@ typealias CodealUserCallback = ((CodealUser) -> Unit)
 class CodealUser {
 
 
-    private lateinit var fbUser: FirebaseUser
+    private var fbUser: FirebaseUser =
+        getUserFromFirebase() ?: throw IllegalStateException("The user is not logged in")
 
     var id: String
         private set
@@ -30,8 +31,9 @@ class CodealUser {
     var ready: Boolean = false
         private set
 
-    var isSelf: Boolean
+    var isSelf: Boolean = false
         private set
+        get() = fbUser.uid == id
 
     var updateCallback: CodealUserCallback? = null
 
@@ -47,7 +49,6 @@ class CodealUser {
     constructor(callback: CodealUserCallback? = null) {
         // it is asserted that the user is logged in
         updateCallback = callback
-        fbUser = getUserFromFirebase() ?: throw IllegalStateException("The user is not logged in")
         id = fbUser.uid
         mail = fbUser.email.toString()
         isSelf = true
@@ -57,7 +58,6 @@ class CodealUser {
     constructor(userID: String, callback: CodealUserCallback? = null) {
         updateCallback = callback
         id = userID
-        isSelf = false
         initUserInfoById()
     }
 
