@@ -64,9 +64,11 @@ class CodealTeam {
     }
 
     //constructor for a new command
-    constructor(teamName: String, teamMembers: List<String>, callback: CodealTeamCallback? = null) {
+    constructor(teamName: String, teamDesc: String, teamMembers: List<String>, callback: CodealTeamCallback? = null) {
         id = ""
         name = teamName
+        description = teamDesc
+        ownerID = ""
         members = teamMembers
         updateCallback = callback
         uploadTeamInfoToDB()
