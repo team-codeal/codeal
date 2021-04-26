@@ -5,19 +5,23 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.codeal.CodealTeam
 import com.example.utils.recyclers.lists.ListAdapter
+import kotlinx.coroutines.*
 
 class BoardActivity : AppCompatActivity() {
 
     private lateinit var teamID: String
 
-    private lateinit var team: CodealTeam
+    private lateinit var listNames: MutableList<String>
+    private lateinit var listNameToTasksList: MutableMap<String, MutableList<String>>
 
     private lateinit var tasksRecyclerView: RecyclerView
+    private lateinit var listAdapter: ListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,21 +37,77 @@ class BoardActivity : AppCompatActivity() {
 
         val teamNameHolder: TextView = findViewById(R.id.textViewLabel)
 
-        team = CodealTeam(teamID) { team ->
-            getTasks(team)
+        CodealTeam(teamID) { team ->
             teamNameHolder.text = team.name
+            listNames = ArrayList(team.lists.keys)
+            listNameToTasksList = hashMapOf()
+            team.lists.forEach { (listName, taskList) ->
+                listNameToTasksList[listName] = taskList.toMutableList()
+            }
+            listAdapter = ListAdapter(listNames, listNameToTasksList, this)
+            tasksRecyclerView.adapter = listAdapter
+            tasksRecyclerView.adapter?.stateRestorationPolicy =
+                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
+
     }
 
     override fun onResume() {
         super.onResume()
-        // TODO understand which item was updated, if it was updated at all
-        //  for efficiency and right animations
-        team = CodealTeam(teamID, ::getTasks)
+         lifecycleScope.launch {
+            delay(1000)
+            CodealTeam(teamID) { possiblyUpdatedTeam ->
+                val possiblyUpdatedLists = possiblyUpdatedTeam.lists
+                mergeListsWith(possiblyUpdatedLists)
+            }
+        }
     }
 
-    private fun getTasks(team: CodealTeam) {
-        tasksRecyclerView.adapter = ListAdapter(team.lists, this)
+    private fun mergeListsWith(newLists: MutableMap<String, List<String>>) {
+
+        // to the current lists, add the new ones
+        newLists.forEach { (listName, newTasks) ->
+            if (!listNameToTasksList.containsKey(listName)) {
+                listNameToTasksList[listName] = newTasks.toMutableList()
+                listNames.add(listName)
+                listAdapter.notifyItemInserted(listNames.size - 1)
+            } else {
+
+                val oldTasks = listNameToTasksList[listName]!!
+
+                // delete deleted tasks
+                oldTasks.forEachIndexed { index, task ->
+                    if (!newTasks.contains(task)) {
+                        oldTasks.removeAt(index)
+                        listAdapter.notifyItemChanged(listNames.indexOf(listName),
+                            ListAdapter.TaskChangedMessage(
+                                ListAdapter.TaskChangingCommitment.TASK_DELETED,
+                                index))
+                    }
+                }
+
+                // add new tasks to the list
+                newTasks.forEach { task ->
+                    if (!oldTasks.contains(task)) {
+                        oldTasks.add(task)
+                        listAdapter.notifyItemChanged(listNames.indexOf(listName),
+                            ListAdapter.TaskChangedMessage(
+                                ListAdapter.TaskChangingCommitment.TASK_ADDED,
+                                oldTasks.size - 1))
+                    }
+                }
+            }
+        }
+
+        // from the current lists, delete the ones deleted
+        listNameToTasksList.forEach { (listName, _) ->
+            if (!newLists.containsKey(listName)) {
+                listNameToTasksList.remove(listName)
+                val indexToRemove = listNames.indexOf(listName)
+                listNames.removeAt(indexToRemove)
+                listAdapter.notifyItemRemoved(indexToRemove)
+            }
+        }
     }
 
     fun openAddTask(view: View) {
