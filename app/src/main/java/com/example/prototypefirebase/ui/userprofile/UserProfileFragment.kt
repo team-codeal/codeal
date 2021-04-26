@@ -65,7 +65,7 @@ class UserProfileFragment : Fragment() {
     }
 
     private fun loadUserAvatarToView(avatarHolder: CircleImageView) {
-        Glide.with(requireContext()).load(user?.getFirebaseUserObject()?.photoUrl)
+        Glide.with(requireContext()).load(user?.photoURL)
             .apply(
                 RequestOptions()
                     .fitCenter()

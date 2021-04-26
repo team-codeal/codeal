@@ -1,9 +1,12 @@
 package com.example.prototypefirebase.codeal
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import java.lang.IllegalStateException
+import java.net.URI
+import java.net.URL
 
 // TODO this class really is begging for a real-time listener which would invoke the callback
 
@@ -27,6 +30,8 @@ class CodealUser {
         private set
     var teams: List<String> = emptyList()
         private set
+    var photoURL: Uri = Uri.EMPTY
+        private set
 
     var ready: Boolean = false
         private set
@@ -44,6 +49,7 @@ class CodealUser {
         const val USER_DB_USER_STATUS_FIELD_NAME: String = "status"
         const val USER_DB_USER_MAIL_FIELD_NAME: String = "mail"
         const val USER_DB_USER_TEAMS_FIELD_NAME: String = "teams"
+        const val USER_DB_USER_PHOTO_URL_FIELD_NAME: String = "photo_url"
     }
 
     constructor(callback: CodealUserCallback? = null) {
@@ -81,7 +87,8 @@ class CodealUser {
             USER_DB_USER_BIO_FIELD_NAME to this.bio,
             USER_DB_USER_STATUS_FIELD_NAME to this.status,
             USER_DB_USER_MAIL_FIELD_NAME to this.mail,
-            USER_DB_USER_TEAMS_FIELD_NAME to this.teams
+            USER_DB_USER_TEAMS_FIELD_NAME to this.teams,
+            USER_DB_USER_PHOTO_URL_FIELD_NAME to this.photoURL
         )
         userDB.document(id).update(userInfo)
     }
@@ -129,6 +136,14 @@ class CodealUser {
                             userDB.document(id).update(USER_DB_USER_TEAMS_FIELD_NAME, newTeams)
                             newTeams
                         }
+                val photoURLString = profile?.get(USER_DB_USER_PHOTO_URL_FIELD_NAME) as String? ?:
+                        run {
+                            if (!isSelf) return@run ""
+                            val newPhotoURL = getFirebaseUserObject().photoUrl?.toString()
+                            userDB.document(id).update(USER_DB_USER_PHOTO_URL_FIELD_NAME, newPhotoURL)
+                            newPhotoURL
+                        }
+                photoURL = Uri.parse(photoURLString)
                 ready = true
                 updateCallback?.invoke(this)
             }
