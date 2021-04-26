@@ -55,7 +55,7 @@ class BoardActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
          lifecycleScope.launch {
-            delay(500)
+            delay(1000)
             CodealTeam(teamID) { possiblyUpdatedTeam ->
                 val possiblyUpdatedLists = possiblyUpdatedTeam.lists
                 mergeListsWith(possiblyUpdatedLists)
