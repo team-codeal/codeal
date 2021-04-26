@@ -1,6 +1,7 @@
 package com.example.prototypefirebase
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -82,6 +83,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
                 Toast.makeText(this@ViewTaskDetailActivity,
                     "Task updated successfully!",
                     Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
 
@@ -90,6 +92,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
             Toast.makeText(this@ViewTaskDetailActivity,
                 "Task deleted successfully!",
                 Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 
