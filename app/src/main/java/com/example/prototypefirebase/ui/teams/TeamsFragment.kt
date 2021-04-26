@@ -67,9 +67,9 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                         it.id
                     )
                 )
+                teamAdapter.notifyDataSetChanged()
             }
         }
-        teamAdapter.notifyDataSetChanged()
     }
 
 }

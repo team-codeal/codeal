@@ -47,9 +47,8 @@ class ViewTeamDetailActivity : AppCompatActivity() {
         editTeamUpdateButton.setOnClickListener {
             val newTaskName = editTeamName.text.toString()
             val newTaskDesc = editTeamDesc.text.toString()
-            val newTeamMembers = editTeamMembers.text.toString()
 
-            saveCurrTeam(newTaskName, newTaskDesc, newTeamMembers)
+            saveCurrTeam(newTaskName, newTaskDesc)
         }
 
         val editTeamToTaskButton: Button = findViewById(R.id.edit_team_to_tasks)
@@ -79,12 +78,11 @@ class ViewTeamDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveCurrTeam(name: String, desc: String, members: String) {
+    private fun saveCurrTeam(name: String, desc: String) {
         val docRef = FirebaseFirestore.getInstance().collection("teams").document(teamID)
 
         docRef.update("Name", name)
         docRef.update("Desc", desc)
-        docRef.update("Members", members)
             .addOnSuccessListener {
                 Toast.makeText(
                     this@ViewTeamDetailActivity,
@@ -112,8 +110,10 @@ class ViewTeamDetailActivity : AppCompatActivity() {
                     val userName = documents.documents[0].data?.get("name")
                     val team = CodealTeam(teamID)
                     team.addPersonToTeam(userID)
-                    tMembers.append(userName).append("\n")
-                    editTeamMembers.setText(tMembers)
+                    if (!tMembers.contains(userName.toString())) {
+                        tMembers.append(userName).append("\n")
+                        editTeamMembers.setText(tMembers)
+                    }
                     Toast.makeText(
                         this@ViewTeamDetailActivity,
                         "This person successfully added :)",
