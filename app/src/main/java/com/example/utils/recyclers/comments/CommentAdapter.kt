@@ -42,29 +42,32 @@ class CommentAdapter(
 
         commentLikedInfoHolder.text = "No"
 
-        if (comment.ownerID != "") {
-            CodealUser(comment.ownerID) { user ->
-                commentLikeButton.setOnClickListener { _ ->
-                    // TODO explicitly typing the _ argument is disgusting
-                    //  this looks like an architecture issue
-                    comment.likeBy(user.id) { _: CodealComment ->
-                        notifyItemChanged(position)
-                    }
+        CodealUser { currentUser ->
+            commentLikeButton.setOnClickListener { _ ->
+                // TODO explicitly typing the _ argument is disgusting
+                //  this looks like an architecture issue
+                comment.likeBy(currentUser.id) { _: CodealComment ->
+                    notifyItemChanged(position)
                 }
-                commentAuthorHolder.text = user.name
+            }
 
-                comment.emotions.forEach { emotionID ->
-                    CodealEmotion(emotionID) {
-                        if (it.ownerID == user.id) {
-                            commentLikedInfoHolder.text = "Yes"
-                            commentLikeButton.setOnClickListener { _ ->
-                                comment.removeLikeBy(user.id) { _: CodealComment ->
-                                    notifyItemChanged(position)
-                                }
+            comment.emotions.forEach { emotionID ->
+                CodealEmotion(emotionID) { emotion ->
+                    if (emotion.ownerID == currentUser.id) {
+                        commentLikedInfoHolder.text = "Yes"
+                        commentLikeButton.setOnClickListener { _ ->
+                            comment.removeLikeBy(currentUser.id) { _: CodealComment ->
+                                notifyItemChanged(position)
                             }
                         }
                     }
                 }
+            }
+        }
+
+        if (comment.ownerID != "") {
+            CodealUser(comment.ownerID) { user ->
+                commentAuthorHolder.text = user.name
             }
         }
         commentDateHolder.text = formatter.format(comment.date)
