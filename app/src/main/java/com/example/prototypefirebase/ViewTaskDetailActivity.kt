@@ -83,8 +83,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
                 Toast.makeText(this@ViewTaskDetailActivity,
                     "Task updated successfully!",
                     Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, BoardActivity::class.java)
-                startActivity(intent)
+                finish()
             }
         }
 
@@ -93,8 +92,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
             Toast.makeText(this@ViewTaskDetailActivity,
                 "Task deleted successfully!",
                 Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, BoardActivity::class.java)
-            startActivity(intent)
+            finish()
         }
     }
 
