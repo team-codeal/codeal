@@ -9,34 +9,23 @@
 
     <TextView
         android:id="@+id/user_status"
-        android:layout_width="128dp"
-        android:layout_height="54dp"
-        android:layout_marginEnd="52dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:fontFamily="@font/poppins_regular"
-        android:textAlignment="center"
-        android:textColor="@color/colorText"
-        android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@+id/user_status_tag"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/user_status_tag"
-        app:layout_constraintTop_toTopOf="@+id/user_status_tag" />
-
-    <TextView
-        android:id="@+id/user_status_tag"
-        android:layout_width="wrap_content"
+        android:layout_width="195dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_medium"
-        android:text="User status"
+        android:fontFamily="@font/poppins_regular"
+        android:gravity="center"
+        android:inputType="textMultiLine"
+        android:maxWidth="300dp"
+        android:text="UserStatus"
         android:textColor="@color/colorText"
-        app:layout_constraintBottom_toTopOf="@+id/user_bio_tag"
-        app:layout_constraintEnd_toStartOf="@+id/user_name"
-        app:layout_constraintStart_toStartOf="@+id/user_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/user_avatar" />
+        android:textSize="13dp"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.847"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_name"
+        app:layout_constraintVertical_bias="0.15" />
 
-    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_avatar"
         android:layout_width="96dp"
         android:layout_height="96dp"
@@ -47,104 +36,88 @@
         app:civ_border_width="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintHorizontal_bias="0.101"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026" />
-
+        app:layout_constraintVertical_bias="0.025" />
 
     <TextView
         android:id="@+id/user_name"
-        android:layout_width="128dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="117dp"
-        android:layout_marginEnd="52dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:fontFamily="@font/poppins_regular"
-        android:textAlignment="center"
-        android:textColor="@color/colorText"
-        android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@+id/user_avatar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/user_avatar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.534" />
-
-    <TextView
-        android:id="@+id/user_name_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_medium"
-        android:text="User name"
-        android:textColor="@color/colorText"
-        app:layout_constraintBottom_toBottomOf="@+id/user_avatar"
-        app:layout_constraintEnd_toStartOf="@+id/user_name"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toEndOf="@+id/user_avatar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.488" />
-
-    <TextView
-        android:id="@+id/user_bio"
-        android:layout_width="299dp"
-        android:layout_height="103dp"
-        android:background="@color/colorText"
-        android:ems="10"
-        android:fontFamily="@font/poppins_regular"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="UserName"
         android:textAlignment="center"
-        android:textColor="@color/colorBackground"
-        android:textSize="13sp"
+        android:textColor="@color/colorText"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toEndOf="@+id/user_avatar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="310dp"
+        android:layout_height="70dp"
+        android:background="@drawable/rounded_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_bio_tag"
-        app:layout_constraintVertical_bias="0.049" />
+        app:layout_constraintTop_toBottomOf="@+id/user_avatar"
+        app:layout_constraintVertical_bias="0.067">
 
-    <TextView
-        android:id="@+id/user_bio_tag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Your bio"
-        android:textColor="@color/colorText"
-        app:layout_constraintEnd_toEndOf="@+id/user_bio"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="@+id/user_bio"
-        app:layout_constraintTop_toBottomOf="@+id/user_avatar" />
+        <TextView
+            android:id="@+id/user_bio"
+            android:layout_width="291dp"
+            android:layout_height="54dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="6dp"
+            android:background="@color/colorText"
+            android:ems="14"
+            android:fontFamily="@font/poppins_regular"
+            android:inputType="textMultiLine"
+            android:textColor="@color/colorBackground"
+            android:textSize="13sp" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/button_log_out"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="52dp"
         android:background="@color/colorButton"
         android:fontFamily="@font/poppins_semibold"
         android:text="LOG OUT"
         android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/user_bio"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/user_bio"
-        app:layout_constraintTop_toBottomOf="@+id/user_bio"
-        app:layout_constraintVertical_bias="0.115" />
+        app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
+        app:layout_constraintHorizontal_bias="0.008"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintVertical_bias="0.042" />
 
     <Button
         android:id="@+id/button_go_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="43dp"
         android:background="@color/colorButton"
         android:fontFamily="@font/poppins_semibold"
         android:text="Edit"
         android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/user_bio"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/user_bio"
-        app:layout_constraintTop_toBottomOf="@+id/user_bio"
-        app:layout_constraintVertical_bias="0.115" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.836"
+        app:layout_constraintStart_toStartOf="@+id/relativeLayout"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintVertical_bias="0.042" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
