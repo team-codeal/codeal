@@ -27,7 +27,8 @@ class CodealUser {
     var teams: List<String> = emptyList()
         private set
 
-    private var ready: Boolean = false
+    var ready: Boolean = false
+        private set
 
     var isSelf: Boolean
         private set
@@ -74,7 +75,7 @@ class CodealUser {
     }
 
     private fun uploadUserInfoToDB() {
-        val userDB = FirebaseFirestore.getInstance().collection(USER_DB_COLLECTION_NAME)
+        val userDB = userDB()
         val userInfo = mutableMapOf<String, Any>(
             USER_DB_USER_NAME_FIELD_NAME to this.name,
             USER_DB_USER_BIO_FIELD_NAME to this.bio,
@@ -85,10 +86,18 @@ class CodealUser {
         userDB.document(id).update(userInfo)
     }
 
+    private fun userDB() = FirebaseFirestore.getInstance().collection(USER_DB_COLLECTION_NAME)
+
     private fun initUserInfoById() {
-        val userDB = FirebaseFirestore.getInstance().collection(USER_DB_COLLECTION_NAME)
+        val userDB = userDB()
         userDB.document(id).get()
             .addOnSuccessListener { profile ->
+                if (!profile.exists()) {
+                    // user doesn't have a profile yet
+                    userDB.document(id).set(emptyMap<String, Any>())
+                        .addOnSuccessListener{ _ -> initUserInfoById() }
+                    return@addOnSuccessListener
+                }
                 name = profile?.get(USER_DB_USER_NAME_FIELD_NAME) as String? ?:
                         run {
                             val newName = fbUser.displayName ?: ""

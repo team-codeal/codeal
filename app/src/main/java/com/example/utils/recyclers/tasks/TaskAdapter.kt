@@ -29,6 +29,9 @@ class TaskAdapter(
         val taskNameHolder: TextView = holder.itemView.findViewById(R.id.task_name)
         taskNameHolder.text = task.name
 
+        val taskCommentCountHolder: TextView = holder.itemView.findViewById(R.id.comment_count)
+        taskCommentCountHolder.text = task.commentsIDs.size.toString()
+
         holder.itemView.setOnClickListener {
             onTaskClickListenerCallback.invoke(position)
         }

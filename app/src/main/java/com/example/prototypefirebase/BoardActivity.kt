@@ -3,6 +3,7 @@ package com.example.prototypefirebase
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -30,16 +31,23 @@ class BoardActivity : AppCompatActivity() {
 
         teamID = intent.getStringExtra("TeamID").toString()
 
+        val teamNameHolder: TextView = findViewById(R.id.textViewLabel)
+
+        team = CodealTeam(teamID) { team ->
+            getTasks(team)
+            teamNameHolder.text = team.name
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // TODO understand which item was updated, if it was updated at all
+        //  for efficiency and right animations
         team = CodealTeam(teamID, ::getTasks)
     }
 
     private fun getTasks(team: CodealTeam) {
         tasksRecyclerView.adapter = ListAdapter(team.lists, this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        team = CodealTeam(teamID, ::getTasks)
     }
 
     fun openAddTask(view: View) {
