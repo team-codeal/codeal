@@ -1,11 +1,15 @@
 package com.example.prototypefirebase.ui.teams
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.prototypefirebase.BoardActivity
 import com.example.prototypefirebase.R
+import com.example.prototypefirebase.codeal.CodealTeam
+import com.example.prototypefirebase.codeal.CodealUser
 import com.google.firebase.firestore.FirebaseFirestore
 
 class CreateTeamActivity : AppCompatActivity() {
@@ -13,6 +17,7 @@ class CreateTeamActivity : AppCompatActivity() {
     lateinit var teamNameHolder: EditText
     lateinit var teamDescriptionHolder: EditText
     lateinit var teamMembersHolder: EditText
+    lateinit var teamOwnerID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,35 +31,24 @@ class CreateTeamActivity : AppCompatActivity() {
         teamMembersHolder = findViewById(R.id.members_add)
 
         createTeamButton.setOnClickListener {
-            //Toast.makeText(this@CreateTeam,"SUCCESS!", Toast.LENGTH_SHORT).show()
-            val teamName = teamNameHolder.text.toString()
-            val teamDesc = teamDescriptionHolder.text.toString()
-            val teamMembers = teamMembersHolder.text.toString()
-            //Toast.makeText(this@CreateTeam,"Save team func!", Toast.LENGTH_SHORT).show()
-            saveTeam(teamName, teamDesc, teamMembers)
+
+            CodealUser{
+                val teamName = teamNameHolder.text.toString()
+                val teamDesc = teamDescriptionHolder.text.toString()
+                val teamMembers: List<String> = listOf(it.id)
+
+                CodealTeam(teamName,teamDesc,teamMembers){ team ->
+                    team.addPersonToTeam(it.id)
+                    Toast.makeText(this@CreateTeamActivity, "Team created successfully!", Toast.LENGTH_SHORT)
+                        .show()
+                    val intent = Intent(this, BoardActivity::class.java)
+                    intent.putExtra("TeamID", team.id)
+                    startActivity(intent)
+                }
+            }
+
+
         }
 
-    }
-
-
-    private fun saveTeam(name: String, desc: String, members: String){
-        val db = FirebaseFirestore.getInstance()
-        val id = db.collection("teams").document().id
-        val team = hashMapOf<String,Any>(
-            "FirebaseID" to id,
-            "Name" to name,
-            "Desc" to desc,
-            "Members" to members
-        )
-        db.collection("teams").document(id)
-            .set(team)
-            .addOnSuccessListener {
-                Toast.makeText(this@CreateTeamActivity, "Team created successfully!", Toast.LENGTH_SHORT)
-                    .show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(this@CreateTeamActivity, "Failed to create!", Toast.LENGTH_SHORT)
-                    .show()
-            }
     }
 }

@@ -3,6 +3,7 @@ package com.example.prototypefirebase
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +35,10 @@ class BoardActivity : AppCompatActivity() {
 
         teamID = intent.getStringExtra("TeamID").toString()
 
+        val teamNameHolder: TextView = findViewById(R.id.textViewLabel)
+
         CodealTeam(teamID) { team ->
+            teamNameHolder.text = team.name
             listNames = ArrayList(team.lists.keys)
             listNameToTasksList = hashMapOf()
             team.lists.forEach { (listName, taskList) ->
@@ -45,6 +49,7 @@ class BoardActivity : AppCompatActivity() {
             tasksRecyclerView.adapter?.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
+
     }
 
     override fun onResume() {
