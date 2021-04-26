@@ -37,20 +37,8 @@ class UserProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        val ctx = requireContext()
-
         val goEditButton : Button = view.findViewById(R.id.button_go_edit)
         goEditButton.setOnClickListener(::showEditProfilePopupWindow)
-
-        val logoutButton : Button = view.findViewById(R.id.button_log_out)
-        logoutButton.setOnClickListener {
-            AuthUI.getInstance().signOut(ctx).addOnCompleteListener{
-                Toast.makeText(ctx, "Signed out", Toast.LENGTH_SHORT).show()
-                val intent = Intent(ctx, SignInActivity::class.java)
-                startActivity(intent)
-            }
-        }
 
     }
 
@@ -84,6 +72,17 @@ class UserProfileFragment : Fragment() {
 
         val userAvatarHolder: CircleImageView = popupView.findViewById(R.id.user_avatar)
         loadUserAvatarToView(userAvatarHolder)
+
+        val ctx = requireContext()
+
+        val logoutButton : Button = popupView.findViewById(R.id.button_log_out)
+        logoutButton.setOnClickListener {
+            AuthUI.getInstance().signOut(ctx).addOnCompleteListener{
+                Toast.makeText(ctx, "Signed out", Toast.LENGTH_SHORT).show()
+                val intent = Intent(ctx, SignInActivity::class.java)
+                startActivity(intent)
+            }
+        }
 
 
         val focusable = true

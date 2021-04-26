@@ -8,6 +8,23 @@
     android:background="@color/colorBackground"
     tools:context=".ui.userprofile.UserProfileFragment">
 
+    <Button
+        android:id="@+id/button_log_out"
+        android:layout_width="70dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="240dp"
+        android:background="@color/colorButton"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="LOG OUT"
+        android:textColor="@color/colorText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_save"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_bio_tag"
+        app:layout_constraintVertical_bias="1.0" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_avatar"
         android:layout_width="96dp"
@@ -108,18 +125,19 @@
         app:layout_constraintBottom_toTopOf="@+id/user_bio_tag"/>
 
     <Button
-        android:background="@color/colorButton"
-        android:textColor="@color/colorText"
-        android:fontFamily="@font/poppins_semibold"
-        android:layout_height="wrap_content"
+        android:id="@+id/button_save"
         android:layout_width="wrap_content"
-        app:layout_constraintVertical_bias="0.519"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorButton"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="save"
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="save" android:id="@+id/button_save"
-        app:layout_constraintTop_toBottomOf="@+id/user_bio_tag"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.783"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_bio"
+        app:layout_constraintVertical_bias="0.279" />
 
     <!--</RelativeLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
