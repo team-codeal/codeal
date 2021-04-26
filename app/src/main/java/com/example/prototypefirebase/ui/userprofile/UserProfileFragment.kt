@@ -10,19 +10,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.SignInActivity
 import com.example.prototypefirebase.codeal.CodealUser
 import com.firebase.ui.auth.AuthUI
+import de.hdodenhof.circleimageview.CircleImageView
+
 
 class UserProfileFragment : Fragment() {
 
-    private lateinit var user: CodealUser
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        user = CodealUser{ user -> updateUserProfileUI(view, user) }
-    }
+    private var user: CodealUser? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +37,6 @@ class UserProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        updateUserProfileUI(view, user)
 
         val ctx = requireContext()
 
@@ -54,11 +54,37 @@ class UserProfileFragment : Fragment() {
 
     }
 
-    @SuppressLint("ClickableViewAccessibility", "InflateParams")
-    fun showEditProfilePopupWindow(view : View) {
+    override fun onStart() {
+        super.onStart()
+        val userAvatarHolder: CircleImageView = requireView().findViewById(R.id.user_avatar)
+        CodealUser { user ->
+            this.user = user
+            updateUserProfileUI(view, user)
+            loadUserAvatarToView(userAvatarHolder)
+        }
+    }
 
-        val inflater : LayoutInflater =  requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private fun loadUserAvatarToView(avatarHolder: CircleImageView) {
+        Glide.with(requireContext()).load(user?.getFirebaseUserObject()?.photoUrl)
+            .apply(
+                RequestOptions()
+                    .fitCenter()
+                    .format(DecodeFormat.PREFER_ARGB_8888)
+                    .override(Target.SIZE_ORIGINAL)
+            )
+            .into(avatarHolder)
+    }
+
+    @SuppressLint("ClickableViewAccessibility", "InflateParams")
+    fun showEditProfilePopupWindow(view: View) {
+
+        val inflater : LayoutInflater =  requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE)
+                as LayoutInflater
         val popupView = inflater.inflate(R.layout.fragment_userprofile_edit, null);
+
+        val userAvatarHolder: CircleImageView = popupView.findViewById(R.id.user_avatar)
+        loadUserAvatarToView(userAvatarHolder)
+
 
         val focusable = true
         val size = LinearLayout.LayoutParams.MATCH_PARENT
@@ -77,20 +103,20 @@ class UserProfileFragment : Fragment() {
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
-    private fun updateUserProfileUI(view: View?, user: CodealUser) {
+    private fun updateUserProfileUI(view: View?, user: CodealUser?) {
 
         val userNameHolder: TextView? = view?.findViewById(R.id.user_name)
-        userNameHolder?.text = user.name
+        userNameHolder?.text = user?.name
 
         val userBioHolder: TextView? = view?.findViewById(R.id.user_bio)
-        userBioHolder?.text = user.bio
+        userBioHolder?.text = user?.bio
 
         val userStatusHolder: TextView? = view?.findViewById(R.id.user_status)
-        userStatusHolder?.text = user.status
+        userStatusHolder?.text = user?.status
 
     }
 
-    private fun saveCurrentUserProfile(view: View?, user: CodealUser) {
+    private fun saveCurrentUserProfile(view: View?, user: CodealUser?) {
 
         val userNameHolder: EditText? = view?.findViewById(R.id.user_name)
         val newUserName = userNameHolder?.text.toString()
@@ -101,7 +127,7 @@ class UserProfileFragment : Fragment() {
         val userStatusHolder: EditText? = view?.findViewById(R.id.user_status)
         val newUserStatus = userStatusHolder?.text.toString()
 
-        user.change(name = newUserName, bio = newUserBio, status = newUserStatus)
+        user?.change(name = newUserName, bio = newUserBio, status = newUserStatus)
 
     }
 
