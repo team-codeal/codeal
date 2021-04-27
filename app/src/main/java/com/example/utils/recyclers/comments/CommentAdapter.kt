@@ -42,7 +42,6 @@ class CommentAdapter(
         val commentDateHolder: TextView = holder.itemView.findViewById(R.id.comment_date)
         val commentContentHolder: TextView = holder.itemView.findViewById(R.id.comment_content)
 
-        val commentLikedInfoHolder: TextView = holder.itemView.findViewById(R.id.comment_liked_info)
         val commentLikeCountHolder: TextView = holder.itemView.findViewById(R.id.comment_like_count)
         val commentLikeButton: CheckBox = holder.itemView.findViewById(R.id.comment_like_button)
 
@@ -51,7 +50,6 @@ class CommentAdapter(
 
         val formatter: Format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
-        commentLikedInfoHolder.text = "No"
         commentLikeButton.isChecked = false
 
         CodealUser { currentUser ->
@@ -68,7 +66,6 @@ class CommentAdapter(
                 CodealEmotion(emotionID) { emotion ->
                     if (emotion.ownerID == currentUser.id) {
                         commentLikeButton.isChecked = true
-                        commentLikedInfoHolder.text = "Yes"
                         commentLikeButton.setOnClickListener { _ ->
                             commentLikeButton.setOnClickListener {  }
                             comment.removeLikeBy(currentUser.id) { _: CodealComment ->
