@@ -4,37 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:layout_margin="8dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
     app:cardCornerRadius="10dp"
     app:cardUseCompatPadding="true">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/comment_content"
-                    android:layout_width="262dp"
-                    android:layout_height="57dp"
-                    android:fontFamily="@font/poppins_regular"
-                    android:gravity="center"
-                    android:text="Comment content"
-                    android:textColor="@color/colorAccentDark"
-                    android:textSize="15dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
                     android:id="@+id/comment_owner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="72dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/poppins_semibold"
                     android:text="Comment owner"
+                    android:textColor="@color/colorBackground"
+                    android:textSize="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,55 +31,99 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:text="Date"
+                    android:fontFamily="@font/poppins_italic"
+                    android:textSize="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/comment_user_avatar" />
 
-                <TextView
-                    android:id="@+id/comment_like_count"
+                <!--<ImageButton
+                    android:id="@+id/comment_like_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:layout_toStartOf="@+id/comment_like_button"
+                    android:background="@drawable/like_button"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="32dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/comment_like_button"
-                    app:layout_constraintHorizontal_bias="0.94"
-                    app:layout_constraintStart_toEndOf="@+id/comment_liked_info"
-                    app:layout_constraintTop_toTopOf="@+id/comment_content"
-                    app:layout_constraintVertical_bias="0.99" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.457"/>-->
 
-                <Button
+               <!-- <Button
                     android:id="@+id/comment_like_button"
                     android:layout_width="42dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="24dp"
-                    android:text="@string/heart_text"
+                    android:layout_marginEnd="32dp"
+                    android:background="@drawable/like_button"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/comment_content"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.128" />
+                    app:layout_constraintVertical_bias="0.457" />-->
 
                 <TextView
-                    android:id="@+id/comment_liked_info"
+                    android:id="@+id/comment_like_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="104dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toStartOf="@+id/comment_like_button"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="@color/colorBackground"
+                    android:textSize="16dp"
                     app:layout_constraintEnd_toStartOf="@+id/comment_like_button"
-                    app:layout_constraintTop_toTopOf="@+id/comment_content"
-                    app:layout_constraintVertical_bias="0.921" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <TextView
+                    android:id="@+id/comment_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:gravity="center"
+                    android:text="Comment content"
+                    android:textColor="@color/colorAccentDark"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/comment_like_count"
+                    app:layout_constraintHorizontal_bias="0.105"
+                    app:layout_constraintStart_toEndOf="@+id/comment_user_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.639" />
+
+                <CheckBox
+                    android:id="@+id/comment_like_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/like_button"
+                    android:button="@null"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.118" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/comment_user_avatar"
-                    android:layout_width="100dp"
-                    android:layout_height="95dp"
-                    app:layout_constraintBottom_toTopOf="@+id/comment_date"
-                    app:layout_constraintEnd_toStartOf="@+id/comment_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@color/fui_transparent"
+                    android:src="@drawable/avatar"
+                    android:visibility="visible"
+                    app:civ_border_color="@color/colorAccent"
+                    app:civ_border_width="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/comment_owner"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/comment_owner"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.219"
                     app:srcCompat="@drawable/avatar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
