@@ -1,5 +1,6 @@
 package com.example.prototypefirebase.ui.userprofile
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.Intent
@@ -60,6 +61,13 @@ class UserProfileFragment : Fragment() {
                 Toast.makeText(ctx, "Signed out", Toast.LENGTH_SHORT).show()
                 val intent = Intent(ctx, SignInActivity::class.java)
                 startActivity(intent)
+            }
+        }
+
+        CodealUser().incomingReactionCallback = {
+            ObjectAnimator.ofFloat(view, "translationX", 100f).apply {
+                duration = 2000
+                start()
             }
         }
 
