@@ -12,7 +12,8 @@
         <activity android:name=".ui.teams.ViewTeamDetailActivity"></activity>
         <activity android:name=".ui.teams.CreateTeamActivity"
             android:noHistory="true"/>
-        <activity android:name=".ViewTaskDetailActivity" />
+        <activity android:name=".ViewTaskDetailActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".BoardActivity" />
         <activity
