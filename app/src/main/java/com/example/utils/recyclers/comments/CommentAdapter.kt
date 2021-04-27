@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -43,7 +44,7 @@ class CommentAdapter(
 
         val commentLikedInfoHolder: TextView = holder.itemView.findViewById(R.id.comment_liked_info)
         val commentLikeCountHolder: TextView = holder.itemView.findViewById(R.id.comment_like_count)
-        val commentLikeButton: TextView = holder.itemView.findViewById(R.id.comment_like_button)
+        val commentLikeButton: CheckBox = holder.itemView.findViewById(R.id.comment_like_button)
 
         val userAvatarHolder: ImageView = holder.itemView
             .findViewById(R.id.comment_user_avatar)
@@ -51,6 +52,7 @@ class CommentAdapter(
         val formatter: Format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
         commentLikedInfoHolder.text = "No"
+        commentLikeButton.isChecked = false
 
         CodealUser { currentUser ->
             commentLikeButton.setOnClickListener { _ ->
@@ -65,6 +67,7 @@ class CommentAdapter(
             comment.emotions.forEach { emotionID ->
                 CodealEmotion(emotionID) { emotion ->
                     if (emotion.ownerID == currentUser.id) {
+                        commentLikeButton.isChecked = true
                         commentLikedInfoHolder.text = "Yes"
                         commentLikeButton.setOnClickListener { _ ->
                             commentLikeButton.setOnClickListener {  }
