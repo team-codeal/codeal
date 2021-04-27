@@ -62,10 +62,6 @@ class CodealComment : Likeable {
 
     override fun likeBy(userID: String, callback: Any?) {
 
-        CodealUser(userID) { user ->
-            user.sendReaction()
-        }
-
         CodealEmotion(userID, id) { emotion ->
             emotions = emotions.toMutableList().also { it.add(emotion.id) }
             val commentsDB = commentsDB()

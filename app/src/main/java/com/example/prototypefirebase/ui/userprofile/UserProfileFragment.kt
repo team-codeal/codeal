@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.SignInActivity
+import com.example.prototypefirebase.codeal.CodealComment
 import com.example.prototypefirebase.codeal.CodealUser
 import com.firebase.ui.auth.AuthUI
 import de.hdodenhof.circleimageview.CircleImageView
@@ -64,13 +65,6 @@ class UserProfileFragment : Fragment() {
             }
         }
 
-        CodealUser().incomingReactionCallback = {
-            ObjectAnimator.ofFloat(view, "translationX", 100f).apply {
-                duration = 2000
-                start()
-            }
-        }
-
     }
 
     override fun onStart() {
@@ -84,6 +78,12 @@ class UserProfileFragment : Fragment() {
         val motivationHolder: ImageView = requireView().findViewById(R.id.motivational_gif)
         loadMotivationalGif(motivationHolder)
         motivationHolder.setOnClickListener { loadMotivationalGif(motivationHolder) }
+        CodealUser().incomingReactionCallback = {
+            ObjectAnimator.ofFloat(view, "translationX", 200f).apply {
+                duration = 2000
+                start()
+            }
+        }
     }
 
     private fun loadMotivationalGif(motivationHolder: ImageView) {

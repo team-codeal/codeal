@@ -39,7 +39,7 @@ class CodealUser {
         set(value) {
             reactionListener?.remove()
             field = value
-            reactionListener = userDB().document("id")
+            reactionListener = userDB().document(id)
                 .addSnapshotListener { userSnapshot, e ->
                     if (e != null) {
                         return@addSnapshotListener
@@ -49,6 +49,8 @@ class CodealUser {
                             as? List<*>)?.filterIsInstance<String>()
 
                     if (reactions?.isNotEmpty() == true) {
+                        userDB().document(id).update(USER_DB_USER_INCOMING_REACTIONS_FIELD_NAME,
+                            FieldValue.arrayRemove(""))
                         value?.invoke()
                     }
                 }
