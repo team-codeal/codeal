@@ -3,10 +3,10 @@ package com.example.prototypefirebase.codeal
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import java.lang.IllegalStateException
-import java.net.URI
-import java.net.URL
 
 // TODO this class really is begging for a real-time listener which would invoke the callback
 
@@ -33,6 +33,27 @@ class CodealUser {
     var photoURL: Uri = Uri.EMPTY
         private set
 
+    private var reactionListener : ListenerRegistration? = null
+
+    var incomingReactionCallback: (() -> Unit)? = null
+        set(value) {
+            reactionListener?.remove()
+            field = value
+            reactionListener = userDB().document("id")
+                .addSnapshotListener { userSnapshot, e ->
+                    if (e != null) {
+                        return@addSnapshotListener
+                    }
+
+                    val reactions = (userSnapshot?.get(USER_DB_USER_INCOMING_REACTIONS_FIELD_NAME)
+                            as? List<*>)?.filterIsInstance<String>()
+
+                    if (reactions?.isNotEmpty() == true) {
+                        value?.invoke()
+                    }
+                }
+        }
+
     var ready: Boolean = false
         private set
 
@@ -50,6 +71,7 @@ class CodealUser {
         const val USER_DB_USER_MAIL_FIELD_NAME: String = "mail"
         const val USER_DB_USER_TEAMS_FIELD_NAME: String = "teams"
         const val USER_DB_USER_PHOTO_URL_FIELD_NAME: String = "photo_url"
+        const val USER_DB_USER_INCOMING_REACTIONS_FIELD_NAME: String = "incoming_reactions"
     }
 
     constructor(callback: CodealUserCallback? = null) {
@@ -78,6 +100,12 @@ class CodealUser {
         this.bio = bio
         this.status = status
         uploadUserInfoToDB()
+    }
+
+    // TODO strange architecture
+    internal fun sendReaction() {
+        userDB().document(id).update(USER_DB_USER_INCOMING_REACTIONS_FIELD_NAME,
+            FieldValue.arrayUnion(""))
     }
 
     private fun uploadUserInfoToDB() {
@@ -143,6 +171,16 @@ class CodealUser {
                             userDB.document(id).update(USER_DB_USER_PHOTO_URL_FIELD_NAME, newPhotoURL)
                             newPhotoURL
                         }
+                val reactions = (profile?.get(USER_DB_USER_TEAMS_FIELD_NAME)
+                        as? List<*>)?.filterIsInstance<String>() ?:
+                        run {
+                            val newIncomingReactions = emptyList<String>()
+                            userDB.document(id).update(USER_DB_USER_INCOMING_REACTIONS_FIELD_NAME,
+                                newIncomingReactions)
+                            newIncomingReactions
+                        }
+                if (reactions.isNotEmpty()) userDB().document(id)
+                    .update(USER_DB_USER_INCOMING_REACTIONS_FIELD_NAME, emptyList<String>())
                 photoURL = Uri.parse(photoURLString)
                 ready = true
                 updateCallback?.invoke(this)
