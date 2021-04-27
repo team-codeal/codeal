@@ -54,6 +54,7 @@ class CommentAdapter(
 
         CodealUser { currentUser ->
             commentLikeButton.setOnClickListener { _ ->
+                commentLikeButton.setOnClickListener { }
                 // TODO explicitly typing the _ argument is disgusting
                 //  this looks like an architecture issue
                 comment.likeBy(currentUser.id) { _: CodealComment ->
@@ -66,6 +67,7 @@ class CommentAdapter(
                     if (emotion.ownerID == currentUser.id) {
                         commentLikedInfoHolder.text = "Yes"
                         commentLikeButton.setOnClickListener { _ ->
+                            commentLikeButton.setOnClickListener {  }
                             comment.removeLikeBy(currentUser.id) { _: CodealComment ->
                                 notifyItemChanged(position)
                             }
