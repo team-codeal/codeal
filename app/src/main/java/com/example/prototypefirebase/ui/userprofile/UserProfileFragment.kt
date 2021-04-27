@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -78,11 +79,23 @@ class UserProfileFragment : Fragment() {
         val motivationHolder: ImageView = requireView().findViewById(R.id.motivational_gif)
         loadMotivationalGif(motivationHolder)
         motivationHolder.setOnClickListener { loadMotivationalGif(motivationHolder) }
+
+        val heartReactionHolder: ImageView = requireView().findViewById(R.id.heart_reaction)
         CodealUser().incomingReactionCallback = {
-            ObjectAnimator.ofFloat(view, "translationX", 200f).apply {
-                duration = 2000
-                start()
-            }
+            heartReactionHolder.visibility = View.VISIBLE
+            heartReactionHolder.animate()
+                .scaleYBy(2f)
+                .scaleXBy(2f)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .setDuration(1000)
+                .withEndAction {
+                    heartReactionHolder.visibility = View.INVISIBLE
+                    heartReactionHolder.animate()
+                        .scaleXBy(-2f)
+                        .scaleYBy(-2f)
+                        .setInterpolator(AccelerateDecelerateInterpolator())
+                        .duration = 0
+                }
         }
     }
 
