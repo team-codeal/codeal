@@ -3,6 +3,7 @@ package com.example.prototypefirebase
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -40,7 +41,26 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         val taskListHolder: TextView = findViewById(R.id.List_task)
 
         val newCommentHolder: EditText = findViewById(R.id.new_comment_plain_text)
+
         val uploadCommentButton: Button = findViewById(R.id.add_new_comment_button)
+
+        newCommentHolder.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                newCommentHolder.animate()
+                    .translationY(-60f)
+                    .duration = 500
+                uploadCommentButton.animate()
+                    .translationY(-60f)
+                    .duration = 500
+            } else {
+                newCommentHolder.animate()
+                    .translationY(60f)
+                    .duration = 500
+                uploadCommentButton.animate()
+                    .translationY(60f)
+                    .duration = 500
+            }
+        }
 
         commentsRecyclerView = findViewById(R.id.comments_recycler_view)
 
