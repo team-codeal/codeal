@@ -109,12 +109,14 @@
     <ImageView
         android:id="@+id/motivational_gif"
         android:layout_width="match_parent"
-        android:layout_height="365dp"
+        android:layout_height="400dp"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
         android:src="@android:drawable/title_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_log_out" />
+        app:layout_constraintTop_toBottomOf="@+id/button_go_edit" />
 
 
 
