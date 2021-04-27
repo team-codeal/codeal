@@ -108,7 +108,8 @@
         app:layout_constraintBottom_toTopOf="@+id/user_bio_tag"/>
 
     <Button
-        android:background="@color/colorButton"
+        android:background="@drawable/round_button"
+        android:gravity="center|bottom"
         android:textColor="@color/colorText"
         android:fontFamily="@font/poppins_semibold"
         android:layout_height="wrap_content"
@@ -119,7 +120,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="save" android:id="@+id/button_save"
-        app:layout_constraintTop_toBottomOf="@+id/user_bio_tag"/>
+        app:layout_constraintTop_toBottomOf="@+id/user_bio_tag"
+        android:elevation="8dp"
+        android:stateListAnimator="@anim/fragment_fade_enter"
+        android:translationZ="4dp"/>
 
     <!--</RelativeLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

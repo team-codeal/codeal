@@ -62,8 +62,8 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                     val team = Model(
                         document.data["Name"] as String,
                         document.data["Desc"] as String,
-                        document.data["FirebaseID"] as String,
-                        document.data["Members"] as String
+                        "rew",
+                        "dfdf"
                     )
                     teams.add(team)
                 }

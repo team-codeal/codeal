@@ -94,7 +94,6 @@
         android:fontFamily="@font/poppins_regular"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:textAlignment="center"
         android:textColor="@color/colorBackground"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -120,31 +119,39 @@
         android:id="@+id/button_log_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorButton"
+        android:background="@drawable/round_button"
         android:fontFamily="@font/poppins_semibold"
         android:text="LOG OUT"
+        android:gravity="center|bottom"
         android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/user_bio"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/user_bio"
         app:layout_constraintTop_toBottomOf="@+id/user_bio"
-        app:layout_constraintVertical_bias="0.115" />
+        app:layout_constraintVertical_bias="0.115"
+        android:elevation="8dp"
+        android:stateListAnimator="@anim/fragment_fade_enter"
+        android:translationZ="4dp"/>
 
     <Button
         android:id="@+id/button_go_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorButton"
+        android:background="@drawable/round_button"
         android:fontFamily="@font/poppins_semibold"
         android:text="Edit"
+        android:gravity="center|bottom"
         android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/user_bio"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/user_bio"
         app:layout_constraintTop_toBottomOf="@+id/user_bio"
-        app:layout_constraintVertical_bias="0.115" />
+        app:layout_constraintVertical_bias="0.115"
+        android:elevation="8dp"
+        android:stateListAnimator="@anim/fragment_fade_enter"
+        android:translationZ="4dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
