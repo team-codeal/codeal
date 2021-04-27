@@ -43,8 +43,10 @@ class CodealTask {
     }
 
     // constructor for a new
-    constructor(taskName: String, taskContent: String, teamID: String, listName: String,
-                callback: CodealTaskCallback? = null) {
+    constructor(
+        taskName: String, taskContent: String, teamID: String, listName: String,
+        callback: CodealTaskCallback? = null
+    ) {
         name = taskName
         content = taskContent
         this.teamID = teamID
@@ -53,17 +55,29 @@ class CodealTask {
         uploadTaskInfoToDB()
     }
 
-    fun change(name: String = this.name,
-               content: String = this.content,
-               listName: String = this.listName,
-               commentsIDs: List<String> = this.commentsIDs) {
+    fun change(
+        name: String = this.name,
+        content: String = this.content,
+        listName: String = this.listName,
+        commentsIDs: List<String> = this.commentsIDs
+    ) {
         // TODO only update changed values. Use reflection?
         this.name = name
         this.content = content
+        val prevListName = this.listName
         this.listName = listName
         this.commentsIDs = commentsIDs
+
+        if (listName != prevListName) {
+            CodealTeam(teamID) {
+                it.deleteTask(id, prevListName)
+                it.addTask(id, listName)
+            }
+        }
+
         uploadTaskInfoToDB()
     }
+
 
     private fun uploadTaskInfoToDB() {
         val tasksDB = FirebaseFirestore.getInstance().collection(TASKS_DB_COLLECTION_NAME)
@@ -74,14 +88,14 @@ class CodealTask {
             TASKS_DB_TASK_LIST to this.listName,
             TASKS_DB_TEAM_ID to this.teamID
         )
-        if (id != ""){
+        if (id != "") {
             // if the task already existed in the database
             tasksDB.document(id).update(taskInfo)
         } else {
             // if the task is new
             tasksDB.add(taskInfo).addOnSuccessListener { taskDocument ->
                 this.id = taskDocument.id
-                CodealTeam(teamID) {it.addTask(id, listName)}
+                CodealTeam(teamID) { it.addTask(id, listName) }
                 ready = true
                 updateCallback?.invoke(this)
             }
@@ -92,37 +106,32 @@ class CodealTask {
         val tasksDB = FirebaseFirestore.getInstance().collection(TASKS_DB_COLLECTION_NAME)
         tasksDB.document(id).get()
             .addOnSuccessListener { tasksDocument ->
-                name = tasksDocument?.get(TASKS_DB_TASK_NAME) as String? ?:
-                        run {
-                            val newName = "New Task"
-                            tasksDB.document(id).update(TASKS_DB_TASK_NAME, newName)
-                            newName
-                        }
-                content = tasksDocument?.get(TASKS_DB_TASK_CONTENT) as String? ?:
-                        run {
-                            val newContent = ""
-                            tasksDB.document(id).update(TASKS_DB_TASK_CONTENT, newContent)
-                            newContent
-                        }
-                listName = tasksDocument?.get(TASKS_DB_TASK_LIST) as String? ?:
-                        run {
-                            val newList = ""
-                            tasksDB.document(id).update(TASKS_DB_TASK_LIST, newList)
-                            newList
-                        }
-                teamID = tasksDocument?.get(TASKS_DB_TEAM_ID) as String? ?:
-                        run {
-                            val newTeamID = ""
-                            tasksDB.document(id).update(TASKS_DB_TEAM_ID, newTeamID)
-                            newTeamID
-                        }
+                name = tasksDocument?.get(TASKS_DB_TASK_NAME) as String? ?: run {
+                    val newName = "New Task"
+                    tasksDB.document(id).update(TASKS_DB_TASK_NAME, newName)
+                    newName
+                }
+                content = tasksDocument?.get(TASKS_DB_TASK_CONTENT) as String? ?: run {
+                    val newContent = ""
+                    tasksDB.document(id).update(TASKS_DB_TASK_CONTENT, newContent)
+                    newContent
+                }
+                listName = tasksDocument?.get(TASKS_DB_TASK_LIST) as String? ?: run {
+                    val newList = ""
+                    tasksDB.document(id).update(TASKS_DB_TASK_LIST, newList)
+                    newList
+                }
+                teamID = tasksDocument?.get(TASKS_DB_TEAM_ID) as String? ?: run {
+                    val newTeamID = ""
+                    tasksDB.document(id).update(TASKS_DB_TEAM_ID, newTeamID)
+                    newTeamID
+                }
                 commentsIDs = (tasksDocument?.get(TASKS_DB_COMMENTS_IDs)
-                        as? List<*>)?.filterIsInstance<String>() ?:
-                        run {
-                            val newComments = emptyList<String>()
-                            tasksDB.document(id).update(TASKS_DB_COMMENTS_IDs, newComments)
-                            newComments
-                        }
+                        as? List<*>)?.filterIsInstance<String>() ?: run {
+                    val newComments = emptyList<String>()
+                    tasksDB.document(id).update(TASKS_DB_COMMENTS_IDs, newComments)
+                    newComments
+                }
                 ready = true
                 updateCallback?.invoke(this)
             }
@@ -131,13 +140,13 @@ class CodealTask {
             }
     }
 
-    fun delete(){
+    fun delete() {
         val db = FirebaseFirestore.getInstance()
         db.collection(TASKS_DB_COLLECTION_NAME).document(id)
             .delete()
         // TODO get constant from CodealTeam which describes the name of teams collection
-        CodealTeam(teamID){
-            it.deleteTask(id,listName)
+        CodealTeam(teamID) {
+            it.deleteTask(id, listName)
         }
     }
 
