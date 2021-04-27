@@ -56,6 +56,7 @@
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="310dp"
@@ -88,29 +89,34 @@
             android:textSize="13sp" />
     </RelativeLayout>
 
+
     <Button
         android:id="@+id/button_log_out"
-        android:layout_width="70dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="52dp"
-        android:background="@color/colorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_button"
+        android:elevation="8dp"
         android:fontFamily="@font/poppins_semibold"
+        android:gravity="center|bottom"
+        android:stateListAnimator="@anim/fragment_fade_enter"
         android:text="LOG OUT"
         android:textColor="@color/colorText"
+        android:translationZ="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
-        app:layout_constraintHorizontal_bias="0.008"
+        app:layout_constraintEnd_toStartOf="@+id/button_go_edit"
+        app:layout_constraintHorizontal_bias="0.263"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-        app:layout_constraintVertical_bias="0.042" />
+        app:layout_constraintVertical_bias="0.04" />
 
     <Button
         android:id="@+id/button_go_edit"
-        android:layout_width="70dp"
-        android:layout_height="43dp"
-        android:background="@color/colorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_button"
         android:fontFamily="@font/poppins_semibold"
         android:text="Edit"
+        android:gravity="center|bottom"
         android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -128,6 +134,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_log_out" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

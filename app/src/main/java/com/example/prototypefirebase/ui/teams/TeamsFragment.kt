@@ -58,6 +58,7 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
         // TODO clearing teams every time could be inefficient. Consider using
         //  callbacks/updaters etc
         teams.clear()
+
         for (team in userTeams) {
             CodealTeam(team) {
                 teams.add(

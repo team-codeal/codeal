@@ -96,12 +96,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
         android:layout_marginBottom="48dp"
-        android:background="@color/colorButton"
+        android:background="@drawable/round_button"
+        android:gravity="center|bottom"
         android:fontFamily="@font/poppins_semibold"
         android:text="UPDATE"
         android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:elevation="8dp"
+        android:stateListAnimator="@anim/fragment_fade_enter"
+        android:translationZ="4dp"/>
 
     <Button
         android:id="@+id/add_new_comment_button"
@@ -123,14 +127,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
-        android:background="@color/colorButton"
+        android:background="@drawable/round_button"
+        android:gravity="center|bottom"
         android:fontFamily="@font/poppins_semibold"
         android:text="DELETE"
         android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.67"
-        app:layout_constraintStart_toEndOf="@+id/updateTask" />
+        app:layout_constraintStart_toEndOf="@+id/updateTask"
+        android:elevation="8dp"
+        android:stateListAnimator="@anim/fragment_fade_enter"
+        android:translationZ="4dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comments_recycler_view"
