@@ -3,6 +3,7 @@ package com.example.prototypefirebase.ui.userprofile
 import android.annotation.SuppressLint
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -24,6 +25,16 @@ import de.hdodenhof.circleimageview.CircleImageView
 class UserProfileFragment : Fragment() {
 
     private var user: CodealUser? = null
+
+    private val gifUris: List<Uri> = listOf(
+        "https://64.media.tumblr.com/ec90e55981cd01a3e1a69e724967a31c/tumblr_ntb1nzAguK1qc4uvwo1_500.gifv",
+        "https://64.media.tumblr.com/tumblr_md923niK1p1qc4uvwo1_400.gifv",
+        "https://64.media.tumblr.com/2df037db5c351a7efd53be9336e84a4d/tumblr_nchjzfYiQ41qc4uvwo1_500.gifv",
+        "https://64.media.tumblr.com/b0fac2120f36d47ceab265b33dbddfb9/tumblr_ntrtdpT1XK1qc4uvwo1_r1_500.gifv",
+        "https://64.media.tumblr.com/d0bf998f5ee219e3ee2739c8ac1d103f/tumblr_pxe84jIwi01qc4uvwo1_500.jpg",
+        "https://64.media.tumblr.com/d9e91c42fe8548f6d1d84c5bb7a2d6c8/tumblr_oelq32ypdd1qc4uvwo1_500.gifv",
+        "https://64.media.tumblr.com/14d80d4fc0dfe2a75a9e62ec4a324c38/tumblr_okxk4uqVb31qc4uvwo1_500.gifv"
+    ).map { Uri.parse(it) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +73,21 @@ class UserProfileFragment : Fragment() {
             updateUserProfileUI(view, user)
             loadUserAvatarToView(userAvatarHolder)
         }
+        val motivationHolder: ImageView = requireView().findViewById(R.id.motivational_gif)
+        loadMotivationalGif(motivationHolder)
+        motivationHolder.setOnClickListener { loadMotivationalGif(motivationHolder) }
+    }
+
+    private fun loadMotivationalGif(motivationHolder: ImageView) {
+        Glide.with(requireContext())
+            .load(gifUris.random())
+            .apply(
+                RequestOptions()
+                    .fitCenter()
+                    .format(DecodeFormat.PREFER_ARGB_8888)
+                    .override(Target.SIZE_ORIGINAL)
+            )
+            .into(motivationHolder)
     }
 
     private fun loadUserAvatarToView(avatarHolder: CircleImageView) {
