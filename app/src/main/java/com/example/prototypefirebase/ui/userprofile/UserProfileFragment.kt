@@ -3,6 +3,7 @@ package com.example.prototypefirebase.ui.userprofile
 import android.annotation.SuppressLint
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -62,6 +63,19 @@ class UserProfileFragment : Fragment() {
             updateUserProfileUI(view, user)
             loadUserAvatarToView(userAvatarHolder)
         }
+        val motivationHolder: ImageView = requireView().findViewById(R.id.motivational_gif)
+        Glide.with(requireContext())
+            .load(Uri
+                .parse("https://64.media.tumblr.com/" +
+                        "ec90e55981cd01a3e1a69e724967a31c/" +
+                        "tumblr_ntb1nzAguK1qc4uvwo1_500.gifv"))
+            .apply(
+                RequestOptions()
+                    .fitCenter()
+                    .format(DecodeFormat.PREFER_ARGB_8888)
+                    .override(Target.SIZE_ORIGINAL)
+            )
+            .into(motivationHolder)
     }
 
     private fun loadUserAvatarToView(avatarHolder: CircleImageView) {
