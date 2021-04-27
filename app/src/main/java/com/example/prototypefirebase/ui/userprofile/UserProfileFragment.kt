@@ -1,5 +1,6 @@
 package com.example.prototypefirebase.ui.userprofile
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -17,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.SignInActivity
+import com.example.prototypefirebase.codeal.CodealComment
 import com.example.prototypefirebase.codeal.CodealUser
 import com.firebase.ui.auth.AuthUI
 import de.hdodenhof.circleimageview.CircleImageView
@@ -64,6 +67,24 @@ class UserProfileFragment : Fragment() {
         val motivationHolder: ImageView = requireView().findViewById(R.id.motivational_gif)
         loadMotivationalGif(motivationHolder)
         motivationHolder.setOnClickListener { loadMotivationalGif(motivationHolder) }
+
+        val heartReactionHolder: ImageView = requireView().findViewById(R.id.heart_reaction)
+        CodealUser().incomingReactionCallback = {
+            heartReactionHolder.visibility = View.VISIBLE
+            heartReactionHolder.animate()
+                .scaleYBy(2f)
+                .scaleXBy(2f)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .setDuration(1000)
+                .withEndAction {
+                    heartReactionHolder.visibility = View.INVISIBLE
+                    heartReactionHolder.animate()
+                        .scaleXBy(-2f)
+                        .scaleYBy(-2f)
+                        .setInterpolator(AccelerateDecelerateInterpolator())
+                        .duration = 0
+                }
+        }
     }
 
     private fun loadMotivationalGif(motivationHolder: ImageView) {

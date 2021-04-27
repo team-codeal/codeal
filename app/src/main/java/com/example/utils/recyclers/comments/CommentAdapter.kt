@@ -60,6 +60,7 @@ class CommentAdapter(
                 comment.likeBy(currentUser.id) { _: CodealComment ->
                     notifyItemChanged(position)
                 }
+                CodealUser(comment.ownerID).sendReaction()
             }
 
             comment.emotions.forEach { emotionID ->
