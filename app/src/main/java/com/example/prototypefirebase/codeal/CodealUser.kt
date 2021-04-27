@@ -1,9 +1,12 @@
 package com.example.prototypefirebase.codeal
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import java.lang.IllegalStateException
+import java.net.URI
+import java.net.URL
 
 // TODO this class really is begging for a real-time listener which would invoke the callback
 
@@ -12,7 +15,8 @@ typealias CodealUserCallback = ((CodealUser) -> Unit)
 class CodealUser {
 
 
-    private lateinit var fbUser: FirebaseUser
+    private var fbUser: FirebaseUser =
+        getUserFromFirebase() ?: throw IllegalStateException("The user is not logged in")
 
     var id: String
         private set
@@ -22,11 +26,19 @@ class CodealUser {
         private set
     var bio: String = ""
         private set
-
-    private var ready: Boolean = false
-
-    var isSelf: Boolean
+    var mail: String = ""
         private set
+    var teams: List<String> = emptyList()
+        private set
+    var photoURL: Uri = Uri.EMPTY
+        private set
+
+    var ready: Boolean = false
+        private set
+
+    var isSelf: Boolean = false
+        private set
+        get() = fbUser.uid == id
 
     var updateCallback: CodealUserCallback? = null
 
@@ -35,13 +47,16 @@ class CodealUser {
         const val USER_DB_USER_NAME_FIELD_NAME: String = "name"
         const val USER_DB_USER_BIO_FIELD_NAME: String = "bio"
         const val USER_DB_USER_STATUS_FIELD_NAME: String = "status"
+        const val USER_DB_USER_MAIL_FIELD_NAME: String = "mail"
+        const val USER_DB_USER_TEAMS_FIELD_NAME: String = "teams"
+        const val USER_DB_USER_PHOTO_URL_FIELD_NAME: String = "photo_url"
     }
 
     constructor(callback: CodealUserCallback? = null) {
         // it is asserted that the user is logged in
         updateCallback = callback
-        fbUser = getUserFromFirebase() ?: throw IllegalStateException("The user is not logged in")
         id = fbUser.uid
+        mail = fbUser.email.toString()
         isSelf = true
         initUserInfoById()
     }
@@ -49,7 +64,6 @@ class CodealUser {
     constructor(userID: String, callback: CodealUserCallback? = null) {
         updateCallback = callback
         id = userID
-        isSelf = false
         initUserInfoById()
     }
 
@@ -67,19 +81,30 @@ class CodealUser {
     }
 
     private fun uploadUserInfoToDB() {
-        val userDB = FirebaseFirestore.getInstance().collection(USER_DB_COLLECTION_NAME)
+        val userDB = userDB()
         val userInfo = mutableMapOf<String, Any>(
             USER_DB_USER_NAME_FIELD_NAME to this.name,
             USER_DB_USER_BIO_FIELD_NAME to this.bio,
-            USER_DB_USER_STATUS_FIELD_NAME to this.status
+            USER_DB_USER_STATUS_FIELD_NAME to this.status,
+            USER_DB_USER_MAIL_FIELD_NAME to this.mail,
+            USER_DB_USER_TEAMS_FIELD_NAME to this.teams,
+            USER_DB_USER_PHOTO_URL_FIELD_NAME to this.photoURL
         )
         userDB.document(id).update(userInfo)
     }
 
+    private fun userDB() = FirebaseFirestore.getInstance().collection(USER_DB_COLLECTION_NAME)
+
     private fun initUserInfoById() {
-        val userDB = FirebaseFirestore.getInstance().collection(USER_DB_COLLECTION_NAME)
+        val userDB = userDB()
         userDB.document(id).get()
             .addOnSuccessListener { profile ->
+                if (!profile.exists()) {
+                    // user doesn't have a profile yet
+                    userDB.document(id).set(emptyMap<String, Any>())
+                        .addOnSuccessListener{ _ -> initUserInfoById() }
+                    return@addOnSuccessListener
+                }
                 name = profile?.get(USER_DB_USER_NAME_FIELD_NAME) as String? ?:
                         run {
                             val newName = fbUser.displayName ?: ""
@@ -98,6 +123,27 @@ class CodealUser {
                         userDB.document(id).update(USER_DB_USER_STATUS_FIELD_NAME, newStatus)
                         newStatus
                     }
+                mail = profile?.get(USER_DB_USER_MAIL_FIELD_NAME) as String? ?:
+                        run {
+                            val newMail = ""
+                            userDB.document(id).update(USER_DB_USER_MAIL_FIELD_NAME, newMail)
+                            newMail
+                        }
+                teams = (profile?.get(USER_DB_USER_TEAMS_FIELD_NAME)
+                        as? List<*>)?.filterIsInstance<String>() ?:
+                        run {
+                            val newTeams = emptyList<String>()
+                            userDB.document(id).update(USER_DB_USER_TEAMS_FIELD_NAME, newTeams)
+                            newTeams
+                        }
+                val photoURLString = profile?.get(USER_DB_USER_PHOTO_URL_FIELD_NAME) as String? ?:
+                        run {
+                            if (!isSelf) return@run ""
+                            val newPhotoURL = getFirebaseUserObject().photoUrl?.toString()
+                            userDB.document(id).update(USER_DB_USER_PHOTO_URL_FIELD_NAME, newPhotoURL)
+                            newPhotoURL
+                        }
+                photoURL = Uri.parse(photoURLString)
                 ready = true
                 updateCallback?.invoke(this)
             }

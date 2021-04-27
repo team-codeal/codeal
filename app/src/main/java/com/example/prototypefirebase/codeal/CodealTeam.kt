@@ -64,9 +64,11 @@ class CodealTeam {
     }
 
     //constructor for a new command
-    constructor(teamName: String, teamMembers: List<String>, callback: CodealTeamCallback? = null) {
+    constructor(teamName: String, teamDesc: String, teamMembers: List<String>, callback: CodealTeamCallback? = null) {
         id = ""
         name = teamName
+        description = teamDesc
+        ownerID = ""
         members = teamMembers
         updateCallback = callback
         uploadTeamInfoToDB()
@@ -82,6 +84,16 @@ class CodealTeam {
             }
         } else {
             lists[listName] = listOf(taskID)
+        }
+        teamsDB.document(id).update(mapOf(
+            TEAMS_DB_TEAM_LISTS_FIELD_NAME to lists
+        ))
+    }
+
+    internal fun deleteTask(taskID: String, listName: String){
+        val teamsDB = FirebaseFirestore.getInstance().collection(TEAMS_DB_COLLECTION_NAME)
+        lists[listName] = ArrayList<String>().apply {
+            lists[listName]?.let{ addAll(it.stream().filter{x -> x != taskID}.collect(Collectors.toList()))}
         }
         teamsDB.document(id).update(mapOf(
             TEAMS_DB_TEAM_LISTS_FIELD_NAME to lists
@@ -167,15 +179,15 @@ class CodealTeam {
         //todo for each user, add this team to this user
     }
 
-    private fun addPersonToTeam(uid: String) {
+    fun addPersonToTeam(uid: String) {
         this.members.toMutableList().add(uid)
         val db = FirebaseFirestore.getInstance()
 
         // add user to the team
-        db.collection(TEAMS_DB_COLLECTION_NAME).document(this.id).update("members", FieldValue.arrayUnion(uid))
+        db.collection(TEAMS_DB_COLLECTION_NAME).document(this.id).update(TEAMS_DB_TEAM_MEMBERS_FIELD_NAME, FieldValue.arrayUnion(uid))
 
         // add team to the user
-        db.collection("users").document(uid).update(TEAMS_DB_COLLECTION_NAME, FieldValue.arrayUnion(this.id))
+        db.collection("user_profiles").document(uid).update(TEAMS_DB_COLLECTION_NAME, FieldValue.arrayUnion(this.id))
     }
 
     private fun deletePersonFromTeam(uid: String) {
@@ -183,10 +195,10 @@ class CodealTeam {
         val db = FirebaseFirestore.getInstance()
 
         // delete user from team
-        db.collection(TEAMS_DB_COLLECTION_NAME).document(this.id).update("members", FieldValue.arrayRemove(uid))
+        db.collection(TEAMS_DB_COLLECTION_NAME).document(this.id).update("Members", FieldValue.arrayRemove(uid))
 
         // delete team from the user
-        db.collection("users").document(uid).update(TEAMS_DB_COLLECTION_NAME, FieldValue.arrayRemove(this.id))
+        db.collection("user_profiles").document(uid).update(TEAMS_DB_COLLECTION_NAME, FieldValue.arrayRemove(this.id))
     }
 
     private fun deleteTeam() {
@@ -199,7 +211,7 @@ class CodealTeam {
             val team = documentSnapshot.toObject<CodealTeam>()
             if (team != null) {
                 for (uid in team.members)
-                    db.collection("users").document(uid)
+                    db.collection("user_profiles").document(uid)
                         .update(TEAMS_DB_COLLECTION_NAME, FieldValue.arrayRemove(this.id))
             }
         }

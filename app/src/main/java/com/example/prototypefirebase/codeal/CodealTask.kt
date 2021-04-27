@@ -19,6 +19,8 @@ class CodealTask {
     var listName: String = ""
         private set
     var teamID: String = ""
+    var commentsIDs: List<String> = emptyList()
+        private set
 
     private var ready: Boolean = false
 
@@ -30,6 +32,7 @@ class CodealTask {
         private const val TASKS_DB_TASK_CONTENT: String = "Text"
         private const val TASKS_DB_TASK_LIST: String = "list"
         private const val TASKS_DB_TEAM_ID: String = "teamID"
+        private const val TASKS_DB_COMMENTS_IDs: String = "comments_ids"
     }
 
     // constructor for an existing task
@@ -52,11 +55,13 @@ class CodealTask {
 
     fun change(name: String = this.name,
                content: String = this.content,
-               listName: String = this.listName) {
+               listName: String = this.listName,
+               commentsIDs: List<String> = this.commentsIDs) {
         // TODO only update changed values. Use reflection?
         this.name = name
         this.content = content
         this.listName = listName
+        this.commentsIDs = commentsIDs
         uploadTaskInfoToDB()
     }
 
@@ -65,6 +70,7 @@ class CodealTask {
         val taskInfo = mutableMapOf<String, Any>(
             TASKS_DB_TASK_NAME to this.name,
             TASKS_DB_TASK_CONTENT to this.content,
+            TASKS_DB_COMMENTS_IDs to commentsIDs,
             TASKS_DB_TASK_LIST to this.listName,
             TASKS_DB_TEAM_ID to this.teamID
         )
@@ -110,12 +116,29 @@ class CodealTask {
                             tasksDB.document(id).update(TASKS_DB_TEAM_ID, newTeamID)
                             newTeamID
                         }
+                commentsIDs = (tasksDocument?.get(TASKS_DB_COMMENTS_IDs)
+                        as? List<*>)?.filterIsInstance<String>() ?:
+                        run {
+                            val newComments = emptyList<String>()
+                            tasksDB.document(id).update(TASKS_DB_COMMENTS_IDs, newComments)
+                            newComments
+                        }
                 ready = true
                 updateCallback?.invoke(this)
             }
             .addOnFailureListener { exception ->
                 throw exception
             }
+    }
+
+    fun delete(){
+        val db = FirebaseFirestore.getInstance()
+        db.collection(TASKS_DB_COLLECTION_NAME).document(id)
+            .delete()
+        // TODO get constant from CodealTeam which describes the name of teams collection
+        CodealTeam(teamID){
+            it.deleteTask(id,listName)
+        }
     }
 
     private fun getUserFromFirebase(): FirebaseUser? {

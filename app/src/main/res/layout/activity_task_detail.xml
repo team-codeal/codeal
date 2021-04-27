@@ -3,10 +3,30 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     tools:context=".ViewTaskDetailActivity">
+
+    <EditText
+        android:id="@+id/new_comment_plain_text"
+        android:layout_width="243dp"
+        android:layout_height="49dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="164dp"
+        android:autofillHints=""
+        android:fontFamily="@font/poppins_italic"
+        android:hint="Your new comment..."
+        android:inputType="textMultiLine"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/add_new_comment_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Text_task"
+        app:layout_constraintVertical_bias="0.184" />
 
     <TextView
         android:id="@+id/task_title"
@@ -88,6 +108,21 @@
         android:translationZ="4dp"/>
 
     <Button
+        android:id="@+id/add_new_comment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorButton"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="ADD COMMENT"
+        android:textColor="@color/colorText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.904"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Text_task"
+        app:layout_constraintVertical_bias="0.202" />
+
+    <Button
         android:id="@+id/deleteTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,6 +139,15 @@
         android:elevation="8dp"
         android:stateListAnimator="@anim/fragment_fade_enter"
         android:translationZ="4dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comments_recycler_view"
+        android:layout_width="318dp"
+        android:layout_height="251dp"
+        app:layout_constraintBottom_toTopOf="@+id/updateTask"
+        app:layout_constraintEnd_toEndOf="@+id/add_new_comment_button"
+        app:layout_constraintStart_toStartOf="@+id/new_comment_plain_text"
+        app:layout_constraintTop_toBottomOf="@+id/new_comment_plain_text" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
