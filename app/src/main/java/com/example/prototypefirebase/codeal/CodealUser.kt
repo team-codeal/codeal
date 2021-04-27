@@ -88,7 +88,7 @@ class CodealUser {
             USER_DB_USER_STATUS_FIELD_NAME to this.status,
             USER_DB_USER_MAIL_FIELD_NAME to this.mail,
             USER_DB_USER_TEAMS_FIELD_NAME to this.teams,
-            USER_DB_USER_PHOTO_URL_FIELD_NAME to this.photoURL
+            USER_DB_USER_PHOTO_URL_FIELD_NAME to this.photoURL.toString()
         )
         userDB.document(id).update(userInfo)
     }

@@ -8,23 +8,52 @@
 
     <ImageButton
         android:id="@+id/button_log_in"
+        android:layout_width="304dp"
+        android:layout_height="74dp"
+        android:background="@drawable/google_button"
+        android:elevation="16dp"
+        android:scaleType="centerInside"
+        android:stateListAnimator="@anim/fragment_fade_enter"
+        android:translationZ="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.891" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="173dp"
+        android:layout_height="138dp"
+        android:layout_marginBottom="163dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Co"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#FA0C38"
+        android:textSize="120sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.222"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
+
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Deal"
+        android:textColor="#000000"
+        android:textSize="120sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/common_google_signin_btn_text_dark_normal" />
+        app:layout_constraintVertical_bias="0.499" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/button_log_in"
-        app:layout_constraintEnd_toEndOf="@+id/button_log_in"
-        app:layout_constraintHorizontal_bias="0.116"
-        app:layout_constraintStart_toStartOf="@+id/button_log_in"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal" />
 
     <!--        <androidx.fragment.app.FragmentContainerView-->
 <!--        android:id="@+id/nav_host_fragment"-->

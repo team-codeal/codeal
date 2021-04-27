@@ -81,21 +81,21 @@ class CodealComment : Likeable {
         emotionsDB
             .whereEqualTo(CodealEmotion.EMOTIONS_DB_PARENT_OBJECT_ID_FIELD_NAME, id)
             .whereEqualTo(CodealEmotion.EMOTIONS_DB_OWNER_ID_FIELD_NAME, userID)
-            .limit(1)
             .get().addOnSuccessListener { queryResult ->
 
                 if (queryResult.isEmpty) return@addOnSuccessListener
 
-                val emotionID = queryResult.documents[0].id
-                CodealEmotion(emotionID) { emotion ->
-                    emotions = emotions.toMutableList().also { it.remove(emotion.id) }
-                    val commentsDB = commentsDB()
-                    commentsDB.document(id).update(COMMENTS_DB_EMOTIONS_IDS_FIELD_NAME,
-                        FieldValue.arrayRemove(emotion.id))
-                    emotion.delete()
-                    (callback as? CodealCommentCallback?)?.invoke(this)
+                for (emotionDocument in queryResult.documents) {
+                    val emotionID = emotionDocument.id
+                    CodealEmotion(emotionID) { emotion ->
+                        emotions = emotions.toMutableList().also { it.remove(emotion.id) }
+                        val commentsDB = commentsDB()
+                        commentsDB.document(id).update(COMMENTS_DB_EMOTIONS_IDS_FIELD_NAME,
+                            FieldValue.arrayRemove(emotion.id))
+                        emotion.delete()
+                        (callback as? CodealCommentCallback?)?.invoke(this)
+                    }
                 }
-
             }
 
     }

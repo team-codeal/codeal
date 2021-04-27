@@ -128,16 +128,18 @@
         android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
         android:background="@color/colorButton"
+        android:elevation="8dp"
         android:fontFamily="@font/poppins_semibold"
+        android:stateListAnimator="@anim/fragment_fade_enter"
         android:text="save"
         android:textColor="@color/colorText"
+        android:translationZ="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.783"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_bio"
-        app:layout_constraintVertical_bias="0.279" />
+        app:layout_constraintTop_toBottomOf="@+id/user_bio_tag"
+        app:layout_constraintVertical_bias="0.263" />
 
     <!--</RelativeLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
