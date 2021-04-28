@@ -80,7 +80,6 @@ class CodealUser {
         // it is asserted that the user is logged in
         updateCallback = callback
         id = fbUser.uid
-        mail = fbUser.email.toString()
         isSelf = true
         initUserInfoById()
     }
@@ -155,9 +154,9 @@ class CodealUser {
                     }
                 mail = profile?.get(USER_DB_USER_MAIL_FIELD_NAME) as String? ?:
                         run {
-                            val newMail = ""
+                            val newMail = if (isSelf) fbUser.email.toString() else null
                             userDB.document(id).update(USER_DB_USER_MAIL_FIELD_NAME, newMail)
-                            newMail
+                            newMail ?: ""
                         }
                 teams = (profile?.get(USER_DB_USER_TEAMS_FIELD_NAME)
                         as? List<*>)?.filterIsInstance<String>() ?:
