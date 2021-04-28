@@ -67,8 +67,18 @@ class ViewTeamDetailActivity : AppCompatActivity() {
 
     private fun getCurrTeam() {
         CodealTeam(teamID) {
+            editTeamName.alpha = 0f
             editTeamName.setText(it.name)
+            editTeamName.animate()
+                .alpha(1f)
+                .duration = 700
+
+            editTeamDesc.alpha = 0f
             editTeamDesc.setText(it.description)
+            editTeamDesc.animate()
+                .alpha(1f)
+                .duration = 700
+
             val members = it.members
             for (member in members) {
                 CodealUser(member) { user ->
