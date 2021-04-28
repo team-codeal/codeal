@@ -48,29 +48,27 @@
         android:id="@+id/user_bio_tag"
         android:layout_width="wrap_content"
         android:layout_height="23dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Your bio"
         android:textColor="@color/colorText"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.116"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_status_tag"
-        app:layout_constraintVertical_bias="0.053" />
+        app:layout_constraintTop_toBottomOf="@+id/user_status_tag" />
 
     <TextView
         android:id="@+id/user_status_tag"
         android:layout_width="wrap_content"
         android:layout_height="23dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Your status"
         android:textColor="@color/colorText"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.124"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_name_tag"
-        app:layout_constraintVertical_bias="0.048" />
+        app:layout_constraintTop_toBottomOf="@+id/user_name_tag" />
 
     <EditText
         android:id="@+id/user_name"
@@ -105,18 +103,20 @@
     <EditText
         android:id="@+id/user_bio"
         android:layout_width="176dp"
-        android:layout_height="23dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:background="@drawable/comment_bg"
         android:fontFamily="@font/poppins_regular"
+        android:inputType="textMultiLine"
+        android:maxLines="4"
+        android:paddingLeft="10dp"
+        android:scrollbars="vertical"
         android:textColor="#000000"
         android:textSize="14dp"
-        android:paddingLeft="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.833"
+        app:layout_constraintHorizontal_bias="0.816"
         app:layout_constraintStart_toEndOf="@+id/user_bio_tag"
-        app:layout_constraintTop_toBottomOf="@+id/user_status"
-        app:layout_constraintVertical_bias="0.06" />
+        app:layout_constraintTop_toBottomOf="@+id/user_status" />
 
     <TextView
         android:id="@+id/user_name_tag"
@@ -146,8 +146,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_bio_tag"
-        app:layout_constraintVertical_bias="0.263" />
+        app:layout_constraintTop_toBottomOf="@+id/user_bio"
+        app:layout_constraintVertical_bias="0.418" />
 
     <!--</RelativeLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
