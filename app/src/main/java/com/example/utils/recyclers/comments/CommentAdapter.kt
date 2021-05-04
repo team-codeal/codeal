@@ -55,9 +55,7 @@ class CommentAdapter(
         CodealUser { currentUser ->
             commentLikeButton.setOnClickListener { _ ->
                 commentLikeButton.setOnClickListener { }
-                // TODO explicitly typing the _ argument is disgusting
-                //  this looks like an architecture issue
-                comment.likeBy(currentUser.id) { _: CodealComment ->
+                comment.likeBy(currentUser.id) {
                     notifyItemChanged(position)
                 }
                 CodealUser(comment.ownerID).sendReaction()
@@ -69,7 +67,7 @@ class CommentAdapter(
                         commentLikeButton.isChecked = true
                         commentLikeButton.setOnClickListener { _ ->
                             commentLikeButton.setOnClickListener {  }
-                            comment.removeLikeBy(currentUser.id) { _: CodealComment ->
+                            comment.removeLikeBy(currentUser.id) {
                                 notifyItemChanged(position)
                             }
                         }

@@ -9,7 +9,7 @@ import java.util.stream.Collectors
 
 typealias CodealTeamCallback = ((CodealTeam) -> Unit)
 
-class CodealTeam {
+class CodealTeam : CodealEntity {
 
     var name: String = ""
         private set

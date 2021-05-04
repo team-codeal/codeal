@@ -4,7 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 typealias CodealEmotionCallback = ((CodealEmotion) -> Unit)
 
-class CodealEmotion {
+class CodealEmotion : CodealEntity {
 
     var id: String = ""
         private set

@@ -8,7 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 typealias CodealTaskCallback = ((CodealTask) -> Unit)
 
-class CodealTask {
+class CodealTask : CodealEntity {
 
     var id: String = ""
         private set

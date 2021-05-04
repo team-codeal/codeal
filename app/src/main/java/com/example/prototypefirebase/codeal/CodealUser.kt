@@ -12,7 +12,7 @@ import java.lang.IllegalStateException
 
 typealias CodealUserCallback = ((CodealUser) -> Unit)
 
-class CodealUser {
+class CodealUser : CodealEntity {
 
 
     private var fbUser: FirebaseUser =
