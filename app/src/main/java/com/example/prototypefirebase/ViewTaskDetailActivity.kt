@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.codeal.CodealComment
 import com.example.prototypefirebase.codeal.CodealTask
 import com.example.prototypefirebase.codeal.CodealUser
+import com.example.prototypefirebase.codeal.factories.CodealCommentFactory
+import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
+import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.example.utils.recyclers.comments.CommentAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
@@ -66,20 +69,21 @@ class ViewTaskDetailActivity : AppCompatActivity() {
 
         commentsRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        CodealUser { user ->
-            CodealTask(taskID){ task ->
+        CodealUserFactory.get().addOnReady { user ->
+            CodealTaskFactory.get(taskID).addOnReady { task ->
                 taskNameHolder.text = task.name
                 taskTextHolder.text = task.content
                 taskListHolder.text = task.listName
 
                 commentsRecyclerView.adapter = CommentAdapter(comments, this)
                 task.commentsIDs.forEach { commentID ->
-                    CodealComment(commentID, ::addComment)
+                    CodealCommentFactory.get(commentID).addOnReady(::addComment)
                 }
 
                 uploadCommentButton.setOnClickListener {
                     val commentContent = newCommentHolder.text.toString()
-                    CodealComment(task.id, commentContent, user.id, ::addComment)
+                    CodealCommentFactory.create(task.id, commentContent, user.id)
+                        .addOnReady(::addComment)
                     // https://stackoverflow.com/questions/1109022/how-do-you-close-hide-the-android-soft-keyboard-programmatically
                     // Only runs if there is a view that is currently focused
                     this@ViewTaskDetailActivity.currentFocus?.let { view ->
@@ -98,7 +102,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
             val taskText = taskTextHolder.text.toString()
             val taskListName = taskListHolder.text.toString()
 
-            CodealTask(taskID) {
+            CodealTaskFactory.get(taskID).addOnReady {
                 it.change(taskName, taskText, taskListName)
                 Toast.makeText(this@ViewTaskDetailActivity,
                     "Task updated successfully!",
@@ -108,7 +112,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         }
 
         deleteTaskButton.setOnClickListener {
-            CodealTask(taskID){
+            CodealTaskFactory.get(taskID).addOnReady {
                 it.delete()
 
                 Toast.makeText(this@ViewTaskDetailActivity,
@@ -133,6 +137,4 @@ class ViewTaskDetailActivity : AppCompatActivity() {
             .notifyItemInserted(insertionIndex)
         commentsRecyclerView.smoothScrollToPosition(0)
     }
-
-
 }
