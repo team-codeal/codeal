@@ -1,16 +1,16 @@
 package com.example.prototypefirebase.ui.teams
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.prototypefirebase.BoardActivity
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.codeal.CodealTeam
-import com.example.prototypefirebase.codeal.CodealUser
+import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
+import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ViewTeamDetailActivity : AppCompatActivity() {
@@ -66,12 +66,12 @@ class ViewTeamDetailActivity : AppCompatActivity() {
     }
 
     private fun getCurrTeam() {
-        CodealTeam(teamID) {
+        CodealTeamFactory.get(teamID).addOnReady {
             editTeamName.setText(it.name)
             editTeamDesc.setText(it.description)
             val members = it.members
             for (member in members) {
-                CodealUser(member) { user ->
+                CodealUserFactory.get(member).addOnReady { user ->
                     tMembers.append(user.name).append("\n")
                     editTeamMembers.setText(tMembers)
                 }
