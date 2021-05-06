@@ -16,6 +16,8 @@ import com.example.prototypefirebase.R
 import com.example.prototypefirebase.codeal.CodealComment
 import com.example.prototypefirebase.codeal.CodealEmotion
 import com.example.prototypefirebase.codeal.CodealUser
+import com.example.prototypefirebase.codeal.factories.CodealEmotionFactory
+import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import java.text.Format
 import java.text.SimpleDateFormat
 
@@ -52,24 +54,20 @@ class CommentAdapter(
 
         commentLikeButton.isChecked = false
 
-        CodealUser { currentUser ->
+        CodealUserFactory.get().addOnReady { currentUser ->
             commentLikeButton.setOnClickListener { _ ->
                 commentLikeButton.setOnClickListener { }
-                comment.likeBy(currentUser.id) {
-                    notifyItemChanged(position)
-                }
-                CodealUser(comment.ownerID).sendReaction()
+                comment.likeBy(currentUser.id)
+                CodealUserFactory.get(comment.ownerID).sendReaction()
             }
 
             comment.emotions.forEach { emotionID ->
-                CodealEmotion(emotionID) { emotion ->
+                CodealEmotionFactory.get(emotionID).addOnReady { emotion ->
                     if (emotion.ownerID == currentUser.id) {
                         commentLikeButton.isChecked = true
                         commentLikeButton.setOnClickListener { _ ->
                             commentLikeButton.setOnClickListener {  }
-                            comment.removeLikeBy(currentUser.id) {
-                                notifyItemChanged(position)
-                            }
+                            comment.removeLikeBy(currentUser.id)
                         }
                     }
                 }
@@ -77,9 +75,9 @@ class CommentAdapter(
         }
 
         if (comment.ownerID != "") {
-            CodealUser(comment.ownerID) { user ->
+            CodealUserFactory.get(comment.ownerID).addOnReady { user ->
                 commentAuthorHolder.text = user.name
-                if (user.photoURL == Uri.EMPTY) return@CodealUser
+                if (user.photoURL == Uri.EMPTY) return@addOnReady
                 Glide.with(context).load(user.photoURL)
                     .apply(
                         RequestOptions()
