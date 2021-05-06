@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.codeal.CodealTeam
 import com.example.prototypefirebase.codeal.CodealUser
+import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
+import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.example.utils.recyclers.teams.OnTeamClickListener
 import com.example.utils.recyclers.teams.TeamAdapter
 import com.google.firebase.firestore.FirebaseFirestore
@@ -40,7 +42,7 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
 
     override fun onStart() {
         super.onStart()
-        CodealUser {
+        CodealUserFactory.get().addOnReady {
             val userTeams = it.teams
             getTeams(userTeams)
         }
@@ -60,7 +62,7 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
         teams.clear()
 
         for (team in userTeams) {
-            CodealTeam(team) {
+            CodealTeamFactory.get(team).addOnReady {
                 teams.add(
                     Model(
                         it.name,
