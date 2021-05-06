@@ -32,7 +32,9 @@ class AddTaskActivity : AppCompatActivity() {
 
             CodealTaskFactory.create(taskName, taskText, teamID, taskListName)
 
-            Toast.makeText(this@AddTaskActivity, "Task added successfully!", Toast.LENGTH_SHORT)
+            Toast.makeText(this@AddTaskActivity,
+                "Task added successfully!",
+                Toast.LENGTH_SHORT)
                 .show()
 
             finish()
