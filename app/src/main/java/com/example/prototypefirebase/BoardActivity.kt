@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.codeal.CodealTeam
+import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.utils.recyclers.lists.ListAdapter
 import kotlinx.coroutines.*
 
@@ -37,7 +38,7 @@ class BoardActivity : AppCompatActivity() {
 
         val teamNameHolder: TextView = findViewById(R.id.textViewLabel)
 
-        CodealTeam(teamID) { team ->
+        CodealTeamFactory.get(teamID).addOnReady { team ->
             teamNameHolder.text = team.name
             listNames = ArrayList(team.lists.keys)
             listNameToTasksList = hashMapOf()
@@ -56,7 +57,7 @@ class BoardActivity : AppCompatActivity() {
         super.onResume()
          lifecycleScope.launch {
             delay(1000)
-            CodealTeam(teamID) { possiblyUpdatedTeam ->
+            CodealTeamFactory.get(teamID).addOnReady { possiblyUpdatedTeam ->
                 val possiblyUpdatedLists = possiblyUpdatedTeam.lists
                 mergeListsWith(possiblyUpdatedLists)
             }
