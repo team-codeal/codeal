@@ -33,10 +33,6 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(R.id.navigation_notifications);
     }
 
-    fun openBoard(view: View){
-        val boardIntent = Intent(this,BoardActivity::class.java)
-        startActivity(boardIntent)
-    }
     fun openAddTeam(view: View){
         val teamIntent = Intent(this, CreateTeamActivity::class.java)
         startActivity(teamIntent)
