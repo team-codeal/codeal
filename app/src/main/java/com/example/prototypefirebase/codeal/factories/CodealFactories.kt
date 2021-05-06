@@ -13,6 +13,9 @@ object CodealUserFactory : CodealEntityCachingFactory<CodealUser>() {
         return CodealUser(id)
     }
 
+    /**
+     * Special method to retrieve the current user
+     */
     fun get() = get(CURRENT_USER_SPECIAL_ID)
 }
 
