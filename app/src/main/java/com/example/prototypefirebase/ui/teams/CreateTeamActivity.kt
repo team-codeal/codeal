@@ -16,7 +16,6 @@ class CreateTeamActivity : AppCompatActivity() {
     lateinit var teamNameHolder: EditText
     lateinit var teamDescriptionHolder: EditText
     lateinit var teamMembersHolder: EditText
-    lateinit var teamOwnerID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,16 +37,15 @@ class CreateTeamActivity : AppCompatActivity() {
 
                 CodealTeamFactory.create(teamName,teamDesc,teamMembers).addOnReady { team ->
                     team.addPersonToTeam(it.id)
-                    Toast.makeText(this@CreateTeamActivity, "Team created successfully!", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@CreateTeamActivity,
+                        "Team created successfully!",
+                        Toast.LENGTH_SHORT)
                         .show()
                     val intent = Intent(this, BoardActivity::class.java)
                     intent.putExtra("TeamID", team.id)
                     startActivity(intent)
                 }
             }
-
-
         }
-
     }
 }
