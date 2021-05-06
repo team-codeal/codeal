@@ -19,7 +19,9 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide();
         try {
-            user = CodealUserFactory.get()
+            // TODO this violates the rules, but for checking auth we have to actually
+            //  rebuild the user object
+            user = CodealUser()
             logInSuccessful()
         } catch (_: IllegalStateException) {}
 
