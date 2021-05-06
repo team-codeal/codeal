@@ -13,6 +13,8 @@ import com.example.prototypefirebase.R
 import com.example.prototypefirebase.ViewTaskDetailActivity
 import com.example.prototypefirebase.codeal.CodealTeam
 import com.example.prototypefirebase.codeal.CodealUser
+import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
+import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.example.utils.recyclers.tasks.OnTaskClickListener
 import com.example.utils.recyclers.tasks.TaskAdapter
 
@@ -46,9 +48,9 @@ class FeedFragment : Fragment(), OnTaskClickListener {
         feedRecyclerView.adapter = taskAdapter
         feedRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        CodealUser{
+        CodealUserFactory.get().addOnReady {
             for(teamID in it.teams){
-                CodealTeam(teamID){ team ->
+                CodealTeamFactory.get(teamID).addOnReady { team ->
                     val teamTasks = team.tasks
                     userTasks.addAll(teamTasks)
                     taskAdapter.notifyDataSetChanged()
