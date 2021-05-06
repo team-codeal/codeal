@@ -3,6 +3,7 @@ package com.example.prototypefirebase.codeal
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ListenerRegistration
+import java.util.concurrent.ConcurrentLinkedQueue
 
 @Suppress("UNCHECKED_CAST")
 abstract class CodealEntity<T : CodealEntity<T>> {
@@ -25,8 +26,8 @@ abstract class CodealEntity<T : CodealEntity<T>> {
         protected set
 
     protected var firebaseSnapshotRegistration: ListenerRegistration? = null
-    protected var listeners: MutableList<CodealListener> = mutableListOf()
-    protected var oneTimeListeners: MutableList<CodealListener> = mutableListOf()
+    protected val listeners: ConcurrentLinkedQueue<CodealListener> = ConcurrentLinkedQueue()
+    protected val oneTimeListeners: ConcurrentLinkedQueue<CodealListener> = ConcurrentLinkedQueue()
 
     /**
      * Shows (both to the client and self) whether the data was loaded at least once.
@@ -93,8 +94,10 @@ abstract class CodealEntity<T : CodealEntity<T>> {
 
                 listeners.forEach { it.invoke() }
 
-                oneTimeListeners.forEach { it.invoke() }
-                oneTimeListeners.forEach { it.remove() }
+                oneTimeListeners.forEach {
+                    it.invoke()
+                    it.remove()
+                }
             }
     }
 
