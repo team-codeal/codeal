@@ -70,12 +70,17 @@
 
         <Button
             android:id="@+id/add_person_to_team_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="34dp"
+            android:layout_alignParentEnd='true'
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/round_button"
+            android:elevation="8dp"
+            android:gravity="bottom|center|top"
+            android:stateListAnimator="@anim/fragment_fade_enter"
             android:text="ADD"
-            android:background="@color/colorButton"
             android:textColor="@color/colorText"
-            android:layout_alignParentEnd='true'/>
+            android:translationZ="4dp" />
     </RelativeLayout>
 
     <EditText
