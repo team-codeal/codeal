@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.ViewTaskDetailActivity
-import com.example.prototypefirebase.codeal.CodealTeam
-import com.example.prototypefirebase.codeal.CodealUser
 import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.example.utils.recyclers.tasks.OnTaskClickListener
@@ -40,7 +38,7 @@ class FeedFragment : Fragment(), OnTaskClickListener {
         super.onViewCreated(view, savedInstanceState)
         val feedRecyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_feed)!!
 
-        taskAdapter = TaskAdapter(userTasks){
+        taskAdapter = TaskAdapter(userTasks) {
             val intent = Intent(context, ViewTaskDetailActivity::class.java)
             intent.putExtra("TaskID", userTasks[it])
             startActivity(intent)
@@ -53,11 +51,10 @@ class FeedFragment : Fragment(), OnTaskClickListener {
                 CodealTeamFactory.get(teamID).addOnReady { team ->
                     val teamTasks = team.tasks
                     userTasks.addAll(teamTasks)
-                    taskAdapter.notifyDataSetChanged()
+                    taskAdapter.notifyItemRangeInserted(userTasks.size - teamTasks.size,
+                        teamTasks.size)
                 }
             }
         }
-
     }
-
 }
