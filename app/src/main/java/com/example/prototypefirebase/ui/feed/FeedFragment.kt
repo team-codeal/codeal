@@ -11,24 +11,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.ViewTaskDetailActivity
+import com.example.prototypefirebase.codeal.factories.CodealCommentFactory
+import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
 import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.prototypefirebase.codeal.factories.CodealUserFactory
-import com.example.utils.recyclers.tasks.TaskAdapter
-import com.example.utils.recyclers.tasks.TaskViewHolder
+import com.example.utils.recyclers.FeedAdapter
 
 class FeedFragment : Fragment() {
 
     private lateinit var dashboardViewModel: FeedViewModel
-    private var userTasks: MutableList<String> = mutableListOf()
-    private lateinit var taskAdapter: TaskAdapter
+    private var feedContent: MutableList<Any> = mutableListOf()
+    private lateinit var feedAdapter: FeedAdapter
     private lateinit var feedRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        taskAdapter = TaskAdapter(userTasks) {
+        feedAdapter = FeedAdapter(feedContent, requireContext()) {
             val intent = Intent(context, ViewTaskDetailActivity::class.java)
-            intent.putExtra("TaskID", userTasks[it])
+            intent.putExtra("TaskID", (feedContent[it] as String))
             startActivity(intent)
         }
 
@@ -36,11 +37,21 @@ class FeedFragment : Fragment() {
             for(teamID in it.teams){
                 CodealTeamFactory.get(teamID).addOnReady { team ->
                     val teamTasks = team.tasks
-                    userTasks.addAll(teamTasks)
-                    taskAdapter.notifyItemRangeInserted(
-                        userTasks.size - teamTasks.size,
+                    feedContent.addAll(teamTasks)
+                    feedAdapter.notifyItemRangeInserted(
+                        feedContent.size - teamTasks.size,
                         teamTasks.size
                     )
+                    teamTasks.forEach { taskID ->
+                        CodealTaskFactory.get(taskID).addOnReady { task ->
+                            task.commentsIDs.forEach { commentID ->
+                                CodealCommentFactory.get(commentID).addOnReady { comment ->
+                                    feedContent.add(comment)
+                                    feedAdapter.notifyItemInserted(feedContent.size - 1)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -61,7 +72,7 @@ class FeedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         feedRecyclerView = view.findViewById(R.id.recycler_view_feed)!!
 
-        feedRecyclerView.adapter = taskAdapter
+        feedRecyclerView.adapter = feedAdapter
         feedRecyclerView.layoutManager = LinearLayoutManager(activity)
 
     }
