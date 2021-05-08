@@ -5,24 +5,29 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTeam
 import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.utils.recyclers.lists.ListAdapter
-import kotlinx.coroutines.*
 
 class BoardActivity : AppCompatActivity() {
 
     private lateinit var teamID: String
 
-    private lateinit var listNames: MutableList<String>
-    private lateinit var listNameToTasksList: MutableMap<String, MutableList<String>>
+    private var listNames: MutableList<String> = mutableListOf()
+    private var listNameToTasksList: MutableMap<String, MutableList<String>>
+            = hashMapOf()
 
     private lateinit var tasksRecyclerView: RecyclerView
-    private lateinit var listAdapter: ListAdapter
+    private var listAdapter: ListAdapter
+            = ListAdapter(listNames, listNameToTasksList, this)
+
+    private lateinit var teamInfoListener: CodealEntity<CodealTeam>.CodealListener
+
+    private lateinit var teamNameHolder: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,32 +41,27 @@ class BoardActivity : AppCompatActivity() {
 
         teamID = intent.getStringExtra("TeamID").toString()
 
-        val teamNameHolder: TextView = findViewById(R.id.textViewLabel)
 
-        CodealTeamFactory.get(teamID).addOnReady { team ->
-            teamNameHolder.text = team.name
-            listNames = ArrayList(team.lists.keys)
-            listNameToTasksList = hashMapOf()
-            team.lists.forEach { (listName, taskList) ->
-                listNameToTasksList[listName] = taskList.toMutableList()
-            }
-            listAdapter = ListAdapter(listNames, listNameToTasksList, this)
-            tasksRecyclerView.adapter = listAdapter
-            tasksRecyclerView.adapter?.stateRestorationPolicy =
-                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        }
+        teamNameHolder = findViewById(com.example.prototypefirebase.R.id.textViewLabel)
+
+        tasksRecyclerView.adapter = listAdapter
+        tasksRecyclerView.adapter?.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
     }
 
     override fun onResume() {
         super.onResume()
-         lifecycleScope.launch {
-            delay(1000)
-            CodealTeamFactory.get(teamID).addOnReady { possiblyUpdatedTeam ->
-                val possiblyUpdatedLists = possiblyUpdatedTeam.lists
-                mergeListsWith(possiblyUpdatedLists)
-            }
+        teamInfoListener = CodealTeamFactory.get(teamID).addListener { possiblyUpdatedTeam ->
+            teamNameHolder.text = possiblyUpdatedTeam.name
+            val possiblyUpdatedLists = possiblyUpdatedTeam.lists
+            mergeListsWith(possiblyUpdatedLists)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        teamInfoListener.remove()
     }
 
     private fun mergeListsWith(newLists: MutableMap<String, List<String>>) {
