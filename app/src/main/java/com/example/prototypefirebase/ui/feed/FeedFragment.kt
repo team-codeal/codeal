@@ -67,11 +67,6 @@ class FeedFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        for (i in 0 until feedRecyclerView.childCount) {
-            val holder: TaskViewHolder? = feedRecyclerView
-                .getChildViewHolder(feedRecyclerView.getChildAt(i)) as? TaskViewHolder
-            holder?.freeListenerIfExists()
-        }
         feedRecyclerView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View) {}
 
@@ -80,9 +75,5 @@ class FeedFragment : Fragment() {
             }
         })
         super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }
