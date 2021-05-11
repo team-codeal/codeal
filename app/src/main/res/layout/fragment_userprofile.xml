@@ -11,7 +11,7 @@
         android:id="@+id/user_status"
         android:layout_width="195dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_regular"
+        android:fontFamily="@font/cabin"
         android:gravity="center"
         android:inputType="textMultiLine"
         android:maxWidth="300dp"
@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:fontFamily="@font/poppins_semibold"
+        android:fontFamily="@font/cabin_bold"
         android:text="UserName"
         android:textAlignment="center"
         android:textColor="@color/colorText"
@@ -79,8 +79,8 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="9dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="7dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginBottom="8dp"
             android:background="@color/colorText"
             android:ems="14"
             android:fontFamily="@font/poppins_regular"
@@ -94,17 +94,18 @@
         android:id="@+id/button_go_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:background="@drawable/round_button"
         android:fontFamily="@font/poppins_semibold"
-        android:text="Edit"
         android:gravity="center|bottom"
+        android:text="Edit"
         android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.836"
+        app:layout_constraintHorizontal_bias="0.813"
         app:layout_constraintStart_toStartOf="@+id/relativeLayout"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-        app:layout_constraintVertical_bias="0.042" />
+        app:layout_constraintVertical_bias="0.004" />
 
     <ImageView
         android:id="@+id/motivational_gif"
@@ -116,7 +117,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_go_edit" />
+        app:layout_constraintTop_toBottomOf="@+id/button_go_edit"
+        app:layout_constraintVertical_bias="0.166" />
 
     <ImageView
         android:id="@+id/heart_reaction"

@@ -82,7 +82,8 @@
             android:stateListAnimator="@anim/fragment_fade_enter"
             android:text="ADD"
             android:textColor="@color/colorText"
-            android:translationZ="4dp" />
+            android:translationZ="4dp"
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 
     <EditText
