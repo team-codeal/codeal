@@ -57,6 +57,23 @@ class ViewTeamDetailActivity : AppCompatActivity() {
             toBoard()
 
         }
+
+        val leaveTeamButton: Button = findViewById(R.id.leave_team_button)
+        leaveTeamButton.setOnClickListener {
+            CodealTeamFactory.get(teamID).addOnReady {
+                CodealUserFactory.get().addOnReady { user ->
+
+                    it.deletePersonFromTeam(user.id)
+                    Toast.makeText(
+                        this@ViewTeamDetailActivity,
+                        "You left team successfully!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    finish()
+                }
+            }
+
+        }
     }
 
     private fun toBoard() {
