@@ -13,7 +13,7 @@
             android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/comment_owner"
+                    android:id="@+id/team_member_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="72dp"
@@ -26,7 +26,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/comment_content"
+                    android:id="@+id/team_member_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
@@ -37,12 +37,12 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.077"
-                    app:layout_constraintStart_toEndOf="@+id/comment_user_avatar"
+                    app:layout_constraintStart_toEndOf="@+id/team_member_avatar"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.892" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/comment_user_avatar"
+                    android:id="@+id/team_member_avatar"
                     android:layout_width="47dp"
                     android:layout_height="49dp"
                     android:background="@color/fui_transparent"
@@ -51,7 +51,7 @@
                     app:civ_border_color="@color/colorAccent"
                     app:civ_border_width="3dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/comment_owner"
+                    app:layout_constraintEnd_toStartOf="@+id/team_member_name"
                     app:layout_constraintHorizontal_bias="0.135"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
