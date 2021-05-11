@@ -34,8 +34,7 @@ class CommentAdapter(
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         val comment = comments[position]
-        holder.comment = comment
-        holder.context = context
+        holder.bindView(comment, context)
     }
 
 }
