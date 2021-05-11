@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_user_black_24dp"
-        android:title="@string/title_userprofile" />
+        android:title="Profile"
+        app:showAsAction="never"
+        app:labelVisibilityMode="unlabeled" />
 
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_feed_black_24dp"
-        android:title="@string/title_feed" />
+        android:title="Home"
+        app:showAsAction="never"
+        app:labelVisibilityMode="unlabeled" />
 
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_teams_black_24dp"
-        android:title="@string/title_teams" />
+        android:title="Teams"
+        app:showAsAction="never"
+        app:labelVisibilityMode="unlabeled" />
 
 </menu>
