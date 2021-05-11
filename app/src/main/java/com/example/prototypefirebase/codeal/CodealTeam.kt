@@ -27,6 +27,7 @@ class CodealTeam : CodealEntity<CodealTeam> {
 
     companion object {
         private const val TEAMS_DB_COLLECTION_NAME: String = "teams"
+        private const val USERS_DB_COLLECTION_NAME: String = "user_profiles"
         private const val TEAMS_DB_TEAM_NAME_FIELD_NAME: String = "Name"
         private const val TEAMS_DB_TEAM_DESCRIPTION_FIELD_NAME: String = "Desc"
         private const val TEAMS_DB_TEAM_MEMBERS_FIELD_NAME: String = "Members"
@@ -113,15 +114,15 @@ class CodealTeam : CodealEntity<CodealTeam> {
             .update(CodealUser.USER_DB_USER_TEAMS_FIELD_NAME, FieldValue.arrayUnion(id))
     }
 
-    private fun deletePersonFromTeam(uid: String) {
+    fun deletePersonFromTeam(uid: String) {
         this.members.toMutableList().remove(uid)
         val db = FirebaseFirestore.getInstance()
 
         // delete user from team
-        db.collection(TEAMS_DB_COLLECTION_NAME).document(this.id).update("Members", FieldValue.arrayRemove(uid))
+        db.collection(TEAMS_DB_COLLECTION_NAME).document(this.id).update(TEAMS_DB_TEAM_MEMBERS_FIELD_NAME, FieldValue.arrayRemove(uid))
 
         // delete team from the user
-        db.collection("user_profiles").document(uid).update(TEAMS_DB_COLLECTION_NAME, FieldValue.arrayRemove(this.id))
+        db.collection(USERS_DB_COLLECTION_NAME).document(uid).update(TEAMS_DB_COLLECTION_NAME, FieldValue.arrayRemove(this.id))
     }
 
     private fun deleteTeam() {
