@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.ViewTaskDetailActivity
@@ -22,7 +20,9 @@ class ListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         return ListViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.list_list_item, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.list_list_item, parent, false),
+            context
         )
     }
 
@@ -34,17 +34,15 @@ class ListAdapter(
 
         val list = listNames[position]
 
-        val listNameHolder : TextView = holder.itemView.findViewById(R.id.list_name)
-        listNameHolder.text = list
+        holder.label = list
 
-        val tasksRecyclerView: RecyclerView = holder.itemView.findViewById(R.id.item_item_list)
-        tasksRecyclerView.layoutManager = LinearLayoutManager(context)
-        tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[list]!!) {
+        holder.tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[list]!!) {
             val intent = Intent(context, ViewTaskDetailActivity::class.java)
-            intent.putExtra("TaskID", listNameToTasksList[list]?.get(it))
+            intent.putExtra("TaskID", listNameToTasksList[list]
+                ?.get(it))
             startActivity(context, intent, null)
         }
-        taskAdapters[list] = tasksRecyclerView.adapter as TaskAdapter
+        taskAdapters[list] = holder.tasksRecyclerView.adapter as TaskAdapter
 
     }
 

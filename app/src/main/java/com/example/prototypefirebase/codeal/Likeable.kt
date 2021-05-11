@@ -1,11 +1,11 @@
 package com.example.prototypefirebase.codeal
 
-interface Likeable {
+interface Likeable<T : CodealEntity<T>> {
 
     val emotions: List<String>
 
-    fun likeBy(userID: String, callback: Any? = null)
+    fun likeBy(userID: String)
 
-    fun removeLikeBy(userID: String, callback: Any? = null)
+    fun removeLikeBy(userID: String)
 
 }

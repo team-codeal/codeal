@@ -1,7 +1,6 @@
 package com.example.prototypefirebase
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -13,10 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.codeal.CodealComment
+import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTask
-import com.example.prototypefirebase.codeal.CodealUser
+import com.example.prototypefirebase.codeal.factories.CodealCommentFactory
+import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
+import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.example.utils.recyclers.comments.CommentAdapter
-import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 import kotlin.Comparator
 
@@ -27,12 +28,16 @@ class ViewTaskDetailActivity : AppCompatActivity() {
 
     private lateinit var commentsRecyclerView: RecyclerView
 
+    private var commentsListener: CodealEntity<CodealTask>.CodealListener? = null
+
+    private lateinit var taskID: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_detail)
         supportActionBar?.hide();
 
-        val taskID = intent.getStringExtra("TaskID")!!
+        taskID = intent.getStringExtra("TaskID")!!
 
         val updateTaskButton: Button = findViewById(R.id.updateTask)
         val deleteTaskButton: Button = findViewById(R.id.deleteTask)
@@ -65,21 +70,18 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         commentsRecyclerView = findViewById(R.id.comments_recycler_view)
 
         commentsRecyclerView.layoutManager = LinearLayoutManager(this)
+        commentsRecyclerView.adapter = CommentAdapter(comments, this)
 
-        CodealUser { user ->
-            CodealTask(taskID){ task ->
+        CodealUserFactory.get().addOnReady { user ->
+            CodealTaskFactory.get(taskID).addOnReady { task ->
                 taskNameHolder.text = task.name
                 taskTextHolder.text = task.content
                 taskListHolder.text = task.listName
 
-                commentsRecyclerView.adapter = CommentAdapter(comments, this)
-                task.commentsIDs.forEach { commentID ->
-                    CodealComment(commentID, ::addComment)
-                }
-
                 uploadCommentButton.setOnClickListener {
                     val commentContent = newCommentHolder.text.toString()
-                    CodealComment(task.id, commentContent, user.id, ::addComment)
+                    CodealCommentFactory.create(task.id, commentContent, user.id)
+                        .addOnReady(::addComment)
                     // https://stackoverflow.com/questions/1109022/how-do-you-close-hide-the-android-soft-keyboard-programmatically
                     // Only runs if there is a view that is currently focused
                     this@ViewTaskDetailActivity.currentFocus?.let { view ->
@@ -98,7 +100,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
             val taskText = taskTextHolder.text.toString()
             val taskListName = taskListHolder.text.toString()
 
-            CodealTask(taskID) {
+            CodealTaskFactory.get(taskID).addOnReady {
                 it.change(taskName, taskText, taskListName)
                 Toast.makeText(this@ViewTaskDetailActivity,
                     "Task updated successfully!",
@@ -108,13 +110,41 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         }
 
         deleteTaskButton.setOnClickListener {
-            CodealTask(taskID){
+            CodealTaskFactory.get(taskID).addOnReady {
                 it.delete()
 
                 Toast.makeText(this@ViewTaskDetailActivity,
                     "Task deleted successfully!",
                     Toast.LENGTH_SHORT).show()
                 finish()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        commentsListener = CodealTaskFactory.get(taskID)
+            .addListener { mergeCommentsWith(it.commentsIDs) }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        commentsListener?.remove()
+        commentsListener = null
+    }
+
+    private fun mergeCommentsWith(newCommentsIDs: List<String>) {
+        val currentCommentsIDs = comments.map { it.id }
+        newCommentsIDs.forEach { commentID ->
+            if (!currentCommentsIDs.contains(commentID)) {
+                CodealCommentFactory.get(commentID).addOnReady { addComment(it) }
+            }
+        }
+
+        currentCommentsIDs.forEachIndexed { index, commentID ->
+            if (!newCommentsIDs.contains(commentID)) {
+                comments.removeAt(index)
+                commentsRecyclerView.adapter?.notifyItemRemoved(index)
             }
         }
     }
@@ -134,5 +164,14 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         commentsRecyclerView.smoothScrollToPosition(0)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        commentsRecyclerView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View) {}
 
+            override fun onViewDetachedFromWindow(v: View) {
+                commentsRecyclerView.adapter = null
+            }
+        })
+    }
 }

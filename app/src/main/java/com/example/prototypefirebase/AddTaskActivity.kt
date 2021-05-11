@@ -6,6 +6,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.prototypefirebase.codeal.CodealTask
+import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
 
 
 class AddTaskActivity : AppCompatActivity() {
@@ -29,9 +30,11 @@ class AddTaskActivity : AppCompatActivity() {
             val taskText = taskTextHolder.text.toString()
             val taskListName = taskListHolder.text.toString()
 
-            CodealTask(taskName, taskText, teamID, taskListName)
+            CodealTaskFactory.create(taskName, taskText, teamID, taskListName)
 
-            Toast.makeText(this@AddTaskActivity, "Task added successfully!", Toast.LENGTH_SHORT)
+            Toast.makeText(this@AddTaskActivity,
+                "Task added successfully!",
+                Toast.LENGTH_SHORT)
                 .show()
 
             finish()

@@ -1,50 +1,29 @@
 package com.example.prototypefirebase.codeal
 
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.prototypefirebase.codeal.CodealEntity.*
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import java.util.stream.Collectors
 
 //todo check and refactor business methods manipulating team and users
 
-typealias CodealTeamCallback = ((CodealTeam) -> Unit)
-
-class CodealTeam {
+class CodealTeam : CodealEntity<CodealTeam> {
 
     var name: String = ""
         private set
-
-    // list of ids
     var members: List<String> = emptyList()
         private set
-
-    var id: String
+    var ownerID: String = ""
         private set
-
-    lateinit var ownerID: String
-        private set
-
     var description: String = ""
         private set
-
     var tasks: List<String> = emptyList()
         private set
         get() {
             return lists.values.stream().flatMap { x -> x.stream() }.collect(Collectors.toList())
         }
-
-    // a list of "List" names, e.g. "To Do", "Doing", "Done" etc
     var lists: MutableMap<String, List<String>> = mutableMapOf()
         private set
-
-    var ready: Boolean = false
-        private set
-
-    var updateCallback: CodealTeamCallback? = null
-        set(value) {
-            field = value
-            if (ready) value?.invoke(this)
-        }
 
     companion object {
         private const val TEAMS_DB_COLLECTION_NAME: String = "teams"
@@ -57,26 +36,23 @@ class CodealTeam {
     }
 
     //constructor for an existing command
-    constructor(id: String, callback: CodealTeamCallback? = null) {
+    constructor(id: String) {
         this.id = id
-        updateCallback = callback
-        initTeamInfoById()
     }
 
     //constructor for a new command
-    constructor(teamName: String, teamDesc: String, teamMembers: List<String>, callback: CodealTeamCallback? = null) {
+    constructor(teamName: String, teamDesc: String, teamMembers: List<String>) {
         id = ""
         name = teamName
         description = teamDesc
         ownerID = ""
         members = teamMembers
-        updateCallback = callback
         uploadTeamInfoToDB()
     }
 
     // TODO this is very bad, should implement a change() method instead
     internal fun addTask(taskID: String, listName: String) {
-        val teamsDB = FirebaseFirestore.getInstance().collection(TEAMS_DB_COLLECTION_NAME)
+        val teamsDB = getDB()
         if (lists.containsKey(listName)) {
             lists[listName] = ArrayList<String>().apply {
                 lists[listName]?.let { addAll(it) }
@@ -100,63 +76,6 @@ class CodealTeam {
         ))
     }
 
-    private fun initTeamInfoById() {
-        val teamsDB = FirebaseFirestore.getInstance().collection(TEAMS_DB_COLLECTION_NAME)
-        teamsDB.document(id).get()
-            .addOnSuccessListener { teamDocument ->
-                name = teamDocument?.get(TEAMS_DB_TEAM_NAME_FIELD_NAME) as? String ?:
-                        run {
-                            val newName = "New command"
-                            teamsDB.document(id).update(TEAMS_DB_TEAM_NAME_FIELD_NAME, newName)
-                            newName
-                        }
-                members = (teamDocument?.get(TEAMS_DB_TEAM_MEMBERS_FIELD_NAME)
-                        as? List<*>)?.filterIsInstance<String>() ?:
-                        run {
-                            val newMembers = emptyList<String>()
-                            teamsDB.document(id).update(TEAMS_DB_TEAM_MEMBERS_FIELD_NAME, newMembers)
-                            newMembers
-                        }
-                ownerID = teamDocument?.get(TEAMS_DB_TEAM_OWNER_ID_FIELD_NAME) as? String ?:
-                        run {
-                            val newOwnerID = ""
-                            teamsDB.document(id)
-                                .update(TEAMS_DB_TEAM_OWNER_ID_FIELD_NAME, newOwnerID)
-                            newOwnerID
-                        }
-                description = teamDocument?.get(TEAMS_DB_TEAM_DESCRIPTION_FIELD_NAME) as? String ?:
-                        run {
-                            val newOwnerID = ""
-                            teamsDB.document(id)
-                                .update(TEAMS_DB_TEAM_DESCRIPTION_FIELD_NAME, newOwnerID)
-                            newOwnerID
-                        }
-                val listsRaw = (teamDocument?.get(TEAMS_DB_TEAM_LISTS_FIELD_NAME)
-                        as Map<*, *>?)
-                        ?:
-                        run {
-                            val newLists = HashMap<String, List<String>>().apply {
-                                put("Todo", emptyList())
-                                put("Doing", emptyList())
-                                put("Done", emptyList())
-                            }
-                            teamsDB.document(id)
-                                .update(TEAMS_DB_TEAM_LISTS_FIELD_NAME, newLists)
-                            newLists
-                        }
-                listsRaw.forEach { (key, value) ->
-                    if (key !is String || value !is List<*>) return@forEach
-                    val listOfTaskIDs : List<String> = value.filterIsInstance<String>()
-                    lists[key] = listOfTaskIDs
-                }
-                ready = true
-                updateCallback?.invoke(this)
-            }
-            .addOnFailureListener { exception ->
-                throw exception
-            }
-    }
-
     // that's only for making a new team
     private fun uploadTeamInfoToDB() {
 
@@ -170,24 +89,28 @@ class CodealTeam {
             TEAMS_DB_TEAM_MEMBERS_FIELD_NAME to this.members,
             TEAMS_DB_TEAM_DESCRIPTION_FIELD_NAME to this.description
         )
+
         teamDB.add(teamInfo).addOnSuccessListener { teamDocument ->
             id = teamDocument.id
-            ready = true
-            updateCallback?.invoke(this)
+            if ((listeners.isNotEmpty() or oneTimeListeners.isNotEmpty())) {
+                setFirebaseListener()
+            }
         }
 
-        //todo for each user, add this team to this user
+        // doesn't add duplicates, because of FieldValue.arrayUnion
+        members.forEach(::addPersonToTeam)
     }
 
     fun addPersonToTeam(uid: String) {
-        this.members.toMutableList().add(uid)
-        val db = FirebaseFirestore.getInstance()
 
         // add user to the team
-        db.collection(TEAMS_DB_COLLECTION_NAME).document(this.id).update(TEAMS_DB_TEAM_MEMBERS_FIELD_NAME, FieldValue.arrayUnion(uid))
+        getDB().document(id)
+            .update(TEAMS_DB_TEAM_MEMBERS_FIELD_NAME, FieldValue.arrayUnion(uid))
 
+        val db = FirebaseFirestore.getInstance()
         // add team to the user
-        db.collection("user_profiles").document(uid).update(TEAMS_DB_COLLECTION_NAME, FieldValue.arrayUnion(this.id))
+        db.collection(CodealUser.USER_DB_COLLECTION_NAME).document(uid)
+            .update(CodealUser.USER_DB_USER_TEAMS_FIELD_NAME, FieldValue.arrayUnion(id))
     }
 
     private fun deletePersonFromTeam(uid: String) {
@@ -223,6 +146,58 @@ class CodealTeam {
             "tid" to FieldValue.delete()
         )
         teamRef.update(updates)
+    }
+
+    override fun getDB(): CollectionReference
+            = FirebaseFirestore.getInstance().collection(TEAMS_DB_COLLECTION_NAME)
+
+    override fun getDataFromSnapshot(snapshot: DocumentSnapshot) {
+        val teamsDB = getDB()
+        name = snapshot.get(TEAMS_DB_TEAM_NAME_FIELD_NAME) as? String ?:
+                run {
+                    val newName = "New command"
+                    teamsDB.document(id).update(TEAMS_DB_TEAM_NAME_FIELD_NAME, newName)
+                    newName
+                }
+        members = (snapshot.get(TEAMS_DB_TEAM_MEMBERS_FIELD_NAME)
+                as? List<*>)?.filterIsInstance<String>() ?:
+                run {
+                    val newMembers = emptyList<String>()
+                    teamsDB.document(id).update(TEAMS_DB_TEAM_MEMBERS_FIELD_NAME, newMembers)
+                    newMembers
+                }
+        ownerID = snapshot.get(TEAMS_DB_TEAM_OWNER_ID_FIELD_NAME) as? String ?:
+                run {
+                    val newOwnerID = ""
+                    teamsDB.document(id)
+                        .update(TEAMS_DB_TEAM_OWNER_ID_FIELD_NAME, newOwnerID)
+                    newOwnerID
+                }
+        description = snapshot.get(TEAMS_DB_TEAM_DESCRIPTION_FIELD_NAME) as? String ?:
+                run {
+                    val newOwnerID = ""
+                    teamsDB.document(id)
+                        .update(TEAMS_DB_TEAM_DESCRIPTION_FIELD_NAME, newOwnerID)
+                    newOwnerID
+                }
+        val listsRaw = (snapshot.get(TEAMS_DB_TEAM_LISTS_FIELD_NAME)
+                as Map<*, *>?)
+            ?:
+            run {
+                val newLists = HashMap<String, List<String>>().apply {
+                    put("Todo", emptyList())
+                    put("Doing", emptyList())
+                    put("Done", emptyList())
+                }
+                teamsDB.document(id)
+                    .update(TEAMS_DB_TEAM_LISTS_FIELD_NAME, newLists)
+                newLists
+            }
+        listsRaw.forEach { (key, value) ->
+            if (key !is String || value !is List<*>) return@forEach
+            val listOfTaskIDs : List<String> = value.filterIsInstance<String>()
+            lists[key] = listOfTaskIDs
+        }
     }
 
 }

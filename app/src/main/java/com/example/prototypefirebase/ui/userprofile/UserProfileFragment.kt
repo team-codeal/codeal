@@ -1,6 +1,5 @@
 package com.example.prototypefirebase.ui.userprofile
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.Intent
@@ -19,8 +18,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.SignInActivity
-import com.example.prototypefirebase.codeal.CodealComment
 import com.example.prototypefirebase.codeal.CodealUser
+import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.firebase.ui.auth.AuthUI
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -59,7 +58,7 @@ class UserProfileFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         val userAvatarHolder: CircleImageView = requireView().findViewById(R.id.user_avatar)
-        CodealUser { user ->
+        CodealUserFactory.get().addOnReady { user ->
             this.user = user
             updateUserProfileUI(view, user)
             loadUserAvatarToView(userAvatarHolder)
@@ -69,7 +68,7 @@ class UserProfileFragment : Fragment() {
         motivationHolder.setOnClickListener { loadMotivationalGif(motivationHolder) }
 
         val heartReactionHolder: ImageView = requireView().findViewById(R.id.heart_reaction)
-        CodealUser().incomingReactionCallback = {
+        CodealUserFactory.get().incomingReactionCallback = {
             heartReactionHolder.visibility = View.VISIBLE
             heartReactionHolder.animate()
                 .scaleYBy(2f)

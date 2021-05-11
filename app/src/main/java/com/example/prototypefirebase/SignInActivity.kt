@@ -2,15 +2,13 @@ package com.example.prototypefirebase
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.prototypefirebase.codeal.CodealUser
+import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.FirebaseAuth
 
 class SignInActivity : AppCompatActivity() {
 
@@ -21,6 +19,8 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide();
         try {
+            // TODO this violates the rules, but for checking auth we have to actually
+            //  rebuild the user object
             user = CodealUser()
             logInSuccessful()
         } catch (_: IllegalStateException) {}
@@ -50,7 +50,8 @@ class SignInActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 // signed in
                 try {
-                    user = CodealUser {
+                    CodealUserFactory.get().addOnReady {
+                        user = it
                         Toast.makeText(this, "Hello ${user?.name}!", Toast.LENGTH_SHORT).show()
                     }
                     logInSuccessful()
