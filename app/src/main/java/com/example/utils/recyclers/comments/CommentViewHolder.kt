@@ -53,6 +53,12 @@ class CommentViewHolder(itemView: View)
         listener = comment?.addListener(::setView)
     }
 
+    fun bindView(comment: CodealComment, context: Context) {
+        this.comment = comment
+        this.context = context
+        setLikeButtonState(NOT_LIKED)
+    }
+
     private fun like(comment: CodealComment, currentUser: CodealUser) {
         setLikeButtonState(LIKED)
         commentLikeCountHolder.text = (comment.emotions.size + 1).toString()
