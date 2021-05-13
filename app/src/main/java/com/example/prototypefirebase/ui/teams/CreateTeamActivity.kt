@@ -35,7 +35,7 @@ class CreateTeamActivity : AppCompatActivity() {
                 val teamDesc = teamDescriptionHolder.text.toString()
                 val teamMembers: List<String> = listOf(it.id)
 
-                CodealTeamFactory.create(teamName,teamDesc,teamMembers).addOnReady { team ->
+                CodealTeamFactory.create(teamName, teamDesc, teamMembers).addOnReady { team ->
                     team.addPersonToTeam(it.id)
                     Toast.makeText(this@CreateTeamActivity,
                         "Team created successfully!",
