@@ -15,6 +15,8 @@ abstract class CodealEntity<T : CodealEntity<T>> {
         fun remove() {
             this@CodealEntity.listeners.remove(this)
             this@CodealEntity.oneTimeListeners.remove(this)
+            this@CodealEntity.listenersWaiting.remove(this)
+            this@CodealEntity.oneTimeListenersWaiting.remove(this)
             if (listeners.isEmpty() and oneTimeListeners.isEmpty()) {
                 firebaseSnapshotRegistration?.remove()
                 firebaseSnapshotRegistration = null
@@ -29,6 +31,10 @@ abstract class CodealEntity<T : CodealEntity<T>> {
     protected val listeners: ConcurrentLinkedQueue<CodealListener> = ConcurrentLinkedQueue()
     protected val oneTimeListeners: ConcurrentLinkedQueue<CodealListener> = ConcurrentLinkedQueue()
 
+    private val listenersWaiting: ConcurrentLinkedQueue<CodealListener> = ConcurrentLinkedQueue()
+    private val oneTimeListenersWaiting: ConcurrentLinkedQueue<CodealListener>
+            = ConcurrentLinkedQueue()
+
     /**
      * Shows (both to the client and self) whether the data was loaded at least once.
      * If ready == true, though, it doesn't mean that this object contains the *newest* data,
@@ -36,6 +42,30 @@ abstract class CodealEntity<T : CodealEntity<T>> {
      */
     var ready: Boolean = false
         protected set
+
+    /**
+     * Shows (both to the client and self) whether this object is already present in the
+     * database. This is needed to postpone things before this object is uploaded.
+     * If created == true, the object should already be uploaded to the database, and if
+     * created == false, it is still not uploaded.
+     *
+     * Default value is true, because usually we just read existing object from database (or cache),
+     * so *it should be set to false in a creating constructor*.
+     *
+     * In implementations, doing "created = true" means firing all onCreated callbacks.
+     */
+    protected var created: Boolean = true
+        set(value) {
+            if (value) {
+                field = true
+                listenersWaiting.forEach { addListener(it) }
+                listenersWaiting.clear()
+                oneTimeListenersWaiting.forEach { addOnReady(it) }
+                oneTimeListenersWaiting.clear()
+            } else {
+                field = false
+            }
+        }
 
     /**
      * Adds a listener to the Codeal object, meaning that whenever the object is updated
@@ -54,6 +84,10 @@ abstract class CodealEntity<T : CodealEntity<T>> {
      */
     fun addListener(callback: (T) -> Unit): CodealListener {
         val codealListener = CodealListener(callback)
+        if (!created) {
+            listenersWaiting.add(codealListener)
+            return codealListener
+        }
         listeners.add(codealListener)
         if (ready) codealListener.invoke()
         if (firebaseSnapshotRegistration == null) {
@@ -68,6 +102,11 @@ abstract class CodealEntity<T : CodealEntity<T>> {
      * happen immediately if the object already has the latest data.
      */
     fun addOnReady(callback: (T) -> Unit) {
+        if (!created) {
+            val codealListener = CodealListener(callback)
+            oneTimeListenersWaiting.add(codealListener)
+            return
+        }
         if (ready && firebaseSnapshotRegistration != null) {
             CodealListener(callback).invoke()
         } else {
@@ -99,6 +138,34 @@ abstract class CodealEntity<T : CodealEntity<T>> {
                     it.remove()
                 }
             }
+    }
+
+
+    /**
+     * Usually to be transported from waiting listeners. See doc on "created" property
+     * It is assumed that when this method is called, created == true already.
+     */
+    private fun addListener(codealListener: CodealListener) {
+        listeners.add(codealListener)
+        if (ready) codealListener.invoke()
+        if (firebaseSnapshotRegistration == null) {
+            setFirebaseListener()
+        }
+    }
+
+    /**
+     * Usually to be transported from waiting onReady listeners. See doc on "created" property
+     * It is assumed that when this method is called, created == true already.
+     */
+    private fun addOnReady(codealListener: CodealListener) {
+        if (ready && firebaseSnapshotRegistration != null) {
+            codealListener.invoke()
+        } else {
+            oneTimeListeners.add(codealListener)
+            if (firebaseSnapshotRegistration == null) {
+                setFirebaseListener()
+            }
+        }
     }
 
     /**

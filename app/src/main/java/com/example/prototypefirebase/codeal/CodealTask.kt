@@ -39,6 +39,7 @@ class CodealTask : CodealEntity<CodealTask> {
     // constructor for a new
     constructor(
         taskName: String, taskContent: String, teamID: String, listName: String) {
+        created = false
         name = taskName
         content = taskContent
         this.teamID = teamID
@@ -86,7 +87,10 @@ class CodealTask : CodealEntity<CodealTask> {
             // if the task is new
             tasksDB.add(taskInfo).addOnSuccessListener { taskDocument ->
                 id = taskDocument.id
-                CodealTeamFactory.get(teamID).addOnReady { it.addTask(id, listName) }
+                CodealTeamFactory.get(teamID).addOnReady {
+                    it.addTask(id, listName)
+                    created = true
+                }
                 ready = true
                 if ((listeners.isNotEmpty() or oneTimeListeners.isNotEmpty())) {
                     setFirebaseListener()

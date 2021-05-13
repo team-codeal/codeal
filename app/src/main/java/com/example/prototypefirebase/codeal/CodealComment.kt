@@ -100,6 +100,7 @@ class CodealComment : CodealEntity<CodealComment>, Likeable<CodealComment> {
                 val oldCommentsIDs: List<String> = task.commentsIDs
                 val newCommentsIDs = ArrayList(oldCommentsIDs).apply { add(id) }
                 task.change(commentsIDs = newCommentsIDs)
+                created = true
             }
         }
         ready = true

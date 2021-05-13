@@ -25,6 +25,7 @@ class CodealEmotion : CodealEntity<CodealEmotion> {
 
     // constructor for a new emotion
     internal constructor(ownerID: String, parentObjectID: String) {
+        created = false
         this.ownerID = ownerID
         this.parentObjectID = parentObjectID
         uploadEmotionInfoToDB()
@@ -42,6 +43,7 @@ class CodealEmotion : CodealEntity<CodealEmotion> {
             if ((listeners.isNotEmpty() or oneTimeListeners.isNotEmpty())) {
                 setFirebaseListener()
             }
+            created = true
         }
     }
 
