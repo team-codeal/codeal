@@ -19,7 +19,7 @@ class TeamMemberViewHolder(itemView: View)
 
     private val teamMemberNameHolder: TextView = itemView.findViewById(R.id.team_member_name)
     private val teamMemberStatusHolder: TextView = itemView.findViewById(R.id.team_member_status)
-    private val teamMemberAvatar: ImageView = itemView.findViewById(R.id.comment_user_avatar)
+    private val teamMemberAvatar: ImageView = itemView.findViewById(R.id.team_member_avatar)
 
     var listener: CodealEntity<CodealUser>.CodealListener? = null
 
