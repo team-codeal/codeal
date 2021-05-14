@@ -68,6 +68,8 @@ class ViewTeamDetailActivity : AppCompatActivity() {
         }
 
         teamMembersListener = CodealTeamFactory.get(teamID).addListener { team ->
+            editTeamName.setText(team.name)
+            editTeamDesc.setText(team.description)
             mergeMembersWith(team.members)
         }
 
