@@ -49,6 +49,7 @@ class ViewTeamDetailActivity : AppCompatActivity() {
         val addPersonToTeamButton: Button = findViewById(R.id.add_person_to_team_button)
         addPersonToTeamButton.setOnClickListener {
             val newMail = editTeamMemberMail.text.toString()
+            editTeamMemberMail.setText("")
 
             findPersonInDatabase(newMail)
         }
