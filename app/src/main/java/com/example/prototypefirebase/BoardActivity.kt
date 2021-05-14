@@ -12,6 +12,7 @@ import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTeam
 import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.utils.recyclers.lists.ListAdapter
+import java.util.concurrent.locks.ReentrantLock
 
 class BoardActivity : AppCompatActivity() {
 
@@ -28,6 +29,8 @@ class BoardActivity : AppCompatActivity() {
     private lateinit var teamInfoListener: CodealEntity<CodealTeam>.CodealListener
 
     private lateinit var teamNameHolder: TextView
+
+    private val tasksLock = ReentrantLock()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,48 +69,54 @@ class BoardActivity : AppCompatActivity() {
 
     private fun mergeListsWith(newLists: MutableMap<String, List<String>>) {
 
-        // to the current lists, add the new ones
-        newLists.forEach { (listName, newTasks) ->
-            if (!listNameToTasksList.containsKey(listName)) {
-                listNameToTasksList[listName] = newTasks.toMutableList()
-                listNames.add(listName)
-                listAdapter.notifyItemInserted(listNames.size - 1)
-            } else {
+        tasksLock.lock()
 
-                val oldTasks = listNameToTasksList[listName]!!
+        try {
+            // to the current lists, add the new ones
+            newLists.forEach { (listName, newTasks) ->
+                if (!listNameToTasksList.containsKey(listName)) {
+                    listNameToTasksList[listName] = newTasks.toMutableList()
+                    listNames.add(listName)
+                    listAdapter.notifyItemInserted(listNames.size - 1)
+                } else {
 
-                // delete deleted tasks
-                oldTasks.forEachIndexed { index, task ->
-                    if (!newTasks.contains(task)) {
-                        oldTasks.removeAt(index)
-                        listAdapter.notifyItemChanged(listNames.indexOf(listName),
-                            ListAdapter.TaskChangedMessage(
-                                ListAdapter.TaskChangingCommitment.TASK_DELETED,
-                                index))
+                    val oldTasks = listNameToTasksList[listName]!!
+
+                    // delete deleted tasks
+                    oldTasks.forEachIndexed { index, task ->
+                        if (!newTasks.contains(task)) {
+                            oldTasks.removeAt(index)
+                            listAdapter.notifyItemChanged(listNames.indexOf(listName),
+                                ListAdapter.TaskChangedMessage(
+                                    ListAdapter.TaskChangingCommitment.TASK_DELETED,
+                                    index))
+                        }
                     }
-                }
 
-                // add new tasks to the list
-                newTasks.forEach { task ->
-                    if (!oldTasks.contains(task)) {
-                        oldTasks.add(task)
-                        listAdapter.notifyItemChanged(listNames.indexOf(listName),
-                            ListAdapter.TaskChangedMessage(
-                                ListAdapter.TaskChangingCommitment.TASK_ADDED,
-                                oldTasks.size - 1))
+                    // add new tasks to the list
+                    newTasks.forEach { task ->
+                        if (!oldTasks.contains(task)) {
+                            oldTasks.add(task)
+                            listAdapter.notifyItemChanged(listNames.indexOf(listName),
+                                ListAdapter.TaskChangedMessage(
+                                    ListAdapter.TaskChangingCommitment.TASK_ADDED,
+                                    oldTasks.size - 1))
+                        }
                     }
                 }
             }
-        }
 
-        // from the current lists, delete the ones deleted
-        listNameToTasksList.forEach { (listName, _) ->
-            if (!newLists.containsKey(listName)) {
-                listNameToTasksList.remove(listName)
-                val indexToRemove = listNames.indexOf(listName)
-                listNames.removeAt(indexToRemove)
-                listAdapter.notifyItemRemoved(indexToRemove)
+            // from the current lists, delete the ones deleted
+            listNameToTasksList.forEach { (listName, _) ->
+                if (!newLists.containsKey(listName)) {
+                    listNameToTasksList.remove(listName)
+                    val indexToRemove = listNames.indexOf(listName)
+                    listNames.removeAt(indexToRemove)
+                    listAdapter.notifyItemRemoved(indexToRemove)
+                }
             }
+        } finally {
+            tasksLock.unlock()
         }
     }
 
