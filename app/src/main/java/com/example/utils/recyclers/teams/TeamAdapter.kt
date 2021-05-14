@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.ui.teams.Model
+import com.example.utils.recyclers.tasks.TaskViewHolder
 import java.util.ArrayList
 
 class TeamAdapter(
@@ -22,17 +23,22 @@ class TeamAdapter(
         return teams.size
     }
 
+    override fun onViewDetachedFromWindow(holder: TeamViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.setOnClickListener(null)
+    }
+
+    override fun onViewAttachedToWindow(holder: TeamViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        holder.itemView.setOnClickListener {
+            onTeamClickListener.onTeamItemClicked(holder.bindingAdapterPosition)
+        }
+    }
+
     override fun onBindViewHolder(holder: TeamViewHolder, position: Int) {
         val team = teams[position]
 
-        val teamNameHolder: TextView = holder.itemView.findViewById(R.id.team_name)
-        val teamDescriptionHolder: TextView = holder.itemView.findViewById(R.id.team_short_desc)
-
-        teamNameHolder.text = team.name
-        teamDescriptionHolder.text = team.des
-        holder.itemView.setOnClickListener {
-            onTeamClickListener.onTeamItemClicked(position)
-        }
+        holder.bindView(team.name, team.des)
     }
 
 }
