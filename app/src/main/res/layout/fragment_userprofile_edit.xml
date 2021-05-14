@@ -44,24 +44,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
         android:id="@+id/user_bio_tag"
         android:layout_width="wrap_content"
         android:layout_height="23dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Your bio"
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.116"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_status_tag" />
+        app:layout_constraintTop_toBottomOf="@+id/user_status" />
 
     <TextView
         android:id="@+id/user_status_tag"
         android:layout_width="wrap_content"
         android:layout_height="23dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Your status"
         android:textColor="@color/colorText"
@@ -77,26 +78,29 @@
         android:layout_marginTop="164dp"
         android:background="@drawable/edittext_bg"
         android:fontFamily="@font/poppins_regular"
-        android:paddingLeft="10dp"
+        android:paddingLeft="8dp"
         android:textColor="#000000"
         android:textSize="14dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.793"
+        app:layout_constraintHorizontal_bias="0.776"
         app:layout_constraintStart_toEndOf="@+id/user_name_tag"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/user_status"
         android:layout_width="176dp"
-        android:layout_height="23dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/edittext_bg"
         android:fontFamily="@font/poppins_regular"
-        android:paddingLeft="10dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp"
         android:textColor="#000000"
         android:textSize="14dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.779"
+        app:layout_constraintHorizontal_bias="0.771"
         app:layout_constraintStart_toEndOf="@+id/user_status_tag"
         app:layout_constraintTop_toBottomOf="@+id/user_name" />
 
@@ -109,12 +113,15 @@
         android:fontFamily="@font/poppins_regular"
         android:inputType="textMultiLine"
         android:maxLines="4"
-        android:paddingLeft="10dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp"
         android:scrollbars="vertical"
         android:textColor="#000000"
         android:textSize="14dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.816"
+        app:layout_constraintHorizontal_bias="0.805"
         app:layout_constraintStart_toEndOf="@+id/user_bio_tag"
         app:layout_constraintTop_toBottomOf="@+id/user_status" />
 
@@ -135,6 +142,7 @@
         android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="156dp"
         android:background="@drawable/round_button"
         android:elevation="8dp"
         android:fontFamily="@font/poppins_semibold"
@@ -143,11 +151,10 @@
         android:text="save"
         android:textColor="@color/colorText"
         android:translationZ="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_bio"
-        app:layout_constraintVertical_bias="0.418" />
+        app:layout_constraintTop_toBottomOf="@+id/user_bio" />
 
     <!--</RelativeLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

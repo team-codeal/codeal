@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/cabin_medium"
             android:text="Name"
             android:textColor="@color/colorBackground"
             android:textSize="18dp" />
