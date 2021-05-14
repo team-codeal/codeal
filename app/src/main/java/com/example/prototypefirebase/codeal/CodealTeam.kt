@@ -1,6 +1,7 @@
 package com.example.prototypefirebase.codeal
 
 import com.example.prototypefirebase.codeal.CodealEntity.*
+import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import java.util.stream.Collectors
@@ -113,15 +114,16 @@ class CodealTeam : CodealEntity<CodealTeam> {
             .update(CodealUser.USER_DB_USER_TEAMS_FIELD_NAME, FieldValue.arrayUnion(id))
     }
 
-    private fun deletePersonFromTeam(uid: String) {
-        this.members.toMutableList().remove(uid)
+    fun deletePersonFromTeam(uid: String) {
         val db = FirebaseFirestore.getInstance()
 
         // delete user from team
-        db.collection(TEAMS_DB_COLLECTION_NAME).document(this.id).update("Members", FieldValue.arrayRemove(uid))
+        db.collection(TEAMS_DB_COLLECTION_NAME).document(this.id)
+            .update(TEAMS_DB_TEAM_MEMBERS_FIELD_NAME, FieldValue.arrayRemove(uid))
 
         // delete team from the user
-        db.collection("user_profiles").document(uid).update(TEAMS_DB_COLLECTION_NAME, FieldValue.arrayRemove(this.id))
+        db.collection(CodealUser.USER_DB_COLLECTION_NAME)
+            .document(uid).update(TEAMS_DB_COLLECTION_NAME, FieldValue.arrayRemove(this.id))
     }
 
     private fun deleteTeam() {
