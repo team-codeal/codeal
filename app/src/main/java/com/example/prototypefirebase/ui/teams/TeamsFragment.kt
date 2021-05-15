@@ -18,10 +18,10 @@ import com.example.utils.recyclers.teams.OnTeamClickListener
 import com.example.utils.recyclers.teams.TeamAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 
-class TeamsFragment : Fragment(), OnTeamClickListener {
+class TeamsFragment : Fragment() {
 
     private var teams = ArrayList<Model>()
-    private var teamAdapter: TeamAdapter = TeamAdapter(teams, this)
+    private lateinit var teamAdapter: TeamAdapter
     private lateinit var teamsRecyclerView: RecyclerView
 
     override fun onCreateView(
@@ -35,6 +35,13 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        teamAdapter = TeamAdapter(teams, requireContext()) { position ->
+            val intent = Intent(this.context, ViewTeamDetailActivity::class.java)
+            intent.putExtra("TeamID", teams[position].firebaseID)
+            startActivity(intent)
+        }
+
         teamsRecyclerView = view.findViewById(R.id.recycler_view_teams)!!
         teamsRecyclerView.adapter = teamAdapter
         teamsRecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -47,13 +54,6 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
             getTeams(userTeams)
         }
 
-    }
-
-    override fun onTeamItemClicked(position: Int) {
-
-        val intent = Intent(this.context, ViewTeamDetailActivity::class.java)
-        intent.putExtra("TeamID", teams[position].firebaseID)
-        startActivity(intent)
     }
 
     private fun getTeams(userTeams: List<String>) {

@@ -1,5 +1,6 @@
 package com.example.utils.recyclers.teams
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -11,7 +12,8 @@ import java.util.ArrayList
 
 class TeamAdapter(
     private val teams: ArrayList<Model>,
-    private val onTeamClickListener: OnTeamClickListener
+    private val context: Context,
+    private val onTeamClickListenerCallback: (Int) -> Unit
 ): RecyclerView.Adapter<TeamViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamViewHolder {
         return TeamViewHolder(
@@ -26,19 +28,18 @@ class TeamAdapter(
     override fun onViewDetachedFromWindow(holder: TeamViewHolder) {
         super.onViewDetachedFromWindow(holder)
         holder.itemView.setOnClickListener(null)
+        holder.unsetGestureListener()
     }
 
     override fun onViewAttachedToWindow(holder: TeamViewHolder) {
         super.onViewAttachedToWindow(holder)
-        holder.itemView.setOnClickListener {
-            onTeamClickListener.onTeamItemClicked(holder.bindingAdapterPosition)
-        }
+        holder.setGestureListener(context, onTeamClickListenerCallback)
     }
 
     override fun onBindViewHolder(holder: TeamViewHolder, position: Int) {
         val team = teams[position]
 
-        holder.bindView(team.name, team.des)
+        holder.bindView(team.name, team.des, team.firebaseID)
     }
 
 }
