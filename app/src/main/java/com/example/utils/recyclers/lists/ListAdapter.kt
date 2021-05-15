@@ -36,12 +36,12 @@ class ListAdapter(
 
         holder.label = list
 
-        holder.tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[list]!!) {
+        holder.tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[list]!!, {
             val intent = Intent(context, ViewTaskDetailActivity::class.java)
             intent.putExtra("TaskID", listNameToTasksList[list]
                 ?.get(it))
             startActivity(context, intent, null)
-        }
+        })
         taskAdapters[list] = holder.tasksRecyclerView.adapter as TaskAdapter
 
     }

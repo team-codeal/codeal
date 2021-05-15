@@ -9,8 +9,15 @@ import com.example.prototypefirebase.R
 
 class TaskAdapter(
     private val taskIDs: MutableList<String>,
-    private val onTaskClickListenerCallback: ((Int) -> Unit)
+    private val onTaskClickListenerCallback: (Int) -> Unit,
+    private val onTaskSwipedCallback: ((itemPosition: Int, direction: SwipeDirection) -> Unit)? =
+        null
 ) : RecyclerView.Adapter<TaskViewHolder>() {
+
+    enum class SwipeDirection {
+        RIGHT,
+        LEFT
+    }
 
     inner class TaskItemTouchHelperCallback: ItemTouchHelper.Callback() {
         override fun getMovementFlags(
@@ -30,8 +37,15 @@ class TaskAdapter(
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            TODO("Implement moving tasks between lists")
+            val swipeDirection: SwipeDirection = when(direction) {
+                LEFT -> SwipeDirection.LEFT
+                RIGHT -> SwipeDirection.RIGHT
+                else -> throw IllegalStateException("Unknown swipe direction")
+            }
+            onTaskSwipedCallback?.invoke(viewHolder.bindingAdapterPosition, swipeDirection)
         }
+
+        override fun isItemViewSwipeEnabled(): Boolean = onTaskSwipedCallback != null
     }
 
     private fun changeTaskIDsPositions(holderPosition: Int, targetPosition: Int) {

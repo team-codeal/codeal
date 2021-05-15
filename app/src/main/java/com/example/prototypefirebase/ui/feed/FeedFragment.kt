@@ -26,11 +26,11 @@ class FeedFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        taskAdapter = TaskAdapter(userTasks) {
+        taskAdapter = TaskAdapter(userTasks, {
             val intent = Intent(context, ViewTaskDetailActivity::class.java)
             intent.putExtra("TaskID", userTasks[it])
             startActivity(intent)
-        }
+        })
 
         CodealUserFactory.get().addOnReady {
             for(teamID in it.teams){
