@@ -27,19 +27,20 @@
         android:id="@+id/addTaskButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="128dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/round_button"
-        android:gravity="center|bottom"
+        android:elevation="8dp"
         android:fontFamily="@font/poppins_semibold"
+        android:gravity="center|bottom"
         android:onClick="openAddTask"
+        android:stateListAnimator="@anim/fragment_fade_enter"
         android:text="ADD TASK"
         android:textColor="@color/colorText"
+        android:translationZ="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:elevation="8dp"
-        android:stateListAnimator="@anim/fragment_fade_enter"
-        android:translationZ="4dp"/>
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <include
         android:id="@+id/include"
@@ -49,9 +50,10 @@
         android:layout_marginTop="20dp"
         app:layout_constraintBottom_toTopOf="@+id/addTaskButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLabel"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
