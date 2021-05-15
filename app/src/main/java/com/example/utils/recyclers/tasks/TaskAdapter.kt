@@ -11,7 +11,8 @@ class TaskAdapter(
     private val taskIDs: MutableList<String>,
     private val onTaskClickListenerCallback: (Int) -> Unit,
     private val onTaskSwipedCallback: ((itemPosition: Int, direction: SwipeDirection) -> Unit)? =
-        null
+        null,
+    private val swipeDirections: Set<SwipeDirection> = emptySet()
 ) : RecyclerView.Adapter<TaskViewHolder>() {
 
     enum class SwipeDirection {
@@ -24,7 +25,17 @@ class TaskAdapter(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder
         ): Int {
-            return makeMovementFlags(UP or DOWN, LEFT or RIGHT)
+            val swipeToHelperSwipe: Map<SwipeDirection, Int> = mapOf(
+                SwipeDirection.LEFT to LEFT,
+                SwipeDirection.RIGHT to RIGHT
+            )
+
+            var dragFlags = UP or DOWN
+            swipeDirections.map { x -> swipeToHelperSwipe[x]!! }.forEach { direction ->
+                dragFlags = dragFlags or direction
+            }
+
+            return makeMovementFlags(dragFlags, 0)
         }
 
         override fun onMove(
@@ -45,7 +56,7 @@ class TaskAdapter(
             onTaskSwipedCallback?.invoke(viewHolder.bindingAdapterPosition, swipeDirection)
         }
 
-        override fun isItemViewSwipeEnabled(): Boolean = onTaskSwipedCallback != null
+        override fun isItemViewSwipeEnabled(): Boolean = false
     }
 
     private fun changeTaskIDsPositions(holderPosition: Int, targetPosition: Int) {

@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.ViewTaskDetailActivity
-import com.example.prototypefirebase.codeal.CodealTask
 import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
 import com.example.utils.recyclers.tasks.TaskAdapter
 
@@ -72,8 +71,14 @@ class ListAdapter(
             }
         }
 
+        val swipeDirections: MutableSet<TaskAdapter.SwipeDirection> = mutableSetOf()
+        swipeDirections.apply {
+            if (listPosition != 0) add(TaskAdapter.SwipeDirection.LEFT)
+            if (listPosition != listNames.size - 1) add(TaskAdapter.SwipeDirection.RIGHT)
+        }
+
         holder.tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[listName]!!,
-            onTaskClickListener, onTaskSwiped)
+            onTaskClickListener, onTaskSwiped, swipeDirections)
 
         taskAdapters[listName] = holder.tasksRecyclerView.adapter as TaskAdapter
     }

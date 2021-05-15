@@ -14,7 +14,6 @@ import com.example.prototypefirebase.ViewTaskDetailActivity
 import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.example.utils.recyclers.tasks.TaskAdapter
-import com.example.utils.recyclers.tasks.TaskViewHolder
 
 class FeedFragment : Fragment() {
 
