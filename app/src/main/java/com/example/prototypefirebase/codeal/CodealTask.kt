@@ -97,11 +97,11 @@ class CodealTask : CodealEntity<CodealTask> {
 
     fun delete() {
         val db = FirebaseFirestore.getInstance()
-        db.collection(TASKS_DB_COLLECTION_NAME).document(id)
-            .delete()
 
         CodealTeamFactory.get(teamID).addOnReady {
             it.deleteTask(id, listName)
+
+            db.collection(TASKS_DB_COLLECTION_NAME).document(id).delete()
         }
     }
 

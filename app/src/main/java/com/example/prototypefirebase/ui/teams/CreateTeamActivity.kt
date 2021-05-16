@@ -15,7 +15,6 @@ class CreateTeamActivity : AppCompatActivity() {
 
     lateinit var teamNameHolder: EditText
     lateinit var teamDescriptionHolder: EditText
-    lateinit var teamMembersHolder: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +25,6 @@ class CreateTeamActivity : AppCompatActivity() {
 
         teamNameHolder = findViewById(R.id.Enter_name)
         teamDescriptionHolder = findViewById(R.id.Enter_desc)
-        teamMembersHolder = findViewById(R.id.members_add)
 
         createTeamButton.setOnClickListener {
 
