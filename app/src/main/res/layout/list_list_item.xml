@@ -3,35 +3,48 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="0dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="10dp"
     app:cardUseCompatPadding="true">
 
-    <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/container_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="10dp"
+        app:cardUseCompatPadding="true">
 
-    <TextView
-            android:id="@+id/list_name"
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:gravity="center"
-            android:textColor="@color/colorAccentDark"
-            android:textSize="15dp"
-            tools:visibility="visible" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/list_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:textColor="@color/colorAccentDark"
+                android:textSize="15dp"
+                tools:visibility="visible" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/item_item_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/list_name" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/item_item_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/list_name" />
 
 
-    </RelativeLayout>
+        </RelativeLayout>
 
 
+
+    </androidx.cardview.widget.CardView>
 </androidx.cardview.widget.CardView>
