@@ -67,7 +67,7 @@ class BoardActivity : AppCompatActivity() {
     private fun mergeListsWith(newLists: MutableMap<String, List<String>>) {
 
         // to the current lists, add the new ones
-        newLists.forEach { (listName, newTasks) ->
+        for ((listName, newTasks) in newLists) {
             if (!listNameToTasksList.containsKey(listName)) {
                 listNameToTasksList[listName] = newTasks.toMutableList()
                 listNames.add(listName)
@@ -77,14 +77,18 @@ class BoardActivity : AppCompatActivity() {
                 val oldTasks = listNameToTasksList[listName]!!
 
                 // delete deleted tasks
+                val tasksToDelete: MutableList<Pair<String, Int>> = mutableListOf()
                 oldTasks.forEachIndexed { index, task ->
                     if (!newTasks.contains(task)) {
-                        oldTasks.removeAt(index)
-                        listAdapter.notifyItemChanged(listNames.indexOf(listName),
-                            ListAdapter.TaskChangedMessage(
-                                ListAdapter.TaskChangingCommitment.TASK_DELETED,
-                                index))
+                        tasksToDelete.add(Pair(task, index))
                     }
+                }
+                oldTasks.removeAll(tasksToDelete.map(Pair<String, Int>::first))
+                tasksToDelete.map(Pair<String, Int>::second).forEach { index ->
+                    listAdapter.notifyItemChanged(listNames.indexOf(listName),
+                        ListAdapter.TaskChangedMessage(
+                            ListAdapter.TaskChangingCommitment.TASK_DELETED,
+                            index))
                 }
 
                 // add new tasks to the list

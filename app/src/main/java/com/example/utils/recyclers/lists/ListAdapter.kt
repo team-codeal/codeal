@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.ViewTaskDetailActivity
 import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
@@ -45,25 +46,27 @@ class ListAdapter(
         }
 
         val onTaskSwiped = { taskPosition: Int, direction: TaskAdapter.SwipeDirection ->
-            when(direction) {
-                TaskAdapter.SwipeDirection.RIGHT -> {
-                    if (listPosition != listNames.size - 1) {
-                        val newListName = listNames[listPosition + 1]
-                        val taskID = list?.get(taskPosition)
-                        taskID?.let {
-                            CodealTaskFactory.get(it).addOnReady { task ->
-                                task.change(listName = newListName)
+            if (taskPosition != NO_POSITION) {
+                when(direction) {
+                    TaskAdapter.SwipeDirection.RIGHT -> {
+                        if (listPosition != listNames.size - 1) {
+                            val newListName = listNames[listPosition + 1]
+                            val taskID = list?.get(taskPosition)
+                            taskID?.let {
+                                CodealTaskFactory.get(it).addOnReady { task ->
+                                    task.change(listName = newListName)
+                                }
                             }
                         }
                     }
-                }
-                TaskAdapter.SwipeDirection.LEFT -> {
-                    if (listPosition != 0) {
-                        val newListName = listNames[listPosition - 1]
-                        val taskID = list?.get(taskPosition)
-                        taskID?.let {
-                            CodealTaskFactory.get(it).addOnReady { task ->
-                                task.change(listName = newListName)
+                    TaskAdapter.SwipeDirection.LEFT -> {
+                        if (listPosition != 0) {
+                            val newListName = listNames[listPosition - 1]
+                            val taskID = list?.get(taskPosition)
+                            taskID?.let {
+                                CodealTaskFactory.get(it).addOnReady { task ->
+                                    task.change(listName = newListName)
+                                }
                             }
                         }
                     }

@@ -1,5 +1,6 @@
 package com.example.utils.recyclers.tasks
 
+import android.graphics.Canvas
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -54,6 +55,26 @@ class TaskAdapter(
                 else -> throw IllegalStateException("Unknown swipe direction")
             }
             onTaskSwipedCallback?.invoke(viewHolder.bindingAdapterPosition, swipeDirection)
+        }
+
+        override fun onChildDraw(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            val viewWidth = viewHolder.itemView.width
+            val threshold = viewWidth / 2
+            val pathLength = kotlin.math.abs(dX)
+            if (pathLength > threshold) {
+                val direction: SwipeDirection = if (dX > 0)
+                    SwipeDirection.RIGHT else SwipeDirection.LEFT
+                onTaskSwipedCallback?.invoke(viewHolder.bindingAdapterPosition, direction)
+            }
         }
 
         override fun isItemViewSwipeEnabled(): Boolean = false
