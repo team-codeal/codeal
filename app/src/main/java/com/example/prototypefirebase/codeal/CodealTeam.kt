@@ -96,10 +96,10 @@ class CodealTeam : CodealEntity<CodealTeam> {
             if ((listeners.isNotEmpty() or oneTimeListeners.isNotEmpty())) {
                 setFirebaseListener()
             }
-        }
 
-        // doesn't add duplicates, because of FieldValue.arrayUnion
-        members.forEach(::addPersonToTeam)
+            // doesn't add duplicates, because of FieldValue.arrayUnion
+            members.forEach(::addPersonToTeam)
+        }
     }
 
     fun addPersonToTeam(uid: String) {

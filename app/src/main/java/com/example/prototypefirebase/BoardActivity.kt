@@ -77,19 +77,17 @@ class BoardActivity : AppCompatActivity() {
                 val oldTasks = listNameToTasksList[listName]!!
 
                 // delete deleted tasks
-                val tasksToDelete: MutableList<Pair<String, Int>> = mutableListOf()
+                val tasksToDelete: MutableList<String> = mutableListOf()
                 oldTasks.forEachIndexed { index, task ->
                     if (!newTasks.contains(task)) {
-                        tasksToDelete.add(Pair(task, index))
+                        tasksToDelete.add(task)
+                        listAdapter.notifyItemChanged(listNames.indexOf(listName),
+                            ListAdapter.TaskChangedMessage(
+                                ListAdapter.TaskChangingCommitment.TASK_DELETED,
+                                index))
                     }
                 }
-                oldTasks.removeAll(tasksToDelete.map(Pair<String, Int>::first))
-                tasksToDelete.map(Pair<String, Int>::second).forEach { index ->
-                    listAdapter.notifyItemChanged(listNames.indexOf(listName),
-                        ListAdapter.TaskChangedMessage(
-                            ListAdapter.TaskChangingCommitment.TASK_DELETED,
-                            index))
-                }
+                oldTasks.removeAll(tasksToDelete)
 
                 // add new tasks to the list
                 newTasks.forEach { task ->
