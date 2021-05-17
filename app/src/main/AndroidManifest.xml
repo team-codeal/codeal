@@ -13,7 +13,7 @@
         <activity android:name=".ui.teams.CreateTeamActivity"
             android:noHistory="true"/>
         <activity android:name=".ViewTaskDetailActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".BoardActivity" />
         <activity
