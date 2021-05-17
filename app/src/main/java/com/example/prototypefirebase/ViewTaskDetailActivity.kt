@@ -49,24 +49,6 @@ class ViewTaskDetailActivity : AppCompatActivity() {
 
         val uploadCommentButton: Button = findViewById(R.id.add_new_comment_button)
 
-        newCommentHolder.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                newCommentHolder.animate()
-                    .translationY(-60f)
-                    .duration = 500
-                uploadCommentButton.animate()
-                    .translationY(-60f)
-                    .duration = 500
-            } else {
-                newCommentHolder.animate()
-                    .translationY(60f)
-                    .duration = 500
-                uploadCommentButton.animate()
-                    .translationY(60f)
-                    .duration = 500
-            }
-        }
-
         commentsRecyclerView = findViewById(R.id.comments_recycler_view)
 
         commentsRecyclerView.layoutManager = LinearLayoutManager(this)
