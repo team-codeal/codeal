@@ -11,15 +11,16 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comments_recycler_view"
-        android:layout_width="318dp"
-        android:layout_height="266dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="380dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
-        app:layout_constraintVertical_bias="0.121">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+        app:layout_constraintVertical_bias="0.0">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -175,8 +176,8 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="288dp"
-            android:layout_height="35dp"
+            android:layout_width="67dp"
+            android:layout_height="34dp"
             android:background="@color/fui_transparent"
             android:fontFamily="@font/poppins_italic"
             android:gravity="center|left"
@@ -184,7 +185,7 @@
             android:textColor="@color/colorText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.095"
+            app:layout_constraintHorizontal_bias="0.029"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Name_task"
             app:layout_constraintVertical_bias="0.0" />
@@ -206,39 +207,27 @@
             app:layout_constraintHorizontal_bias="0.176"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:background="#EAEDF6"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
-        app:layout_constraintVertical_bias="0.0">
 
         <EditText
             android:id="@+id/List_task"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_width="288dp"
+            android:layout_height="34dp"
             android:layout_margin="0dp"
+            android:layout_marginStart="1dp"
             android:autofillHints=""
             android:background="@color/fui_transparent"
-            android:fontFamily="@font/poppins_italic"
+            android:fontFamily="@font/poppins_bold_italic"
             android:hint="Enter the list"
             android:inputType="textMultiLine"
             android:paddingLeft="3dp"
-            android:textColor="@color/colorPrimary"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="14dp"
+            android:textColor="@color/colorText"
+            android:textColorHint="@color/colorText"
+            android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/Name_task"
             app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
