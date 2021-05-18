@@ -19,8 +19,7 @@
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true">
 
-
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -32,19 +31,45 @@
                 android:gravity="center"
                 android:textColor="@color/colorAccentDark"
                 android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/item_item_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/list_name" />
+                android:layout_below="@id/list_name"
+                app:layout_constraintBottom_toTopOf="@+id/addTaskButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/list_name"
+                app:layout_constraintVertical_bias="0.0" />
 
+            <Button
+                android:id="@+id/addTaskButton"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_below="@+id/item_item_list"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="1dp"
+                android:background="@color/fui_transparent"
+                android:elevation="8dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:onClick="openAddTask"
+                android:stateListAnimator="@anim/fragment_fade_enter"
+                android:text="+ ADD TASK"
+                android:textColor="@color/colorAccentDark"
+                android:translationZ="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_item_list"
+                app:layout_constraintVertical_bias="0.0" />
 
-        </RelativeLayout>
-
-
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.cardview.widget.CardView>
