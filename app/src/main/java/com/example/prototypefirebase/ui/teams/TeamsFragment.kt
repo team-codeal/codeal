@@ -16,6 +16,7 @@ import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.example.utils.recyclers.teams.OnTeamClickListener
 import com.example.utils.recyclers.teams.TeamAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 
 class TeamsFragment : Fragment(), OnTeamClickListener {
@@ -35,6 +36,10 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val addTeamButton: FloatingActionButton = view.findViewById(R.id.add_team_button)
+        addTeamButton.setOnClickListener { openAddTeam() }
+
         teamsRecyclerView = view.findViewById(R.id.recycler_view_teams)!!
         teamsRecyclerView.adapter = teamAdapter
         teamsRecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -73,6 +78,11 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
                 teamAdapter.notifyDataSetChanged()
             }
         }
+    }
+
+    private fun openAddTeam(){
+        val teamIntent = Intent(requireActivity(), CreateTeamActivity::class.java)
+        startActivity(teamIntent)
     }
 
 }

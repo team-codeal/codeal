@@ -38,12 +38,11 @@
         tools:listitem="@layout/team_row" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/add_team_button"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="false"
-        android:onClick="openAddTeam"
         android:src="@drawable/ic_baseline_add_circle_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
