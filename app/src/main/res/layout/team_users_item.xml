@@ -14,11 +14,14 @@
 
                 <TextView
                     android:id="@+id/team_member_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="185dp"
+                    android:layout_height="21dp"
                     android:layout_marginStart="64dp"
                     android:layout_marginTop="4dp"
+                    android:ellipsize="end"
                     android:fontFamily="@font/poppins_semibold"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
                     android:text="UserName"
                     android:textColor="@color/colorBackground"
                     android:textSize="14dp"
