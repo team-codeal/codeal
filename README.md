@@ -11,7 +11,7 @@ You can look through our technical documents and presentations at the link below
   https://drive.google.com/drive/folders/1X4f9yVsc-Dwbitb1GTR1wkWA9po99MhR?usp=sharing
 
 How to install the project?
-  We’re still working on the project, but soon there will be a link to the Google Store!
+  We’re still working on the project, but soon there will be a link to the Google Market!
 
 Our team:
 
