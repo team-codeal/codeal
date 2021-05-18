@@ -126,6 +126,7 @@ class UserProfileFragment : Fragment() {
             AuthUI.getInstance().signOut(ctx).addOnCompleteListener{
                 Toast.makeText(ctx, "Signed out", Toast.LENGTH_SHORT).show()
                 val intent = Intent(ctx, SignInActivity::class.java)
+                requireActivity().finish()
                 startActivity(intent)
             }
         }
