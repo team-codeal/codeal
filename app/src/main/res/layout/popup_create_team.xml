@@ -4,68 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@drawable/pop_up_corners"
     tools:context=".ui.teams.CreateTeamActivity">
+
 
     <TextView
         android:id="@+id/team_creation_txt"
-        android:layout_width="242dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="41dp"
         android:fontFamily="@font/poppins_semibold"
-        android:gravity="center"
-        android:text="TEAM CREATION"
+        android:text="NEW TEAM"
         android:textColor="@color/colorText"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/create_team_button"
+        app:layout_constraintHorizontal_bias="0.651"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
 
-
-    <LinearLayout
-        android:id="@+id/name_layout"
-        android:layout_width="341dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="36dp"
-        android:orientation="horizontal"
+    <Button
+        android:id="@+id/create_team_button"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="12dp"
+        android:background="@color/fui_transparent"
+        android:elevation="8dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:foreground="@drawable/tick"
+        android:stateListAnimator="@anim/fragment_fade_enter"
+        android:translationZ="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/team_creation_txt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.384"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/team_creation_txt">
-
-        <TextView
-            android:id="@+id/Name_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:paddingStart="10dp"
-            android:text="Name:"
-            android:textColor="@color/colorText"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/Enter_name"
-            android:layout_width="266dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="30dp"
-            android:fontFamily="@font/poppins_italic"
-            android:hint="Enter the name of team"
-            android:maxLines="1"
-            android:textColor="@color/colorText"
-            android:textColorHint="@color/colorText" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="@+id/team_creation_txt"
+        app:layout_constraintVertical_bias="0.45" />
 
     <LinearLayout
         android:id="@+id/desc_layout"
-        android:layout_width="362dp"
-        android:layout_height="98dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.567"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_layout">
+        app:layout_constraintTop_toBottomOf="@+id/name_layout"
+        app:layout_constraintVertical_bias="0.248">
 
         <TextView
             android:id="@+id/Desc_txt"
@@ -76,39 +60,57 @@
             android:text="Description:"
             android:textColor="@color/colorText"
             android:textColorHint="@color/colorText"
-            android:textSize="20sp" />
+            android:textSize="20dp" />
 
         <EditText
             android:id="@+id/Enter_desc"
-            android:layout_width="190dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:fontFamily="@font/poppins_italic"
             android:hint="Enter the description of team"
             android:inputType="textMultiLine"
             android:textColor="@color/colorText"
-            android:textColorHint="@color/colorText" />
+            android:textColorHint="@color/colorText"
+            android:textSize="18dp" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/create_team_button"
+    <LinearLayout
+        android:id="@+id/name_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_button"
-        android:elevation="8dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:gravity="center|bottom"
-        android:stateListAnimator="@anim/fragment_fade_enter"
-        android:text="CREATE"
-        android:textColor="@color/colorText"
-        android:translationZ="4dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/desc_layout"
-        app:layout_constraintVertical_bias="0.225" />
+        app:layout_constraintTop_toBottomOf="@+id/team_creation_txt"
+        app:layout_constraintVertical_bias="0.06">
+
+        <TextView
+            android:id="@+id/Name_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:paddingStart="10dp"
+            android:text="Name:"
+            android:textColor="@color/colorText"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/Enter_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:fontFamily="@font/poppins_italic"
+            android:hint="Enter the name of team"
+            android:maxLines="1"
+            android:textColor="@color/colorText"
+            android:textColorHint="@color/colorText"
+            android:textSize="18dp" />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
