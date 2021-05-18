@@ -72,16 +72,14 @@
 
         <Button
             android:id="@+id/add_person_to_team_button"
-            android:layout_width="56dp"
+            android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_alignParentEnd='true'
             android:layout_marginEnd="2dp"
-            android:background="@drawable/round_button"
+            android:background="@color/fui_transparent"
             android:elevation="8dp"
-            android:gravity="bottom|center|top"
             android:stateListAnimator="@anim/fragment_fade_enter"
-            android:text="ADD"
-            android:textColor="@color/colorText"
+            android:foreground="@drawable/add"
             android:translationZ="4dp"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
@@ -90,7 +88,6 @@
         android:id="@+id/edit_team_update_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:background="@drawable/round_button"
         android:elevation="8dp"
         android:fontFamily="@font/poppins_semibold"
@@ -99,17 +96,18 @@
         android:text="SAVE"
         android:textColor="@color/colorText"
         android:translationZ="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_team_to_tasks"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/team_members_recycler_view" />
+        app:layout_constraintTop_toTopOf="@+id/edit_team_to_tasks" />
 
     <Button
         android:id="@+id/edit_team_to_tasks"
         android:layout_width="84dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/round_button"
         android:elevation="8dp"
@@ -120,7 +118,7 @@
         android:textColor="@color/colorText"
         android:translationZ="4dp"
         app:layout_constraintEnd_toStartOf="@+id/leave_team_button"
-        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toEndOf="@+id/edit_team_update_button"
         app:layout_constraintTop_toBottomOf="@+id/team_members_recycler_view" />
 
@@ -129,7 +127,6 @@
         android:layout_width="84dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="100dp"
         android:background="@drawable/round_button"
         android:elevation="8dp"
         android:fontFamily="@font/poppins_semibold"
@@ -138,16 +135,18 @@
         android:text="Leave"
         android:textColor="@color/colorText"
         android:translationZ="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_team_to_tasks"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.845"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/team_members_recycler_view" />
+        app:layout_constraintTop_toTopOf="@+id/edit_team_to_tasks" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/team_members_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/person_adding_layout" />
 
