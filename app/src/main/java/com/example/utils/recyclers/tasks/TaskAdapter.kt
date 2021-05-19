@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
+import java.lang.UnsupportedOperationException
 
 class TaskAdapter(
     private val taskIDs: MutableList<String>,
-    private val onTaskClickListenerCallback: (Int) -> Unit,
+    private val onTaskClickedCallback: (Int) -> Unit,
     private val onTaskSwipedCallback: ((itemPosition: Int, direction: SwipeDirection) -> Unit)? =
         null,
-    private val swipeDirections: Set<SwipeDirection> = emptySet()
+    private val enabledSwipedDirections: Set<SwipeDirection> = emptySet()
 ) : RecyclerView.Adapter<TaskViewHolder>() {
 
     enum class SwipeDirection {
@@ -32,7 +33,7 @@ class TaskAdapter(
             )
 
             var dragFlags = UP or DOWN
-            swipeDirections.map { x -> swipeToHelperSwipe[x]!! }.forEach { direction ->
+            enabledSwipedDirections.map { x -> swipeToHelperSwipe[x]!! }.forEach { direction ->
                 dragFlags = dragFlags or direction
             }
 
@@ -46,15 +47,6 @@ class TaskAdapter(
         ): Boolean {
             changeTaskIDsPositions(viewHolder.bindingAdapterPosition, target.bindingAdapterPosition)
             return true
-        }
-
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            val swipeDirection: SwipeDirection = when(direction) {
-                LEFT -> SwipeDirection.LEFT
-                RIGHT -> SwipeDirection.RIGHT
-                else -> throw IllegalStateException("Unknown swipe direction")
-            }
-            onTaskSwipedCallback?.invoke(viewHolder.bindingAdapterPosition, swipeDirection)
         }
 
         override fun onChildDraw(
@@ -78,6 +70,9 @@ class TaskAdapter(
         }
 
         override fun isItemViewSwipeEnabled(): Boolean = false
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            throw UnsupportedOperationException("Tasks can't be swiped at the moment")
+        }
     }
 
     private fun changeTaskIDsPositions(holderPosition: Int, targetPosition: Int) {
@@ -114,7 +109,7 @@ class TaskAdapter(
         super.onViewAttachedToWindow(holder)
         holder.startListenerIfExists()
         holder.itemView.setOnClickListener {
-            onTaskClickListenerCallback.invoke(holder.bindingAdapterPosition)
+            onTaskClickedCallback.invoke(holder.bindingAdapterPosition)
         }
     }
 

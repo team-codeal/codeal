@@ -7,7 +7,6 @@ import com.example.prototypefirebase.R
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTask
 import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
-import java.util.concurrent.ConcurrentLinkedQueue
 
 class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
