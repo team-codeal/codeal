@@ -31,7 +31,7 @@ class ListAdapter(
         )
         val itemView = listViewHolder.itemView
 
-        itemView.layoutParams.height = (getScreenWidth() * 1.4).toInt()
+        itemView.layoutParams.height = (getScreenWidth() * 1.8).toInt()
         return listViewHolder
     }
 
