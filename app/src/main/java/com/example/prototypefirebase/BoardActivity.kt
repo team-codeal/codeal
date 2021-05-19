@@ -2,7 +2,6 @@ package com.example.prototypefirebase
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +22,7 @@ class BoardActivity : AppCompatActivity() {
 
     private lateinit var tasksRecyclerView: RecyclerView
     private var listAdapter: ListAdapter
-            = ListAdapter(listNames, listNameToTasksList, this)
+            = ListAdapter(listNames, listNameToTasksList, ::openAddTaskActivity, this)
 
     private lateinit var teamInfoListener: CodealEntity<CodealTeam>.CodealListener
 
@@ -39,7 +38,7 @@ class BoardActivity : AppCompatActivity() {
         tasksRecyclerView.layoutManager = LinearLayoutManager(this,
             LinearLayoutManager.HORIZONTAL, false)
 
-        teamID = intent.getStringExtra("TeamID").toString()
+        teamID = intent.getStringExtra("TeamID")!!
 
 
         teamNameHolder = findViewById(com.example.prototypefirebase.R.id.textViewLabel)
@@ -113,9 +112,10 @@ class BoardActivity : AppCompatActivity() {
         }
     }
 
-    fun openAddTask(view: View) {
+    fun openAddTaskActivity(taskList: String) {
         val taskIntent = Intent(this, AddTaskActivity::class.java)
         taskIntent.putExtra("TeamID", teamID)
+        taskIntent.putExtra("TaskList", taskList)
         startActivity(taskIntent)
     }
 

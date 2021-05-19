@@ -16,6 +16,7 @@ import com.example.utils.recyclers.tasks.TaskAdapter
 class ListAdapter(
     private val listNames: MutableList<String>,
     private val listNameToTasksList: MutableMap<String, MutableList<String>>,
+    private val addTaskCallback: (taskList: String) -> Unit,
     private val context: Context
 ) : RecyclerView.Adapter<ListViewHolder>() {
 
@@ -50,6 +51,7 @@ class ListAdapter(
         val list = listNames[position]
 
         holder.label = list
+        holder.addTaskListener = { addTaskCallback.invoke(list) }
 
         holder.tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[list]!!) {
             val intent = Intent(context, ViewTaskDetailActivity::class.java)

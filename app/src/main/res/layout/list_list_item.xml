@@ -56,7 +56,6 @@
                 android:background="#ffffff"
                 android:elevation="8dp"
                 android:fontFamily="@font/poppins_semibold"
-                android:onClick="openAddTask"
                 android:text="+ ADD TASK"
                 android:textColor="@color/colorAccentDark"
                 android:translationZ="4dp"
