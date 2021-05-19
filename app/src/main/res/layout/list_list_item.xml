@@ -41,12 +41,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/list_name"
-                app:layout_constraintBottom_toTopOf="@+id/addTaskButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/list_name"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/list_name" />
 
             <Button
                 android:id="@+id/addTaskButton"
@@ -55,14 +53,14 @@
                 android:layout_below="@+id/item_item_list"
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="1dp"
-                android:background="@color/fui_transparent"
+                android:background="#ffffff"
                 android:elevation="8dp"
                 android:fontFamily="@font/poppins_semibold"
                 android:onClick="openAddTask"
-                android:stateListAnimator="@anim/fragment_fade_enter"
                 android:text="+ ADD TASK"
                 android:textColor="@color/colorAccentDark"
                 android:translationZ="4dp"
+                android:stateListAnimator="@anim/fragment_open_enter"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
