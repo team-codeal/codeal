@@ -32,9 +32,4 @@ class MainActivity : AppCompatActivity() {
         navController.popBackStack(R.id.navigation_home, true);
         navController.navigate(R.id.navigation_notifications);
     }
-
-    fun openAddTeam(view: View){
-        val teamIntent = Intent(this, CreateTeamActivity::class.java)
-        startActivity(teamIntent)
-    }
 }

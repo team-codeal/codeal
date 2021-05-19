@@ -34,8 +34,8 @@ object CodealTaskFactory: CodealEntityCachingFactory<CodealTask>() {
     override fun constructByIDRaw(id: String?): CodealTask
             = CodealTask(id!!)
 
-    fun create(taskName: String,
-               taskContent: String,
+    fun create(taskName: String = "",
+               taskContent: String = "",
                teamID: String,
                listName: String): CodealTask {
         return CodealTask(taskName, taskContent, teamID, listName).apply {

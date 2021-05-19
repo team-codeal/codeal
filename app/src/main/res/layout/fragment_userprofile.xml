@@ -17,13 +17,12 @@
         android:maxWidth="300dp"
         android:text="UserStatus"
         android:textColor="@color/colorText"
-        android:textSize="13dp"
+        android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.847"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/user_avatar"
         app:layout_constraintTop_toBottomOf="@+id/user_name"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_avatar"
@@ -41,33 +40,37 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.025" />
 
+
     <TextView
         android:id="@+id/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_width="250dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:ellipsize="end"
         android:fontFamily="@font/cabin_bold"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
         android:text="UserName"
         android:textAlignment="center"
         android:textColor="@color/colorText"
-        android:textSize="20dp"
+        android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="310dp"
         android:layout_height="70dp"
+        android:layout_marginTop="3dp"
         android:background="@drawable/rounded_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_avatar"
-        app:layout_constraintVertical_bias="0.067">
+        app:layout_constraintTop_toBottomOf="@+id/button_go_edit"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/user_bio"
@@ -82,54 +85,51 @@
             android:layout_marginEnd="7dp"
             android:layout_marginBottom="6dp"
             android:background="@color/colorText"
-            android:gravity="center"
             android:ems="14"
             android:fontFamily="@font/cabin"
+            android:gravity="center"
             android:inputType="textMultiLine"
             android:textColor="@color/colorBackground"
             android:textSize="15sp" />
     </RelativeLayout>
 
-
     <Button
         android:id="@+id/button_go_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="68dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="3dp"
         android:background="@drawable/round_button"
         android:fontFamily="@font/poppins_semibold"
-        android:gravity="center|bottom"
         android:text="Edit"
         android:textColor="@color/colorText"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.813"
-        app:layout_constraintStart_toStartOf="@+id/relativeLayout"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-        app:layout_constraintVertical_bias="0.004" />
+        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_avatar" />
 
     <ImageView
         android:id="@+id/motivational_gif"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="@dimen/activity_vertical_margin"
         android:src="@android:drawable/title_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_go_edit"
-        app:layout_constraintVertical_bias="0.166" />
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
     <ImageView
         android:id="@+id/heart_reaction"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="68dp"
         android:src="@drawable/heart"
         android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/user_name"
-        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -9,164 +9,330 @@
     android:focusableInTouchMode="true"
     tools:context=".ViewTaskDetailActivity">
 
-    <EditText
-        android:id="@+id/new_comment_plain_text"
-        android:height="@dimen/fui_wrapper_padding_horiz"
-        android:layout_width="286dp"
-        android:layout_height="41dp"
-        android:layout_margin="10dp"
-        android:autofillHints=""
-        android:background="@drawable/comment_bg"
-        android:fontFamily="@font/poppins_italic"
-        android:hint="Your new comment..."
-        android:inputType="textMultiLine"
-        android:paddingLeft="10dp"
-        android:textColor="#000000"
-        android:textColorHint="@color/colorAccent"
-        android:textSize="14dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comments_recycler_view"
-        app:layout_constraintVertical_bias="0.786" />
-
-    <TextView
-        android:id="@+id/task_title"
-        android:layout_width="202dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:gravity="center"
-        android:text="Task Details"
-        android:textColor="@color/colorText"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/Name_task"
-        android:layout_width="288dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:autofillHints=""
-        android:fontFamily="@font/poppins_italic"
-        android:hint="Enter the name of task"
-        android:maxLines="1"
-        android:textColor="@color/colorText"
-        android:textColorHint="@color/colorText"
-        android:textSize="14dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.436"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_title" />
-
-    <EditText
-        android:id="@+id/Text_task"
-        android:layout_width="288dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="68dp"
-        android:autofillHints=""
-        android:fontFamily="@font/poppins_italic"
-        android:hint="Enter the task"
-        android:inputType="textMultiLine"
-        android:textColor="@color/colorText"
-        android:textColorHint="@color/colorText"
-        android:textSize="14dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.436"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Name_task" />
-
-    <EditText
-        android:id="@+id/List_task"
-        android:layout_width="288dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:autofillHints=""
-        android:fontFamily="@font/poppins_italic"
-        android:hint="Enter the list"
-        android:inputType="textMultiLine"
-        android:textColor="@color/colorText"
-        android:textColorHint="@color/colorText"
-        android:textSize="14dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.436"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Text_task"
-        app:layout_constraintVertical_bias="0.003" />
-
-    <Button
-        android:id="@+id/updateTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/round_button"
-        android:elevation="8dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:gravity="center|bottom"
-        android:stateListAnimator="@anim/fragment_fade_enter"
-        android:text="UPDATE"
-        android:textColor="@color/colorText"
-        android:translationZ="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.064"
-        app:layout_constraintStart_toStartOf="@+id/comments_recycler_view"
-        app:layout_constraintTop_toBottomOf="@+id/List_task"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/add_new_comment_button"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/rounded_button"
-        android:fontFamily="@font/poppins_semibold"
-        android:foreground="@android:drawable/ic_menu_send"
-        android:gravity="center|bottom"
-        android:stateListAnimator="@anim/fragment_fade_enter"
-        android:textColor="@color/colorText"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.543"
-        app:layout_constraintStart_toEndOf="@+id/new_comment_plain_text"
-        app:layout_constraintTop_toTopOf="@+id/new_comment_plain_text"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/deleteTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
-        android:background="@drawable/round_button"
-        android:elevation="8dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:gravity="center|bottom"
-        android:stateListAnimator="@anim/fragment_fade_enter"
-        android:text="DELETE"
-        android:textColor="@color/colorText"
-        android:translationZ="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/updateTask"
-        app:layout_constraintTop_toTopOf="@+id/updateTask" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comments_recycler_view"
-        android:layout_width="322dp"
-        android:layout_height="236dp"
-        android:layout_marginBottom="48dp"
+        android:layout_width="380dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+        app:layout_constraintVertical_bias="0.0">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#789DC9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/add_new_comment_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rounded_button"
+            android:fontFamily="@font/poppins_semibold"
+            android:foreground="@android:drawable/ic_menu_send"
+            android:gravity="center|bottom"
+            android:stateListAnimator="@anim/fragment_fade_enter"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/new_comment_plain_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/new_comment_plain_text"
+            app:layout_constraintTop_toTopOf="@+id/new_comment_plain_text" />
+
+        <EditText
+            android:id="@+id/new_comment_plain_text"
+            android:layout_width="300dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:height="@dimen/fui_wrapper_padding_horiz"
+            android:autofillHints=""
+            android:background="@drawable/comment_bg"
+            android:fontFamily="@font/poppins_italic"
+            android:hint="Your new comment..."
+            android:inputType="textMultiLine"
+            android:paddingLeft="10dp"
+            android:textColor="#000000"
+            android:textColorHint="@color/colorAccent"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.234"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EAEDF6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deleteTask" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.0">
 
+        <EditText
+            android:id="@+id/Text_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:autofillHints=""
+            android:background="@color/fui_transparent"
+            android:fontFamily="@font/poppins_italic"
+            android:gravity="center|left"
+            android:hint="Tap to add a description"
+            android:inputType="textMultiLine"
+            android:paddingLeft="3dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#789DC9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/task_title"
+            android:layout_width="202dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:text="Task Details"
+            android:textColor="@color/colorText"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/Name_task"
+            android:layout_width="288dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="8dp"
+            android:autofillHints=""
+            android:background="@color/fui_transparent"
+            android:fontFamily="@font/poppins_italic"
+            android:hint="Enter the name of task"
+            android:textColor="@color/colorText"
+            android:textColorHint="@color/colorText"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/task_title" />
+
+        <Button
+            android:id="@+id/updateTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/fui_transparent"
+            android:elevation="8dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:stateListAnimator="@anim/fragment_fade_enter"
+            android:text="SAVE"
+            android:textColor="@color/colorText"
+            android:translationZ="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.684"
+            app:layout_constraintStart_toEndOf="@+id/task_title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="67dp"
+            android:layout_height="34dp"
+            android:background="@color/fui_transparent"
+            android:fontFamily="@font/poppins_italic"
+            android:gravity="center|left"
+            android:text="In the list: "
+            android:textColor="@color/colorText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.029"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Name_task"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/deleteTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/fui_transparent"
+            android:elevation="8dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:stateListAnimator="@anim/fragment_fade_enter"
+            android:text="DELETE"
+            android:textColor="@color/colorText"
+            android:translationZ="4dp"
+            app:layout_constraintEnd_toStartOf="@+id/task_title"
+            app:layout_constraintHorizontal_bias="0.176"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/List_task"
+            android:layout_width="288dp"
+            android:layout_height="34dp"
+            android:layout_margin="0dp"
+            android:layout_marginStart="1dp"
+            android:autofillHints=""
+            android:background="@color/fui_transparent"
+            android:fontFamily="@font/poppins_bold_italic"
+            android:hint="Enter the list"
+            android:inputType="textMultiLine"
+            android:paddingLeft="3dp"
+            android:textColor="@color/colorText"
+            android:textColorHint="@color/colorText"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/Name_task"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="#EAEDF6"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="41dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/list_task"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/fire" />
+
+        <EditText
+            android:id="@+id/list_task"
+            android:layout_width="353dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="60dp"
+            android:background="@color/fui_transparent"
+            android:fontFamily="@font/poppins_italic"
+            android:hint="Deadline"
+            android:inputType="textMultiLine"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="353dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="60dp"
+            android:background="@color/fui_transparent"
+            android:backgroundTint="@color/fui_transparent"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list_task">
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="353dp"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="353dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="60dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="353dp"
+                android:layout_height="2dp"
+                android:background="#000000" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="41dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4"
+            app:srcCompat="@drawable/label" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="41dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView5"
+            app:srcCompat="@drawable/members" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

@@ -5,17 +5,18 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.prototypefirebase.codeal.CodealTask
 import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
 
 
 class AddTaskActivity : AppCompatActivity() {
 
     private lateinit var teamID: String
+    private lateinit var taskListName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        teamID = intent.getStringExtra("TeamID").toString()
+        teamID = intent.getStringExtra("TeamID")!!
+        taskListName = intent.getStringExtra("TaskList")!!
 
         setContentView(R.layout.activity_create_task)
         supportActionBar?.hide();
@@ -23,12 +24,10 @@ class AddTaskActivity : AppCompatActivity() {
         val saveTaskButton: Button = findViewById(R.id.saveTask)
         val taskNameHolder: TextView = findViewById(R.id.Name_task)
         val taskTextHolder: TextView = findViewById(R.id.Text_task)
-        val taskListHolder: TextView = findViewById(R.id.List_task)
 
         saveTaskButton.setOnClickListener {
             val taskName = taskNameHolder.text.toString()
             val taskText = taskTextHolder.text.toString()
-            val taskListName = taskListHolder.text.toString()
 
             CodealTaskFactory.create(taskName, taskText, teamID, taskListName)
 

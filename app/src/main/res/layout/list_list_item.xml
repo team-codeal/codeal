@@ -3,35 +3,68 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="0dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="10dp"
     app:cardUseCompatPadding="true">
 
-    <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/container_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="10dp"
+        app:cardUseCompatPadding="true">
 
-    <TextView
-            android:id="@+id/list_name"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:gravity="center"
-            android:textColor="@color/colorAccentDark"
-            android:textSize="15dp"
-            tools:visibility="visible" />
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/list_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:textColor="@color/colorAccentDark"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/item_item_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/list_name" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/item_item_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/list_name"
+                app:layout_constraintBottom_toTopOf="@+id/addTaskButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/list_name" />
 
+            <Button
+                android:id="@+id/addTaskButton"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_below="@+id/item_item_list"
+                android:layout_alignParentBottom="true"
+                android:background="#ffffff"
+                android:elevation="8dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:stateListAnimator="@anim/fragment_open_enter"
+                android:text="+ ADD TASK"
+                android:textColor="@color/colorAccentDark"
+                android:translationZ="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
 
-    </RelativeLayout>
-
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.cardview.widget.CardView>

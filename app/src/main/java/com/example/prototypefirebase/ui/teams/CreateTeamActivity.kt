@@ -18,7 +18,7 @@ class CreateTeamActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_team)
+        setContentView(R.layout.popup_create_team)
         supportActionBar?.hide();
 
         val createTeamButton: Button = findViewById(R.id.create_team_button)
