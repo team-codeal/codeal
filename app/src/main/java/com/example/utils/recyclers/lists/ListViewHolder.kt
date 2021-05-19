@@ -10,10 +10,10 @@ import com.example.prototypefirebase.R
 
 class ListViewHolder(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {
 
-    var addTaskListener: () -> Unit = { }
+    var addTaskListener: (View) -> Unit = { }
         set(value) {
             field = value
-            addTaskButton.setOnClickListener { field() }
+            addTaskButton.setOnClickListener { view -> field(view) }
         }
     
     private val listNameHolder : TextView = itemView.findViewById(R.id.list_name)

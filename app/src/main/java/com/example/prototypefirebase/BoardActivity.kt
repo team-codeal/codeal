@@ -2,6 +2,7 @@ package com.example.prototypefirebase
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTeam
+import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
 import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.utils.recyclers.lists.ListAdapter
 
@@ -112,11 +114,14 @@ class BoardActivity : AppCompatActivity() {
         }
     }
 
-    private fun openAddTaskActivity(taskList: String) {
-        val taskIntent = Intent(this, AddTaskActivity::class.java)
-        taskIntent.putExtra("TeamID", teamID)
-        taskIntent.putExtra("TaskList", taskList)
-        startActivity(taskIntent)
+    private fun openAddTaskActivity(view: View, taskList: String) {
+        view.isClickable = false
+        val taskIntent = Intent(this, ViewTaskDetailActivity::class.java)
+        CodealTaskFactory.create(teamID = teamID, listName = taskList).addOnReady {
+            taskIntent.putExtra("TaskID", it.id)
+            startActivity(taskIntent)
+            view.isClickable = true
+        }
     }
 
 }
