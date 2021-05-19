@@ -23,25 +23,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/addTaskButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/round_button"
-        android:elevation="8dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:gravity="center|bottom"
-        android:onClick="openAddTask"
-        android:stateListAnimator="@anim/fragment_fade_enter"
-        android:text="ADD TASK"
-        android:textColor="@color/colorText"
-        android:translationZ="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <include
         android:id="@+id/include"
         layout="@layout/list_item_view"
