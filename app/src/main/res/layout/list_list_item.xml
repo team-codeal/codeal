@@ -19,7 +19,6 @@
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -37,13 +36,13 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/item_item_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/list_name"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/list_name" />
 
@@ -57,7 +56,6 @@
                 android:background="#ffffff"
                 android:elevation="8dp"
                 android:fontFamily="@font/poppins_semibold"
-                android:onClick="openAddTask"
                 android:text="+ ADD TASK"
                 android:textColor="@color/colorAccentDark"
                 android:translationZ="4dp"

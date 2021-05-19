@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Point
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat.startActivity
@@ -16,6 +17,7 @@ import com.example.utils.recyclers.tasks.TaskAdapter
 class ListAdapter(
     private val listNames: MutableList<String>,
     private val listNameToTasksList: MutableMap<String, MutableList<String>>,
+    private val addTaskCallback: (view: View, taskList: String) -> Unit,
     private val context: Context
 ) : RecyclerView.Adapter<ListViewHolder>() {
 
@@ -50,6 +52,7 @@ class ListAdapter(
         val list = listNames[position]
 
         holder.label = list
+        holder.addTaskListener = { view -> addTaskCallback.invoke(view, list) }
 
         holder.tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[list]!!) {
             val intent = Intent(context, ViewTaskDetailActivity::class.java)
