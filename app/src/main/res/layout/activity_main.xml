@@ -5,8 +5,26 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccentDark"
-    android:paddingTop="?attr/actionBarSize">
+    android:background="@color/colorAccentDark">
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="250dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/cabin_bold"
+        android:gravity="left|center"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="UserName"
+        android:textColor="@color/colorText"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/nav_host_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
@@ -24,6 +42,7 @@
     <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="56dp"
