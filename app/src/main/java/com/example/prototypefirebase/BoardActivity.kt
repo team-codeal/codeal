@@ -112,7 +112,7 @@ class BoardActivity : AppCompatActivity() {
         }
     }
 
-    fun openAddTaskActivity(taskList: String) {
+    private fun openAddTaskActivity(taskList: String) {
         val taskIntent = Intent(this, AddTaskActivity::class.java)
         taskIntent.putExtra("TeamID", teamID)
         taskIntent.putExtra("TaskList", taskList)
