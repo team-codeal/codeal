@@ -19,7 +19,7 @@
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -50,12 +50,11 @@
             <Button
                 android:id="@+id/addTaskButton"
                 android:layout_width="match_parent"
-                android:layout_height="37dp"
-                android:layout_below="@+id/item_item_list"
-                android:layout_alignParentBottom="true"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_item_list"
                 android:background="#ffffff"
-                android:elevation="8dp"
                 android:fontFamily="@font/poppins_semibold"
+                android:onClick="openAddTask"
                 android:stateListAnimator="@anim/fragment_open_enter"
                 android:text="+ ADD TASK"
                 android:textColor="@color/colorAccentDark"
@@ -65,6 +64,6 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </androidx.cardview.widget.CardView>
