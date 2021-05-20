@@ -63,9 +63,6 @@ class UserProfileFragment : Fragment() {
             updateUserProfileUI(view, user)
             loadUserAvatarToView(userAvatarHolder)
         }
-        val motivationHolder: ImageView = requireView().findViewById(R.id.motivational_gif)
-        loadMotivationalGif(motivationHolder)
-        motivationHolder.setOnClickListener { loadMotivationalGif(motivationHolder) }
 
         val heartReactionHolder: ImageView = requireView().findViewById(R.id.heart_reaction)
         CodealUserFactory.get().incomingReactionCallback = {
