@@ -54,7 +54,6 @@
                 android:layout_below="@id/item_item_list"
                 android:background="#ffffff"
                 android:fontFamily="@font/poppins_semibold"
-                android:onClick="openAddTask"
                 android:stateListAnimator="@anim/fragment_open_enter"
                 android:text="+ ADD TASK"
                 android:textColor="@color/colorAccentDark"
