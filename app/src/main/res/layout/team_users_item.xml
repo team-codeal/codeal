@@ -15,7 +15,7 @@
                 <TextView
                     android:id="@+id/team_member_name"
                     android:layout_width="185dp"
-                    android:layout_height="21dp"
+                    android:layout_height="20dp"
                     android:layout_marginStart="64dp"
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
@@ -32,18 +32,35 @@
                     android:id="@+id/team_member_status"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="3dp"
                     android:fontFamily="@font/poppins_regular"
-                    android:maxWidth="300dp"
-                    android:layout_marginLeft="20dp"
                     android:gravity="center|left"
+                    android:maxWidth="300dp"
                     android:text="Status"
                     android:textColor="@color/colorAccentDark"
                     android:textSize="12dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.283"
                     app:layout_constraintStart_toEndOf="@+id/team_member_avatar"
-                    app:layout_constraintTop_toBottomOf="@+id/team_member_name"
+                    app:layout_constraintTop_toBottomOf="@+id/mail"
                     app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/mail"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cabin_italic"
+                    android:gravity="start|top"
+                    android:maxWidth="300dp"
+                    android:text="User's email"
+                    android:textColor="#606060"
+                    android:textSize="13dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/team_member_name"
+                    app:layout_constraintTop_toBottomOf="@+id/team_member_name" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/team_member_avatar"
