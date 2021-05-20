@@ -44,11 +44,11 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.283"
                     app:layout_constraintStart_toEndOf="@+id/team_member_avatar"
-                    app:layout_constraintTop_toBottomOf="@+id/mail"
+                    app:layout_constraintTop_toBottomOf="@+id/team_member_email"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
-                    android:id="@+id/mail"
+                    android:id="@+id/team_member_email"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/cabin_italic"
