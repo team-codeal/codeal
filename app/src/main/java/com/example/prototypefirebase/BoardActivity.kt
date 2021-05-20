@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTeam
+import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
 import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.utils.recyclers.lists.ListAdapter
 
@@ -23,7 +24,7 @@ class BoardActivity : AppCompatActivity() {
 
     private lateinit var tasksRecyclerView: RecyclerView
     private var listAdapter: ListAdapter
-            = ListAdapter(listNames, listNameToTasksList, this)
+            = ListAdapter(listNames, listNameToTasksList, ::openAddTaskActivity, this)
 
     private lateinit var teamInfoListener: CodealEntity<CodealTeam>.CodealListener
 
@@ -39,7 +40,7 @@ class BoardActivity : AppCompatActivity() {
         tasksRecyclerView.layoutManager = LinearLayoutManager(this,
             LinearLayoutManager.HORIZONTAL, false)
 
-        teamID = intent.getStringExtra("TeamID").toString()
+        teamID = intent.getStringExtra("TeamID")!!
 
 
         teamNameHolder = findViewById(com.example.prototypefirebase.R.id.textViewLabel)
@@ -113,10 +114,13 @@ class BoardActivity : AppCompatActivity() {
         }
     }
 
-    fun openAddTask(view: View) {
+    private fun openAddTaskActivity(view: View, taskList: String) {
+        view.isClickable = false
         val taskIntent = Intent(this, AddTaskActivity::class.java)
         taskIntent.putExtra("TeamID", teamID)
+        taskIntent.putExtra("TaskList", taskList)
         startActivity(taskIntent)
+        view.isClickable = true
     }
 
 }

@@ -80,10 +80,9 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         updateTaskButton.setOnClickListener {
             val taskName = taskNameHolder.text.toString()
             val taskText = taskTextHolder.text.toString()
-            val taskListName = taskListHolder.text.toString()
 
             CodealTaskFactory.get(taskID).addOnReady {
-                it.change(taskName, taskText, taskListName)
+                it.change(name = taskName, content = taskText)
                 Toast.makeText(this@ViewTaskDetailActivity,
                     "Task updated successfully!",
                     Toast.LENGTH_SHORT).show()
