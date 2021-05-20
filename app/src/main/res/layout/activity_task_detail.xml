@@ -147,6 +147,7 @@
             android:background="@color/fui_transparent"
             android:fontFamily="@font/poppins_italic"
             android:hint="Enter the name of task"
+            android:textCursorDrawable="@android:color/white"
             android:textColor="@color/colorText"
             android:textColorHint="@color/colorText"
             android:textSize="14dp"
