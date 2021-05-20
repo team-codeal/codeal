@@ -1,18 +1,21 @@
 package com.example.prototypefirebase
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.platform.setContent
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.prototypefirebase.ui.teams.CreateTeamActivity
+import com.example.prototypefirebase.codeal.CodealEntity
+import com.example.prototypefirebase.codeal.CodealUser
+import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var userInfoListener: CodealEntity<CodealUser>.CodealListener
+    private lateinit var userNameHolder: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +32,21 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        navController.popBackStack(R.id.navigation_home, true);
-        navController.navigate(R.id.navigation_notifications);
+        navController.popBackStack(R.id.navigation_home, true)
+        navController.navigate(R.id.navigation_notifications)
+
+        userNameHolder = findViewById(R.id.user_name)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        userInfoListener = CodealUserFactory.get().addListener { possiblyUpdatedUser ->
+            userNameHolder.text = possiblyUpdatedUser.name
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        userInfoListener.remove()
     }
 }
