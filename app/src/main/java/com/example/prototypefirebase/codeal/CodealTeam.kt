@@ -24,7 +24,10 @@ class CodealTeam : CodealEntity<CodealTeam> {
             return lists.values.stream().flatMap { x -> x.stream() }.collect(Collectors.toList())
         }
     var lists: MutableMap<String, List<String>> = mutableMapOf()
-        private set
+        set(value) {
+            field = value
+            getDB().document(id).update(TEAMS_DB_TEAM_LISTS_FIELD_NAME, value)
+        }
 
     companion object {
         private const val TEAMS_DB_COLLECTION_NAME: String = "teams"
