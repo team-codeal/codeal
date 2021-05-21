@@ -15,7 +15,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout5"
+        app:layout_constraintBottom_toTopOf="@+id/new_comment_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout5"
+        android:id="@+id/new_comment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#789DC9"
@@ -144,9 +144,11 @@
             android:layout_margin="10dp"
             android:layout_marginTop="8dp"
             android:autofillHints=""
+            android:inputType="textCapSentences"
             android:background="@color/fui_transparent"
             android:fontFamily="@font/poppins_italic"
             android:hint="Enter the name of task"
+            android:textCursorDrawable="@android:color/white"
             android:textColor="@color/colorText"
             android:textColorHint="@color/colorText"
             android:textSize="14dp"
@@ -207,7 +209,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <TextView
             android:id="@+id/List_task"
             android:layout_width="288dp"
             android:layout_height="34dp"
@@ -217,7 +219,8 @@
             android:background="@color/fui_transparent"
             android:fontFamily="@font/poppins_bold_italic"
             android:hint="Enter the list"
-            android:inputType="textMultiLine"
+            android:inputType="textMultiLine|textCapSentences"
+            android:gravity="center|left"
             android:paddingLeft="3dp"
             android:textColor="@color/colorText"
             android:textColorHint="@color/colorText"
@@ -236,7 +239,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:background="#EAEDF6"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout5"
+        app:layout_constraintBottom_toBottomOf="@+id/new_comment_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
@@ -261,7 +264,7 @@
             android:background="@color/fui_transparent"
             android:fontFamily="@font/poppins_italic"
             android:hint="Deadline"
-            android:inputType="textMultiLine"
+            android:inputType="textMultiLine|textCapSentences"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@android:color/darker_gray"
             android:textSize="14dp"

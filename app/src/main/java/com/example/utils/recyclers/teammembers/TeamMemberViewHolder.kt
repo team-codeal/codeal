@@ -20,6 +20,7 @@ class TeamMemberViewHolder(itemView: View)
     private val teamMemberNameHolder: TextView = itemView.findViewById(R.id.team_member_name)
     private val teamMemberStatusHolder: TextView = itemView.findViewById(R.id.team_member_status)
     private val teamMemberAvatar: ImageView = itemView.findViewById(R.id.team_member_avatar)
+    private val teamMemberMail: TextView = itemView.findViewById(R.id.team_member_email)
 
     var listener: CodealEntity<CodealUser>.CodealListener? = null
 
@@ -44,6 +45,7 @@ class TeamMemberViewHolder(itemView: View)
     private fun setView(teamMember: CodealUser) {
         teamMemberNameHolder.text = teamMember.name
         teamMemberStatusHolder.text = teamMember.status
+        teamMemberMail.text = teamMember.mail
         context?.let {
             Glide.with(it).load(teamMember.photoURL)
                 .apply(

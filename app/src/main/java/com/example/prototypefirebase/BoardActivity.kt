@@ -116,12 +116,11 @@ class BoardActivity : AppCompatActivity() {
 
     private fun openAddTaskActivity(view: View, taskList: String) {
         view.isClickable = false
-        val taskIntent = Intent(this, ViewTaskDetailActivity::class.java)
-        CodealTaskFactory.create(teamID = teamID, listName = taskList).addOnReady {
-            taskIntent.putExtra("TaskID", it.id)
-            startActivity(taskIntent)
-            view.isClickable = true
-        }
+        val taskIntent = Intent(this, AddTaskActivity::class.java)
+        taskIntent.putExtra("TeamID", teamID)
+        taskIntent.putExtra("TaskList", taskList)
+        startActivity(taskIntent)
+        view.isClickable = true
     }
 
 }
