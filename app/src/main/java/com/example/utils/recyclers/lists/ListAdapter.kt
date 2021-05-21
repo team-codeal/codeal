@@ -20,6 +20,7 @@ class ListAdapter(
     private val listNames: MutableList<String>,
     private val listNameToTasksList: MutableMap<String, MutableList<String>>,
     private val addTaskCallback: (view: View, taskList: String) -> Unit,
+    private val saveChangesCallback: () -> Unit,
     private val context: Context
 ) : RecyclerView.Adapter<ListViewHolder>() {
 
@@ -99,7 +100,7 @@ class ListAdapter(
         }
 
         holder.tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[listName]!!,
-            onTaskClickListener, onTaskSwiped, swipeDirections)
+            onTaskClickListener, saveChangesCallback, onTaskSwiped, swipeDirections)
 
         taskAdapters[listName] = holder.tasksRecyclerView.adapter as TaskAdapter
     }

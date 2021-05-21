@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
-import java.lang.UnsupportedOperationException
 
 class TaskAdapter(
     private val taskIDs: MutableList<String>,
     private val onTaskClickedCallback: (Int) -> Unit,
+    private val saveChangesCallback: (() -> Unit) = { },
     private val onTaskSwipedCallback: ((itemPosition: Int, direction: SwipeDirection) -> Unit)? =
         null,
     private val enabledSwipeDirections: Set<SwipeDirection> = emptySet()
@@ -67,6 +67,11 @@ class TaskAdapter(
                     SwipeDirection.RIGHT else SwipeDirection.LEFT
                 onTaskSwipedCallback?.invoke(viewHolder.bindingAdapterPosition, direction)
             }
+        }
+
+        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            super.clearView(recyclerView, viewHolder)
+            saveChangesCallback.invoke()
         }
 
         override fun isItemViewSwipeEnabled(): Boolean = false

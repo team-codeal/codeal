@@ -17,13 +17,27 @@ class BoardActivity : AppCompatActivity() {
 
     private lateinit var teamID: String
 
+    private var currentTeam: CodealTeam? = null
+
     private var listNames: MutableList<String> = mutableListOf()
     private var listNameToTasksList: MutableMap<String, MutableList<String>>
             = hashMapOf()
 
     private lateinit var tasksRecyclerView: RecyclerView
-    private var listAdapter: ListAdapter
-            = ListAdapter(listNames, listNameToTasksList, ::openAddTaskActivity, this)
+    private var listAdapter: ListAdapter = ListAdapter(listNames,
+        listNameToTasksList,
+        ::openAddTaskActivity,
+        { currentTeam?.lists = toCodealTeamMap(listNameToTasksList) },
+        this)
+
+    private fun toCodealTeamMap(boardMap: MutableMap<String, MutableList<String>>):
+            MutableMap<String, List<String>> {
+        val codealTeamMap = mutableMapOf<String, List<String>>()
+        boardMap.forEach { (listName, list) ->
+            codealTeamMap[listName] = list
+        }
+        return codealTeamMap
+    }
 
     private lateinit var teamInfoListener: CodealEntity<CodealTeam>.CodealListener
 
@@ -41,6 +55,7 @@ class BoardActivity : AppCompatActivity() {
 
         teamID = intent.getStringExtra("TeamID")!!
 
+        CodealTeamFactory.get(teamID).addOnReady { currentTeam = it }
 
         teamNameHolder = findViewById(com.example.prototypefirebase.R.id.textViewLabel)
 
