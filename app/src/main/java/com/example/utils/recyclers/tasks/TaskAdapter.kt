@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import com.example.prototypefirebase.R
 
 class TaskAdapter(
@@ -22,7 +23,12 @@ class TaskAdapter(
         LEFT
     }
 
+    private val itemTouchHelper = ItemTouchHelper(TaskItemTouchHelperCallback())
+
     inner class TaskItemTouchHelperCallback: ItemTouchHelper.Callback() {
+
+        private var isDraggingEnabled = true
+
         override fun getMovementFlags(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder
@@ -59,13 +65,16 @@ class TaskAdapter(
             isCurrentlyActive: Boolean
         ) {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            if (!isCurrentlyActive) return
             val viewWidth = viewHolder.itemView.width
             val threshold = viewWidth / 2
             val pathLength = kotlin.math.abs(dX)
             if (pathLength > threshold) {
+                isDraggingEnabled = false
                 val direction: SwipeDirection = if (dX > 0)
                     SwipeDirection.RIGHT else SwipeDirection.LEFT
                 onTaskSwipedCallback?.invoke(viewHolder.bindingAdapterPosition, direction)
+                isDraggingEnabled = true
             }
         }
 
@@ -75,12 +84,14 @@ class TaskAdapter(
         }
 
         override fun isItemViewSwipeEnabled(): Boolean = false
+        override fun isLongPressDragEnabled(): Boolean = isDraggingEnabled
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             throw UnsupportedOperationException("Tasks can't be swiped at the moment")
         }
     }
 
     private fun changeTaskIDsPositions(holderPosition: Int, targetPosition: Int) {
+        if (holderPosition == NO_POSITION) return
         val taskID = taskIDs.removeAt(holderPosition)
         taskIDs.add(targetPosition, taskID)
         notifyItemMoved(holderPosition, targetPosition)
@@ -88,7 +99,7 @@ class TaskAdapter(
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        (ItemTouchHelper(TaskItemTouchHelperCallback())).attachToRecyclerView(recyclerView)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
