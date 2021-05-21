@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTeam
-import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
 import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.utils.recyclers.lists.ListAdapter
 
