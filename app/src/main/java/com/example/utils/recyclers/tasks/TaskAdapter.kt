@@ -14,7 +14,7 @@ class TaskAdapter(
     private val onTaskClickedCallback: (Int) -> Unit,
     private val onTaskSwipedCallback: ((itemPosition: Int, direction: SwipeDirection) -> Unit)? =
         null,
-    private val enabledSwipedDirections: Set<SwipeDirection> = emptySet()
+    private val enabledSwipeDirections: Set<SwipeDirection> = emptySet()
 ) : RecyclerView.Adapter<TaskViewHolder>() {
 
     enum class SwipeDirection {
@@ -33,7 +33,7 @@ class TaskAdapter(
             )
 
             var dragFlags = UP or DOWN
-            enabledSwipedDirections.map { x -> swipeToHelperSwipe[x]!! }.forEach { direction ->
+            enabledSwipeDirections.map { x -> swipeToHelperSwipe[x]!! }.forEach { direction ->
                 dragFlags = dragFlags or direction
             }
 
