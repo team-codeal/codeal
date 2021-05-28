@@ -23,6 +23,7 @@ class TaskAdapter(
         LEFT
     }
 
+    private lateinit var recyclerView: RecyclerView
     private val itemTouchHelper = ItemTouchHelper(TaskItemTouchHelperCallback())
 
     inner class TaskItemTouchHelperCallback: ItemTouchHelper.Callback() {
@@ -99,7 +100,15 @@ class TaskAdapter(
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
+    }
+
+    fun attachItemTouchHelper() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+
+    fun detachItemTouchHelper() {
+        itemTouchHelper.attachToRecyclerView(null)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {

@@ -50,6 +50,18 @@ class ListAdapter(
         return listNames.size
     }
 
+    override fun onViewAttachedToWindow(holder: ListViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        val adapter: TaskAdapter? = holder.tasksRecyclerView.adapter as? TaskAdapter
+        adapter?.attachItemTouchHelper()
+    }
+
+    override fun onViewDetachedFromWindow(holder: ListViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        val adapter: TaskAdapter? = holder.tasksRecyclerView.adapter as? TaskAdapter
+        adapter?.detachItemTouchHelper()
+    }
+
     override fun onBindViewHolder(holder: ListViewHolder, listPosition: Int) {
 
         val listName = listNames[listPosition]
