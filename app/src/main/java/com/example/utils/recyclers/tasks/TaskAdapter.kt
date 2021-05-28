@@ -28,7 +28,6 @@ class TaskAdapter(
 
     inner class TaskItemTouchHelperCallback: ItemTouchHelper.Callback() {
 
-        private var isDraggingEnabled = true
 
         override fun getMovementFlags(
             recyclerView: RecyclerView,
@@ -71,11 +70,9 @@ class TaskAdapter(
             val threshold = viewWidth / 2
             val pathLength = kotlin.math.abs(dX)
             if (pathLength > threshold) {
-                isDraggingEnabled = false
                 val direction: SwipeDirection = if (dX > 0)
                     SwipeDirection.RIGHT else SwipeDirection.LEFT
                 onTaskSwipedCallback?.invoke(viewHolder.bindingAdapterPosition, direction)
-                isDraggingEnabled = true
             }
         }
 
@@ -85,7 +82,7 @@ class TaskAdapter(
         }
 
         override fun isItemViewSwipeEnabled(): Boolean = false
-        override fun isLongPressDragEnabled(): Boolean = isDraggingEnabled
+        override fun isLongPressDragEnabled(): Boolean = true
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             throw UnsupportedOperationException("Tasks can't be swiped at the moment")
         }
