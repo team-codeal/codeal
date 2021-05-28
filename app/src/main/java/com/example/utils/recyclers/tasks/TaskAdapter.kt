@@ -2,6 +2,8 @@ package com.example.utils.recyclers.tasks
 
 import android.graphics.Canvas
 import android.view.LayoutInflater
+import android.view.View.GONE
+import android.view.View.INVISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
@@ -28,6 +30,7 @@ class TaskAdapter(
 
     inner class TaskItemTouchHelperCallback: ItemTouchHelper.Callback() {
 
+        private var haveToDeleteView = false
 
         override fun getMovementFlags(
             recyclerView: RecyclerView,
@@ -65,20 +68,31 @@ class TaskAdapter(
             isCurrentlyActive: Boolean
         ) {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-            if (!isCurrentlyActive) return
+            if (!isCurrentlyActive) {
+                if (haveToDeleteView) {
+                    viewHolder.itemView.visibility = INVISIBLE
+                }
+                return
+            }
             val viewWidth = viewHolder.itemView.width
             val threshold = viewWidth / 2
             val pathLength = kotlin.math.abs(dX)
             if (pathLength > threshold) {
                 val direction: SwipeDirection = if (dX > 0)
                     SwipeDirection.RIGHT else SwipeDirection.LEFT
+                haveToDeleteView = true
                 onTaskSwipedCallback?.invoke(viewHolder.bindingAdapterPosition, direction)
             }
         }
 
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
-            saveChangesCallback.invoke()
+            if (haveToDeleteView) {
+                haveToDeleteView = false
+                viewHolder.itemView.visibility = GONE
+            } else {
+                saveChangesCallback.invoke()
+            }
         }
 
         override fun isItemViewSwipeEnabled(): Boolean = false
