@@ -19,14 +19,26 @@ import com.bumptech.glide.request.target.Target
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.SignInActivity
 import com.example.prototypefirebase.codeal.CodealUser
-import com.example.prototypefirebase.codeal.factories.CodealUserFactory
+import com.example.prototypefirebase.codeal.factories.*
 import com.firebase.ui.auth.AuthUI
 import de.hdodenhof.circleimageview.CircleImageView
+import java.time.Instant
+import java.util.*
 
 
 class UserProfileFragment : Fragment() {
 
     private var user: CodealUser? = null
+    private lateinit var userStatisticPerAllHolder: TextView
+    private lateinit var userStatisticPerMonthHolder: TextView
+    private lateinit var userStatisticPerWeekHolder: TextView
+    private lateinit var userStatisticPerDayHolder: TextView
+
+    companion object {
+        private val CURR_DATE_MINUS_MONTH = Date.from(Instant.now().minusSeconds(3600 * 24 * 30))
+        private val CURR_DATE_MINUS_WEEK = Date.from(Instant.now().minusSeconds(3600 * 24 * 7))
+        private val CURR_DATE_MINUS_DAY = Date.from(Instant.now().minusSeconds(3600 * 24))
+    }
 
     private val gifUris: List<Uri> = listOf(
         "https://64.media.tumblr.com/ec90e55981cd01a3e1a69e724967a31c/tumblr_ntb1nzAguK1qc4uvwo1_500.gifv",
@@ -50,8 +62,12 @@ class UserProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val goEditButton : Button = view.findViewById(R.id.button_go_edit)
+        val goEditButton: Button = view.findViewById(R.id.button_go_edit)
         goEditButton.setOnClickListener(::showEditProfilePopupWindow)
+        userStatisticPerAllHolder = view.findViewById(R.id.statistic_per_all)
+        userStatisticPerMonthHolder = view.findViewById(R.id.statistic_per_month)
+        userStatisticPerWeekHolder = view.findViewById(R.id.statistic_per_week)
+        userStatisticPerDayHolder = view.findViewById(R.id.statistic_per_day)
 
     }
 
@@ -83,6 +99,47 @@ class UserProfileFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        CodealUserFactory.get().addOnReady { user ->
+            this.user = user
+            for (userTeam in user.teams) {
+                CodealTeamFactory.get(userTeam).addOnReady { team ->
+                    for (userTask in team.tasks) {
+                        CodealTaskFactory.get(userTask).addOnReady { task ->
+                            for (userComment in task.commentsIDs) {
+                                CodealCommentFactory.get(userComment).addOnReady { comment ->
+                                    for (userEmotion in comment.emotions) {
+                                        CodealEmotionFactory.get(userEmotion)
+                                            .addOnReady { emotion ->
+                                                userStatisticPerAllHolder.text =
+                                                    (Integer.parseInt(userStatisticPerAllHolder.text.toString()) + 1).toString()
+                                                if (CURR_DATE_MINUS_MONTH.before(emotion.date)) {
+                                                    userStatisticPerMonthHolder.text =
+                                                        (Integer.parseInt(
+                                                            userStatisticPerMonthHolder.text.toString()
+                                                        ) + 1).toString()
+                                                }
+                                                if (CURR_DATE_MINUS_WEEK.before(emotion.date)) {
+                                                    userStatisticPerWeekHolder.text =
+                                                        (Integer.parseInt(userStatisticPerWeekHolder.text.toString()) + 1).toString()
+                                                }
+                                                if (CURR_DATE_MINUS_DAY.before(emotion.date)) {
+                                                    userStatisticPerDayHolder.text =
+                                                        (Integer.parseInt(userStatisticPerDayHolder.text.toString()) + 1).toString()
+                                                }
+                                            }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun loadMotivationalGif(motivationHolder: ImageView) {
         Glide.with(requireContext())
             .load(gifUris.random())
@@ -109,7 +166,7 @@ class UserProfileFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility", "InflateParams")
     fun showEditProfilePopupWindow(view: View) {
 
-        val inflater : LayoutInflater =  requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE)
+        val inflater: LayoutInflater = requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE)
                 as LayoutInflater
         val popupView = inflater.inflate(R.layout.fragment_userprofile_edit, null);
 
@@ -118,9 +175,9 @@ class UserProfileFragment : Fragment() {
 
         val ctx = requireContext()
 
-        val logoutButton : Button = popupView.findViewById(R.id.button_log_out)
+        val logoutButton: Button = popupView.findViewById(R.id.button_log_out)
         logoutButton.setOnClickListener {
-            AuthUI.getInstance().signOut(ctx).addOnCompleteListener{
+            AuthUI.getInstance().signOut(ctx).addOnCompleteListener {
                 Toast.makeText(ctx, "Signed out", Toast.LENGTH_SHORT).show()
                 val intent = Intent(ctx, SignInActivity::class.java)
                 requireActivity().finish()
@@ -134,8 +191,8 @@ class UserProfileFragment : Fragment() {
         val popupWindow = PopupWindow(popupView, size, size, focusable)
 
         updateUserProfileUI(popupView, user)
-        popupWindow.setOnDismissListener{ updateUserProfileUI(this.view, user) }
-        val saveButton : Button = popupView.findViewById(R.id.button_save)
+        popupWindow.setOnDismissListener { updateUserProfileUI(this.view, user) }
+        val saveButton: Button = popupView.findViewById(R.id.button_save)
         saveButton.setOnClickListener {
             saveCurrentUserProfile(popupView, user)
             popupWindow.dismiss()
