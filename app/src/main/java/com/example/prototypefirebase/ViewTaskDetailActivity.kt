@@ -1,6 +1,9 @@
 package com.example.prototypefirebase
 
+import android.app.DatePickerDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -8,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +22,8 @@ import com.example.prototypefirebase.codeal.factories.CodealCommentFactory
 import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
 import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.example.utils.recyclers.comments.CommentAdapter
+import kotlinx.android.synthetic.main.activity_task_detail.*
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.Comparator
 
@@ -28,10 +34,13 @@ class ViewTaskDetailActivity : AppCompatActivity() {
 
     private lateinit var commentsRecyclerView: RecyclerView
 
+    private var taskDeadline: Date? = null
+
     private var commentsListener: CodealEntity<CodealTask>.CodealListener? = null
 
     private lateinit var taskID: String
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_detail)
@@ -47,6 +56,21 @@ class ViewTaskDetailActivity : AppCompatActivity() {
 
         val newCommentHolder: EditText = findViewById(R.id.new_comment_plain_text)
 
+        val deadlineHolder: TextView = findViewById(R.id.deadline_line)
+        deadlineHolder.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(this)
+            datePickerDialog.setOnDateSetListener { _, year, month, dayOfMonth ->
+                val taskDeadline = Calendar.getInstance().also { it.set(year, month, dayOfMonth) }
+                refreshDate(taskDeadline.time, deadlineHolder)
+            }
+            datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "CANCEL") { _, which ->
+                if (which == DialogInterface.BUTTON_NEGATIVE) {
+                    refreshDate(null, deadlineHolder)
+                }
+            }
+            datePickerDialog.show()
+        }
+
         val uploadCommentButton: Button = findViewById(R.id.add_new_comment_button)
 
         commentsRecyclerView = findViewById(R.id.comments_recycler_view)
@@ -59,6 +83,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
                 taskNameHolder.text = task.name
                 taskTextHolder.text = task.content
                 taskListHolder.text = task.listName
+                refreshDate(task.deadline, deadlineHolder)
 
                 uploadCommentButton.setOnClickListener {
                     val commentContent = newCommentHolder.text.toString()
@@ -82,7 +107,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
             val taskText = taskTextHolder.text.toString()
 
             CodealTaskFactory.get(taskID).addOnReady {
-                it.change(name = taskName, content = taskText)
+                it.change(name = taskName, content = taskText, deadline = taskDeadline)
                 Toast.makeText(this@ViewTaskDetailActivity,
                     "Task updated successfully!",
                     Toast.LENGTH_SHORT).show()
@@ -154,5 +179,16 @@ class ViewTaskDetailActivity : AppCompatActivity() {
                 commentsRecyclerView.adapter = null
             }
         })
+    }
+
+    private fun refreshDate(deadline: Date?, deadlineHolder: TextView) {
+        taskDeadline = deadline
+        if (deadline == null) {
+            deadlineHolder.text = ""
+            return
+        }
+        val format1 = SimpleDateFormat("yyyy-MM-dd")
+        val formatted: String = format1.format(deadline)
+        deadlineHolder.text = formatted
     }
 }

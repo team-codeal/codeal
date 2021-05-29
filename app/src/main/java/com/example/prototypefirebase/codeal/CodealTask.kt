@@ -1,11 +1,11 @@
 package com.example.prototypefirebase.codeal
 
 import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.*
 
 //TODO This Task class is for the global team "ultimate team". change later, delete the todo
 
@@ -17,6 +17,7 @@ class CodealTask : CodealEntity<CodealTask> {
         private set
     var listName: String = ""
         private set
+    var deadline: Date? = null
     var teamID: String = ""
         private set
     var commentsIDs: List<String> = emptyList()
@@ -29,6 +30,7 @@ class CodealTask : CodealEntity<CodealTask> {
         private const val TASKS_DB_TASK_LIST: String = "list"
         private const val TASKS_DB_TEAM_ID: String = "teamID"
         private const val TASKS_DB_COMMENTS_IDs: String = "comments_ids"
+        private const val TASKS_DB_DEADLINE: String = "deadline"
     }
 
     // constructor for an existing task
@@ -38,11 +40,16 @@ class CodealTask : CodealEntity<CodealTask> {
 
     // constructor for a new
     constructor(
-        taskName: String, taskContent: String, teamID: String, listName: String) {
+        taskName: String,
+        taskContent: String,
+        teamID: String,
+        listName: String,
+        deadLine: Date? = null) {
         name = taskName
         content = taskContent
         this.teamID = teamID
         this.listName = listName
+        this.deadline = deadLine
         uploadTaskInfoToDB()
     }
 
@@ -50,7 +57,8 @@ class CodealTask : CodealEntity<CodealTask> {
         name: String = this.name,
         content: String = this.content,
         listName: String = this.listName,
-        commentsIDs: List<String> = this.commentsIDs
+        commentsIDs: List<String> = this.commentsIDs,
+        deadline: Date? = this.deadline
     ) {
         // TODO only update changed values. Use reflection?
         this.name = name
@@ -58,6 +66,7 @@ class CodealTask : CodealEntity<CodealTask> {
         val prevListName = this.listName
         this.listName = listName
         this.commentsIDs = commentsIDs
+        this.deadline = deadline
 
         if (listName != prevListName) {
             CodealTeamFactory.get(teamID).addOnReady {
@@ -77,7 +86,8 @@ class CodealTask : CodealEntity<CodealTask> {
             TASKS_DB_TASK_CONTENT to this.content,
             TASKS_DB_COMMENTS_IDs to commentsIDs,
             TASKS_DB_TASK_LIST to this.listName,
-            TASKS_DB_TEAM_ID to this.teamID
+            TASKS_DB_TEAM_ID to this.teamID,
+            TASKS_DB_DEADLINE to this.deadline
         )
         if (id != "") {
             // if the task already existed in the database
@@ -136,6 +146,7 @@ class CodealTask : CodealEntity<CodealTask> {
             tasksDB.document(id).update(TASKS_DB_COMMENTS_IDs, newComments)
             newComments
         }
+        deadline = (snapshot.get(TASKS_DB_DEADLINE) as Timestamp?)?.toDate()
     }
 
 }
