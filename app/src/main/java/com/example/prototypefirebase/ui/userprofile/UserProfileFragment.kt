@@ -102,11 +102,12 @@ class UserProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
+        preUpdateStatistic()
+        
         CodealUserFactory.get().addOnReady { user ->
             this.user = user
             userTeamCountHolder.text = user.teams.size.toString()
-            
+
             for (userTeam in user.teams) {
                 CodealTeamFactory.get(userTeam).addOnReady { team ->
                     for (userTask in team.tasks) {
@@ -141,6 +142,14 @@ class UserProfileFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun preUpdateStatistic(){
+        val zero = 0
+        userStatisticPerDayHolder.text = zero.toString()
+        userStatisticPerWeekHolder.text = zero.toString()
+        userStatisticPerMonthHolder.text = zero.toString()
+        userStatisticPerAllHolder.text = zero.toString()
     }
 
     private fun loadMotivationalGif(motivationHolder: ImageView) {
