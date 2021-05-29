@@ -33,6 +33,7 @@ class UserProfileFragment : Fragment() {
     private lateinit var userStatisticPerMonthHolder: TextView
     private lateinit var userStatisticPerWeekHolder: TextView
     private lateinit var userStatisticPerDayHolder: TextView
+    private lateinit var userTeamCountHolder: TextView
 
     companion object {
         private val CURR_DATE_MINUS_MONTH = Date.from(Instant.now().minusSeconds(3600 * 24 * 30))
@@ -68,7 +69,7 @@ class UserProfileFragment : Fragment() {
         userStatisticPerMonthHolder = view.findViewById(R.id.statistic_per_month)
         userStatisticPerWeekHolder = view.findViewById(R.id.statistic_per_week)
         userStatisticPerDayHolder = view.findViewById(R.id.statistic_per_day)
-
+        userTeamCountHolder = view.findViewById(R.id.team_count)
     }
 
     override fun onStart() {
@@ -104,6 +105,8 @@ class UserProfileFragment : Fragment() {
 
         CodealUserFactory.get().addOnReady { user ->
             this.user = user
+            userTeamCountHolder.text = user.teams.size.toString()
+            
             for (userTeam in user.teams) {
                 CodealTeamFactory.get(userTeam).addOnReady { team ->
                     for (userTask in team.tasks) {
