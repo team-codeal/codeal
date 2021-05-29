@@ -256,15 +256,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/fire" />
 
-        <EditText
+        <TextView
             android:id="@+id/deadline_line"
             android:layout_width="353dp"
             android:layout_height="45dp"
             android:layout_marginStart="60dp"
             android:background="@color/fui_transparent"
             android:fontFamily="@font/poppins_italic"
-            android:hint="Deadline"
-            android:inputType="textMultiLine|textCapSentences"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@android:color/darker_gray"
             android:textSize="14dp"
