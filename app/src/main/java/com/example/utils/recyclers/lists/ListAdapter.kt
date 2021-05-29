@@ -17,7 +17,6 @@ import com.example.utils.recyclers.tasks.TaskAdapter
 
 
 class ListAdapter(
-    private val listNames: MutableList<String>,
     private val listNameToTasksList: MutableMap<String, MutableList<String>>,
     private val addTaskCallback: (view: View, taskList: String) -> Unit,
     private val saveChangesCallback: () -> Unit,
@@ -25,6 +24,7 @@ class ListAdapter(
 ) : RecyclerView.Adapter<ListViewHolder>() {
 
     private var taskAdapters: MutableMap<String, TaskAdapter> = HashMap()
+    private val listNames = listOf("Todo", "Doing", "Done")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val listViewHolder = ListViewHolder(

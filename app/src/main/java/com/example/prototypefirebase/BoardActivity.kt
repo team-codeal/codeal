@@ -24,11 +24,11 @@ class BoardActivity : AppCompatActivity() {
             = hashMapOf()
 
     private lateinit var tasksRecyclerView: RecyclerView
-    private var listAdapter: ListAdapter = ListAdapter(listNames,
-        listNameToTasksList,
-        ::openAddTaskActivity,
-        { currentTeam?.lists = toCodealTeamMap(listNameToTasksList) },
-        this)
+    private var listAdapter: ListAdapter =
+        ListAdapter(listNameToTasksList,
+            ::openAddTaskActivity,
+            { currentTeam?.lists = toCodealTeamMap(listNameToTasksList) },
+            this)
 
     private fun toCodealTeamMap(boardMap: MutableMap<String, MutableList<String>>):
             MutableMap<String, List<String>> {
