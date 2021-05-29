@@ -27,7 +27,7 @@ class AddTaskActivity : AppCompatActivity() {
         val taskNameHolder: TextView = findViewById(R.id.Name_task)
         val taskTextHolder: TextView = findViewById(R.id.Text_task)
 
-        val listNameHolder: TextView = findViewById(R.id.List_task)
+        val listNameHolder: TextView = findViewById(R.id.task_list)
         listNameHolder.text = taskListName
 
         val newCommentContainer: ConstraintLayout = findViewById(R.id.new_comment_container)

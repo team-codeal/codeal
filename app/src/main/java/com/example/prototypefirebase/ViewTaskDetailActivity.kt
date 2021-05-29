@@ -43,7 +43,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         val deleteTaskButton: Button = findViewById(R.id.deleteTask)
         val taskNameHolder: TextView = findViewById(R.id.Name_task)
         val taskTextHolder: TextView = findViewById(R.id.Text_task)
-        val taskListHolder: TextView = findViewById(R.id.List_task)
+        val taskListHolder: TextView = findViewById(R.id.task_list)
 
         val newCommentHolder: EditText = findViewById(R.id.new_comment_plain_text)
 
