@@ -103,7 +103,7 @@ class UserProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         preUpdateStatistic()
-        
+
         CodealUserFactory.get().addOnReady { user ->
             this.user = user
             userTeamCountHolder.text = user.teams.size.toString()
@@ -114,26 +114,32 @@ class UserProfileFragment : Fragment() {
                         CodealTaskFactory.get(userTask).addOnReady { task ->
                             for (userComment in task.commentsIDs) {
                                 CodealCommentFactory.get(userComment).addOnReady { comment ->
-                                    for (userEmotion in comment.emotions) {
-                                        CodealEmotionFactory.get(userEmotion)
-                                            .addOnReady { emotion ->
-                                                userStatisticPerAllHolder.text =
-                                                    (Integer.parseInt(userStatisticPerAllHolder.text.toString()) + 1).toString()
-                                                if (CURR_DATE_MINUS_MONTH.before(emotion.date)) {
-                                                    userStatisticPerMonthHolder.text =
-                                                        (Integer.parseInt(
-                                                            userStatisticPerMonthHolder.text.toString()
-                                                        ) + 1).toString()
+                                    if (comment.ownerID == user.id) {
+                                        for (userEmotion in comment.emotions) {
+                                            CodealEmotionFactory.get(userEmotion)
+                                                .addOnReady { emotion ->
+                                                    userStatisticPerAllHolder.text =
+                                                        (Integer.parseInt(userStatisticPerAllHolder.text.toString()) + 1).toString()
+                                                    if (CURR_DATE_MINUS_MONTH.before(emotion.date)) {
+                                                        userStatisticPerMonthHolder.text =
+                                                            (Integer.parseInt(
+                                                                userStatisticPerMonthHolder.text.toString()
+                                                            ) + 1).toString()
+                                                    }
+                                                    if (CURR_DATE_MINUS_WEEK.before(emotion.date)) {
+                                                        userStatisticPerWeekHolder.text =
+                                                            (Integer.parseInt(
+                                                                userStatisticPerWeekHolder.text.toString()
+                                                            ) + 1).toString()
+                                                    }
+                                                    if (CURR_DATE_MINUS_DAY.before(emotion.date)) {
+                                                        userStatisticPerDayHolder.text =
+                                                            (Integer.parseInt(
+                                                                userStatisticPerDayHolder.text.toString()
+                                                            ) + 1).toString()
+                                                    }
                                                 }
-                                                if (CURR_DATE_MINUS_WEEK.before(emotion.date)) {
-                                                    userStatisticPerWeekHolder.text =
-                                                        (Integer.parseInt(userStatisticPerWeekHolder.text.toString()) + 1).toString()
-                                                }
-                                                if (CURR_DATE_MINUS_DAY.before(emotion.date)) {
-                                                    userStatisticPerDayHolder.text =
-                                                        (Integer.parseInt(userStatisticPerDayHolder.text.toString()) + 1).toString()
-                                                }
-                                            }
+                                        }
                                     }
                                 }
                             }
@@ -144,7 +150,7 @@ class UserProfileFragment : Fragment() {
         }
     }
 
-    private fun preUpdateStatistic(){
+    private fun preUpdateStatistic() {
         val zero = 0
         userStatisticPerDayHolder.text = zero.toString()
         userStatisticPerWeekHolder.text = zero.toString()
