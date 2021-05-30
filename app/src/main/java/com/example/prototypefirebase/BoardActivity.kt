@@ -24,7 +24,7 @@ class BoardActivity : AppCompatActivity() {
 
     private lateinit var tasksRecyclerView: RecyclerView
     private var listAdapter: ListAdapter
-            = ListAdapter(listNames, listNameToTasksList, ::openAddTaskActivity, this)
+            = ListAdapter(listNameToTasksList, ::openAddTaskActivity, this)
 
     private lateinit var teamInfoListener: CodealEntity<CodealTeam>.CodealListener
 

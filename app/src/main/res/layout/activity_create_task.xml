@@ -17,6 +17,7 @@
         android:fontFamily="@font/poppins_italic"
         android:hint="Enter the name of task"
         android:maxLines="1"
+        android:inputType="textCapSentences"
         android:textColor="@color/colorText"
         android:textColorHint="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,13 +33,29 @@
         android:layout_marginTop="36dp"
         android:fontFamily="@font/poppins_italic"
         android:hint="Enter the task"
-        android:inputType="textMultiLine"
+        android:inputType="textMultiLine|textCapSentences"
         android:textColor="@color/colorText"
         android:textColorHint="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Name_task" />
+
+    <EditText
+        android:id="@+id/List_task"
+        android:layout_width="334dp"
+        android:layout_height="49dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/poppins_italic"
+        android:hint="Enter the list"
+        android:inputType="textMultiLine|textCapSentences"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Text_task" />
 
     <Button
         android:id="@+id/saveTask"
