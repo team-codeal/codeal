@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.SignInActivity
+import com.example.prototypefirebase.codeal.CodealEmotion
 import com.example.prototypefirebase.codeal.CodealUser
 import com.example.prototypefirebase.codeal.factories.*
 import com.firebase.ui.auth.AuthUI
@@ -112,34 +113,13 @@ class UserProfileFragment : Fragment() {
                 CodealTeamFactory.get(userTeam).addOnReady { team ->
                     for (userTask in team.tasks) {
                         CodealTaskFactory.get(userTask).addOnReady { task ->
+                            if(task.ownerID == user.id){
+                                getEmotions(task.emotions)
+                            }
                             for (userComment in task.commentsIDs) {
                                 CodealCommentFactory.get(userComment).addOnReady { comment ->
                                     if (comment.ownerID == user.id) {
-                                        for (userEmotion in comment.emotions) {
-                                            CodealEmotionFactory.get(userEmotion)
-                                                .addOnReady { emotion ->
-                                                    userStatisticPerAllHolder.text =
-                                                        (Integer.parseInt(userStatisticPerAllHolder.text.toString()) + 1).toString()
-                                                    if (CURR_DATE_MINUS_MONTH.before(emotion.date)) {
-                                                        userStatisticPerMonthHolder.text =
-                                                            (Integer.parseInt(
-                                                                userStatisticPerMonthHolder.text.toString()
-                                                            ) + 1).toString()
-                                                    }
-                                                    if (CURR_DATE_MINUS_WEEK.before(emotion.date)) {
-                                                        userStatisticPerWeekHolder.text =
-                                                            (Integer.parseInt(
-                                                                userStatisticPerWeekHolder.text.toString()
-                                                            ) + 1).toString()
-                                                    }
-                                                    if (CURR_DATE_MINUS_DAY.before(emotion.date)) {
-                                                        userStatisticPerDayHolder.text =
-                                                            (Integer.parseInt(
-                                                                userStatisticPerDayHolder.text.toString()
-                                                            ) + 1).toString()
-                                                    }
-                                                }
-                                        }
+                                        getEmotions(comment.emotions)
                                     }
                                 }
                             }
@@ -149,6 +129,14 @@ class UserProfileFragment : Fragment() {
             }
         }
     }
+    private fun getEmotions(emotions: List<String>){
+        for (userEmotion in emotions) {
+            CodealEmotionFactory.get(userEmotion)
+                .addOnReady { emotion ->
+                    updateStatistic(emotion)
+                }
+        }
+    }
 
     private fun preUpdateStatistic() {
         val zero = 0
@@ -156,6 +144,29 @@ class UserProfileFragment : Fragment() {
         userStatisticPerWeekHolder.text = zero.toString()
         userStatisticPerMonthHolder.text = zero.toString()
         userStatisticPerAllHolder.text = zero.toString()
+    }
+
+    private fun updateStatistic(emotion: CodealEmotion){
+        userStatisticPerAllHolder.text =
+            (Integer.parseInt(userStatisticPerAllHolder.text.toString()) + 1).toString()
+        if (CURR_DATE_MINUS_MONTH.before(emotion.date)) {
+            userStatisticPerMonthHolder.text =
+                (Integer.parseInt(
+                    userStatisticPerMonthHolder.text.toString()
+                ) + 1).toString()
+        }
+        if (CURR_DATE_MINUS_WEEK.before(emotion.date)) {
+            userStatisticPerWeekHolder.text =
+                (Integer.parseInt(
+                    userStatisticPerWeekHolder.text.toString()
+                ) + 1).toString()
+        }
+        if (CURR_DATE_MINUS_DAY.before(emotion.date)) {
+            userStatisticPerDayHolder.text =
+                (Integer.parseInt(
+                    userStatisticPerDayHolder.text.toString()
+                ) + 1).toString()
+        }
     }
 
     private fun loadMotivationalGif(motivationHolder: ImageView) {

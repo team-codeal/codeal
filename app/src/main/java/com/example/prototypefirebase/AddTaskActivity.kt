@@ -7,7 +7,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.prototypefirebase.codeal.CodealUser
 import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
+import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 
 
 class AddTaskActivity : AppCompatActivity() {
@@ -39,8 +41,10 @@ class AddTaskActivity : AppCompatActivity() {
         saveTaskButton.setOnClickListener {
             val taskName = taskNameHolder.text.toString()
             val taskText = taskTextHolder.text.toString()
+            CodealUserFactory.get().addOnReady { currentUser ->
+                CodealTaskFactory.create(taskName, taskText, teamID, taskListName, currentUser.id)
+            }
 
-            CodealTaskFactory.create(taskName, taskText, teamID, taskListName)
 
             Toast.makeText(this@AddTaskActivity,
                 "Task added successfully!",
