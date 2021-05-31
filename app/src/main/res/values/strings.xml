@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CODEAL: Prototype</string>
+    <string name="app_name">CODEAL</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_userprofile">User profile</string>
     <string name="title_feed">Feed</string>
