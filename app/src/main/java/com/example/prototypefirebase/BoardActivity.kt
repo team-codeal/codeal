@@ -25,7 +25,8 @@ class BoardActivity : AppCompatActivity() {
 
     private lateinit var tasksRecyclerView: RecyclerView
     private var listAdapter: ListAdapter =
-        ListAdapter(listNameToTasksList,
+        ListAdapter(listNames,
+            listNameToTasksList,
             ::openAddTaskActivity,
             { currentTeam?.lists = toCodealTeamMap(listNameToTasksList) },
             this)
