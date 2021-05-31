@@ -1,6 +1,7 @@
 package com.example.prototypefirebase.codeal.factories
 
 import com.example.prototypefirebase.codeal.*
+import java.util.*
 
 object CodealUserFactory : CodealEntityCachingFactory<CodealUser>() {
 
@@ -37,8 +38,10 @@ object CodealTaskFactory: CodealEntityCachingFactory<CodealTask>() {
     fun create(taskName: String = "",
                taskContent: String = "",
                teamID: String,
-               listName: String, ownerID: String): CodealTask {
-        return CodealTask(taskName, taskContent, teamID, listName, ownerID).apply {
+               listName: String,
+               ownerID: String,
+               deadline: Date? = null): CodealTask {
+        return CodealTask(taskName, taskContent, teamID, listName, ownerID, deadline).apply {
             addOnReady { cachedEntities.put(it.id, it) }
         }
     }
