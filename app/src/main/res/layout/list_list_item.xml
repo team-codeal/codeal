@@ -36,22 +36,31 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/item_item_list"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/list_name"
-                app:layout_constraintBottom_toTopOf="@+id/addTaskButton"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/list_name" />
+                app:layout_constraintTop_toBottomOf="@+id/list_name"
+                app:layout_constraintBottom_toTopOf="@+id/addTaskButton">
+
+                <com.example.utils.recyclers.tasks.TasksRecyclerView
+                    android:id="@+id/item_item_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintHeight_max="600dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
                 android:id="@+id/addTaskButton"
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
-                android:layout_below="@+id/item_item_list"
                 android:layout_alignParentBottom="true"
                 android:background="#ffffff"
                 android:elevation="8dp"
