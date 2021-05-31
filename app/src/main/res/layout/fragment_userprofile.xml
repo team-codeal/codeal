@@ -15,8 +15,9 @@
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/cabin"
         android:gravity="center"
-        android:inputType="textMultiLine"
+        android:inputType="textMultiLine|textNoSuggestions"
         android:maxWidth="300dp"
+        android:maxLength="90"
         android:text="UserStatus"
         android:textColor="@color/colorText"
         android:textSize="18dp"
@@ -88,7 +89,7 @@
             android:ems="14"
             android:fontFamily="@font/cabin"
             android:gravity="center"
-            android:inputType="textMultiLine"
+            android:inputType="textMultiLine|textNoSuggestions"
             android:textColor="@color/colorBackground"
             android:textSize="15sp" />
     </RelativeLayout>
