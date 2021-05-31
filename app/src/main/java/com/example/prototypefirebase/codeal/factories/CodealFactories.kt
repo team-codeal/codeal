@@ -37,8 +37,8 @@ object CodealTaskFactory: CodealEntityCachingFactory<CodealTask>() {
     fun create(taskName: String = "",
                taskContent: String = "",
                teamID: String,
-               listName: String): CodealTask {
-        return CodealTask(taskName, taskContent, teamID, listName).apply {
+               listName: String, ownerID: String): CodealTask {
+        return CodealTask(taskName, taskContent, teamID, listName, ownerID).apply {
             addOnReady { cachedEntities.put(it.id, it) }
         }
     }
