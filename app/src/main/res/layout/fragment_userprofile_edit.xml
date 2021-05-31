@@ -94,6 +94,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/edittext_bg"
         android:fontFamily="@font/poppins_regular"
+        android:maxLength="90"
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
         android:paddingRight="8dp"
