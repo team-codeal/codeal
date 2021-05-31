@@ -28,7 +28,7 @@
         android:id="@+id/new_comment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#789DC9"
+        android:background="@color/colorAccentDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -39,9 +39,9 @@
             android:layout_height="40dp"
             android:layout_marginStart="3dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/send"
+            android:foregroundGravity="center_horizontal|center_vertical"
             android:fontFamily="@font/poppins_semibold"
-            android:foreground="@android:drawable/ic_menu_send"
             android:gravity="center|bottom"
             android:stateListAnimator="@anim/fragment_fade_enter"
             android:textColor="@color/colorText"
@@ -97,11 +97,11 @@
             android:hint="Tap to add a description"
             android:inputType="textMultiLine"
             android:paddingLeft="3dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
-            android:textSize="14dp"
+            android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -114,7 +114,8 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#789DC9"
+        android:background="@color/colorAccentDark"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,19 +140,19 @@
 
         <EditText
             android:id="@+id/Name_task"
-            android:layout_width="288dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_marginTop="8dp"
             android:autofillHints=""
-            android:inputType="textCapSentences"
             android:background="@color/fui_transparent"
             android:fontFamily="@font/poppins_italic"
             android:hint="Enter the name of task"
-            android:textCursorDrawable="@android:color/white"
+            android:inputType="textCapSentences"
             android:textColor="@color/colorText"
             android:textColorHint="@color/colorText"
-            android:textSize="14dp"
+            android:textCursorDrawable="@android:color/white"
+            android:textSize="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -177,10 +178,11 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="67dp"
+            android:layout_width="75dp"
             android:layout_height="34dp"
             android:background="@color/fui_transparent"
             android:fontFamily="@font/poppins_italic"
+            android:textSize="16dp"
             android:gravity="center|left"
             android:text="In the list: "
             android:textColor="@color/colorText"
@@ -224,7 +226,7 @@
             android:paddingLeft="3dp"
             android:textColor="@color/colorText"
             android:textColorHint="@color/colorText"
-            android:textSize="15dp"
+            android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -249,6 +251,7 @@
             android:id="@+id/imageView4"
             android:layout_width="41dp"
             android:layout_height="39dp"
+            android:layout_marginTop="2dp"
             android:layout_marginStart="6dp"
             android:layout_marginEnd="10dp"
             app:layout_constraintEnd_toStartOf="@+id/deadline_line"
@@ -272,68 +275,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="353dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="60dp"
-            android:background="@color/fui_transparent"
-            android:backgroundTint="@color/fui_transparent"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deadline_line">
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="353dp"
-                android:layout_height="2dp"
-                android:background="#000000" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="353dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="60dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-            <View
-                android:id="@+id/view2"
-                android:layout_width="353dp"
-                android:layout_height="2dp"
-                android:background="#000000" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="41dp"
-            android:layout_height="39dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4"
-            app:srcCompat="@drawable/label" />
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="41dp"
-            android:layout_height="39dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5"
-            app:srcCompat="@drawable/members" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
