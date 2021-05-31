@@ -44,7 +44,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/list_name"
                 app:layout_constraintBottom_toTopOf="@+id/addTaskButton">
 
-                <androidx.recyclerview.widget.RecyclerView
+                <com.example.utils.recyclers.tasks.TasksRecyclerView
                     android:id="@+id/item_item_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
