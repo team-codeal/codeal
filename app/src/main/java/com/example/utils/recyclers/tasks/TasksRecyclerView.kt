@@ -21,7 +21,7 @@ class TasksRecyclerView : RecyclerView {
             super(context, attrs, defStyleAttr)
 
     override fun onMeasure(widthSpec: Int, heightSpec: Int) {
-        val newHeightSpec = MeasureSpec.makeMeasureSpec((getScreenWidth() * 1.8).toInt(), AT_MOST)
+        val newHeightSpec = MeasureSpec.makeMeasureSpec((getScreenWidth() * 1.5).toInt(), AT_MOST)
         super.onMeasure(widthSpec, newHeightSpec)
     }
 
