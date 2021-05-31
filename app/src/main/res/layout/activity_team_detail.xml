@@ -30,10 +30,11 @@
         android:layout_width="361dp"
         android:layout_height="76dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/poppins_regular "
+        android:fontFamily="@font/poppins_regular"
         android:minLines="3"
         android:text="Short description:"
         android:textColor="@color/colorText"
+        android:inputType="textNoSuggestions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
@@ -79,10 +80,9 @@
             android:layout_height="34dp"
             android:layout_alignParentEnd='true'
             android:layout_marginEnd="2dp"
-            android:background="@color/fui_transparent"
+            android:background="@drawable/add"
             android:elevation="8dp"
             android:stateListAnimator="@anim/fragment_fade_enter"
-            android:foreground="@drawable/add"
             android:translationZ="4dp"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
@@ -99,9 +99,7 @@
         android:textColor="@color/colorText"
         android:translationZ="4dp"
         app:layout_constraintBottom_toTopOf="@+id/edit_team_name"
-        app:layout_constraintEnd_toStartOf="@+id/leave_team_button"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -109,9 +107,7 @@
         android:id="@+id/edit_team_to_tasks"
         android:layout_width="287dp"
         android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/round_button"
         android:elevation="8dp"
         android:fontFamily="@font/poppins_semibold"
@@ -120,9 +116,8 @@
         android:text="Board"
         android:textColor="@color/colorText"
         android:translationZ="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/leave_team_button"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toEndOf="@+id/edit_team_update_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/team_members_recycler_view" />
 
     <Button
@@ -137,7 +132,9 @@
         android:textColor="@color/colorText"
         android:translationZ="4dp"
         app:layout_constraintBottom_toTopOf="@+id/edit_team_name"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/edit_team_update_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
