@@ -12,6 +12,7 @@ import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTeam
 import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.utils.recyclers.lists.ListAdapter
+import java.lang.IllegalStateException
 
 class BoardActivity : AppCompatActivity() {
 
@@ -19,6 +20,7 @@ class BoardActivity : AppCompatActivity() {
 
     private var currentTeam: CodealTeam? = null
 
+    private val listCanonicalNames = listOf("Todo", "Doing", "Done")
     private var listNames: MutableList<String> = mutableListOf()
     private var listNameToTasksList: MutableMap<String, MutableList<String>>
             = hashMapOf()
@@ -82,12 +84,21 @@ class BoardActivity : AppCompatActivity() {
 
     private fun mergeListsWith(newLists: MutableMap<String, List<String>>) {
 
+        fun listNameToCanonicalIndex(newListName: String): Int {
+            val canonicalIndex = listCanonicalNames.indexOf(newListName)
+            if (canonicalIndex == -1) {
+                throw IllegalStateException("There is a custom list in this board. Not allowed")
+            }
+            return if (canonicalIndex > listNames.size) listNames.size else canonicalIndex
+        }
+
         // to the current lists, add the new ones
         for ((listName, newTasks) in newLists) {
             if (!listNameToTasksList.containsKey(listName)) {
                 listNameToTasksList[listName] = newTasks.toMutableList()
-                listNames.add(listName)
-                listAdapter.notifyItemInserted(listNames.size - 1)
+                val indexToInsert = listNameToCanonicalIndex(listName)
+                listNames.add(indexToInsert, listName)
+                listAdapter.notifyItemInserted(indexToInsert)
             } else {
 
                 val oldTasks = listNameToTasksList[listName]!!
