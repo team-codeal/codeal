@@ -9,19 +9,22 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.ViewTaskDetailActivity
+import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
 import com.example.utils.recyclers.tasks.TaskAdapter
 
 
 class ListAdapter(
+    private val listNames: MutableList<String>,
     private val listNameToTasksList: MutableMap<String, MutableList<String>>,
     private val addTaskCallback: (view: View, taskList: String) -> Unit,
+    private val saveChangesCallback: () -> Unit,
     private val context: Context
 ) : RecyclerView.Adapter<ListViewHolder>() {
 
     private var taskAdapters: MutableMap<String, TaskAdapter> = HashMap()
-    private val listNames = listOf("Todo", "Doing", "Done")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val listViewHolder = ListViewHolder(
@@ -47,23 +50,71 @@ class ListAdapter(
         return listNames.size
     }
 
-    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+    override fun onViewAttachedToWindow(holder: ListViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        val adapter: TaskAdapter? = holder.tasksRecyclerView.adapter as? TaskAdapter
+        adapter?.attachItemTouchHelper()
+    }
 
-        val list = listNames[position]
+    override fun onViewDetachedFromWindow(holder: ListViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        val adapter: TaskAdapter? = holder.tasksRecyclerView.adapter as? TaskAdapter
+        adapter?.detachItemTouchHelper()
+    }
 
-        holder.label = list
-        holder.addTaskListener = { view -> addTaskCallback.invoke(view, list) }
+    override fun onBindViewHolder(holder: ListViewHolder, listPosition: Int) {
 
-        holder.tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[list]!!) {
+        val listName = listNames[listPosition]
+        val list = listNameToTasksList[listName]
+
+        holder.label = listName
+        holder.addTaskListener = { view -> addTaskCallback.invoke(view, listName) }
+
+        val onTaskClickListener = { taskPosition: Int ->
             val intent = Intent(context, ViewTaskDetailActivity::class.java)
-            intent.putExtra(
-                "TaskID", listNameToTasksList[list]
-                    ?.get(it)
-            )
+            intent.putExtra("TaskID", list?.get(taskPosition))
             startActivity(context, intent, null)
         }
-        taskAdapters[list] = holder.tasksRecyclerView.adapter as TaskAdapter
 
+        val onTaskSwiped = { taskPosition: Int, direction: TaskAdapter.SwipeDirection ->
+            if (taskPosition != NO_POSITION) {
+                when(direction) {
+                    TaskAdapter.SwipeDirection.RIGHT -> {
+                        if (listPosition != listNames.size - 1) {
+                            val newListName = listNames[listPosition + 1]
+                            val taskID = list?.get(taskPosition)
+                            taskID?.let {
+                                CodealTaskFactory.get(it).addOnReady { task ->
+                                    task.change(listName = newListName)
+                                }
+                            }
+                        }
+                    }
+                    TaskAdapter.SwipeDirection.LEFT -> {
+                        if (listPosition != 0) {
+                            val newListName = listNames[listPosition - 1]
+                            val taskID = list?.get(taskPosition)
+                            taskID?.let {
+                                CodealTaskFactory.get(it).addOnReady { task ->
+                                    task.change(listName = newListName)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        val swipeDirections: MutableSet<TaskAdapter.SwipeDirection> = mutableSetOf()
+        swipeDirections.apply {
+            if (listPosition != 0) add(TaskAdapter.SwipeDirection.LEFT)
+            if (listPosition != listNames.size - 1) add(TaskAdapter.SwipeDirection.RIGHT)
+        }
+
+        holder.tasksRecyclerView.adapter = TaskAdapter(listNameToTasksList[listName]!!,
+            onTaskClickListener, saveChangesCallback, onTaskSwiped, swipeDirections)
+
+        taskAdapters[listName] = holder.tasksRecyclerView.adapter as TaskAdapter
     }
 
     enum class TaskChangingCommitment {

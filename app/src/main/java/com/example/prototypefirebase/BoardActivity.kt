@@ -10,21 +10,37 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTeam
-import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
 import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.utils.recyclers.lists.ListAdapter
+import java.lang.IllegalStateException
 
 class BoardActivity : AppCompatActivity() {
 
     private lateinit var teamID: String
 
+    private var currentTeam: CodealTeam? = null
+
+    private val listCanonicalNames = listOf("Todo", "Doing", "Done")
     private var listNames: MutableList<String> = mutableListOf()
     private var listNameToTasksList: MutableMap<String, MutableList<String>>
             = hashMapOf()
 
     private lateinit var tasksRecyclerView: RecyclerView
-    private var listAdapter: ListAdapter
-            = ListAdapter(listNameToTasksList, ::openAddTaskActivity, this)
+    private var listAdapter: ListAdapter =
+        ListAdapter(listNames,
+            listNameToTasksList,
+            ::openAddTaskActivity,
+            { currentTeam?.lists = toCodealTeamMap(listNameToTasksList) },
+            this)
+
+    private fun toCodealTeamMap(boardMap: MutableMap<String, MutableList<String>>):
+            MutableMap<String, List<String>> {
+        val codealTeamMap = mutableMapOf<String, List<String>>()
+        boardMap.forEach { (listName, list) ->
+            codealTeamMap[listName] = list
+        }
+        return codealTeamMap
+    }
 
     private lateinit var teamInfoListener: CodealEntity<CodealTeam>.CodealListener
 
@@ -42,6 +58,7 @@ class BoardActivity : AppCompatActivity() {
 
         teamID = intent.getStringExtra("TeamID")!!
 
+        CodealTeamFactory.get(teamID).addOnReady { currentTeam = it }
 
         teamNameHolder = findViewById(com.example.prototypefirebase.R.id.textViewLabel)
 
@@ -67,12 +84,21 @@ class BoardActivity : AppCompatActivity() {
 
     private fun mergeListsWith(newLists: MutableMap<String, List<String>>) {
 
+        fun listNameToCanonicalIndex(newListName: String): Int {
+            val canonicalIndex = listCanonicalNames.indexOf(newListName)
+            if (canonicalIndex == -1) {
+                throw IllegalStateException("There is a custom list in this board. Not allowed")
+            }
+            return if (canonicalIndex > listNames.size) listNames.size else canonicalIndex
+        }
+
         // to the current lists, add the new ones
-        newLists.forEach { (listName, newTasks) ->
+        for ((listName, newTasks) in newLists) {
             if (!listNameToTasksList.containsKey(listName)) {
                 listNameToTasksList[listName] = newTasks.toMutableList()
-                listNames.add(listName)
-                listAdapter.notifyItemInserted(listNames.size - 1)
+                val indexToInsert = listNameToCanonicalIndex(listName)
+                listNames.add(indexToInsert, listName)
+                listAdapter.notifyItemInserted(indexToInsert)
             } else {
 
                 val oldTasks = listNameToTasksList[listName]!!

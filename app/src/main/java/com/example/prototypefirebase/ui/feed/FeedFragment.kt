@@ -14,7 +14,6 @@ import com.example.prototypefirebase.ViewTaskDetailActivity
 import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
 import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.example.utils.recyclers.tasks.TaskAdapter
-import com.example.utils.recyclers.tasks.TaskViewHolder
 
 class FeedFragment : Fragment() {
 
@@ -26,11 +25,11 @@ class FeedFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        taskAdapter = TaskAdapter(userTasks) {
+        taskAdapter = TaskAdapter(userTasks, {
             val intent = Intent(context, ViewTaskDetailActivity::class.java)
             intent.putExtra("TaskID", userTasks[it])
             startActivity(intent)
-        }
+        })
 
         CodealUserFactory.get().addOnReady {
             for(teamID in it.teams){
