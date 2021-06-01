@@ -38,6 +38,7 @@ class CodealTask : CodealEntity<CodealTask>, Likeable<CodealTask> {
         private const val TASKS_DB_COMMENTS_IDs: String = "comments_ids"
         private const val TASKS_DB_DEADLINE: String = "deadline"
         private const val TASKS_DB_EMOTIONS_IDS_FIELD_NAME: String = "emotions"
+        private const val TASKS_DB_OWNER_ID: String = "owner_id"
     }
 
     // constructor for an existing task
@@ -97,7 +98,8 @@ class CodealTask : CodealEntity<CodealTask>, Likeable<CodealTask> {
             TASKS_DB_COMMENTS_IDs to commentsIDs,
             TASKS_DB_TASK_LIST to this.listName,
             TASKS_DB_TEAM_ID to this.teamID,
-            TASKS_DB_DEADLINE to this.deadline
+            TASKS_DB_DEADLINE to this.deadline,
+            TASKS_DB_OWNER_ID to this.ownerID
         )
         if (id != "") {
             // if the task already existed in the database
@@ -165,6 +167,11 @@ class CodealTask : CodealEntity<CodealTask>, Likeable<CodealTask> {
                         newEmotionsList)
                     newEmotionsList
                 }
+        ownerID = snapshot.get(TASKS_DB_OWNER_ID) as String? ?: run {
+            val newOwnerID = "THIS IS BROKEN"
+            tasksDB.document(id).update(TASKS_DB_OWNER_ID, newOwnerID)
+            newOwnerID
+        }
     }
 
     override fun likeBy(userID: String) {
