@@ -15,8 +15,8 @@ import com.example.prototypefirebase.R
 import com.example.prototypefirebase.codeal.CodealComment
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealUser
-import com.example.prototypefirebase.codeal.factories.CodealEmotionFactory
-import com.example.prototypefirebase.codeal.factories.CodealUserFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealEmotionSupplier
+import com.example.prototypefirebase.codeal.suppliers.CodealUserSupplier
 import com.example.utils.recyclers.comments.CommentViewHolder.LikeState.*
 import java.text.Format
 import java.text.SimpleDateFormat
@@ -64,7 +64,7 @@ class CommentViewHolder(itemView: View)
         commentLikeCountHolder.text = (comment.emotions.size + 1).toString()
         commentLikeButton.setOnClickListener(null)
         comment.likeBy(currentUser.id)
-        CodealUserFactory.get(comment.ownerID).sendReaction()
+        CodealUserSupplier.get(comment.ownerID).sendReaction()
     }
 
     private fun unlike(comment: CodealComment, authorLike: CodealUser) {
@@ -82,11 +82,11 @@ class CommentViewHolder(itemView: View)
     private fun setView(comment: CodealComment) {
         commentLikeButton.isChecked = lastLikeState == LIKED
 
-        CodealUserFactory.get().addOnReady { currentUser ->
+        CodealUserSupplier.get().addOnReady { currentUser ->
             commentLikeButton.setOnClickListener { like(comment, currentUser) }
 
             comment.emotions.forEach { emotionID ->
-                CodealEmotionFactory.get(emotionID).addOnReady { emotion ->
+                CodealEmotionSupplier.get(emotionID).addOnReady { emotion ->
                     if (emotion.ownerID == currentUser.id) {
                         setLikeButtonState(LIKED)
                         commentLikeButton.setOnClickListener { unlike(comment, currentUser) }
@@ -95,7 +95,7 @@ class CommentViewHolder(itemView: View)
             }
         }
 
-        CodealUserFactory.get(comment.ownerID).addOnReady { user ->
+        CodealUserSupplier.get(comment.ownerID).addOnReady { user ->
             commentAuthorHolder.text = user.name
             if (user.photoURL == Uri.EMPTY) return@addOnReady
             Glide.with(context).load(user.photoURL)

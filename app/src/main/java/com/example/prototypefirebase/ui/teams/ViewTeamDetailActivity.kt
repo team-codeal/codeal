@@ -13,8 +13,8 @@ import com.example.prototypefirebase.BoardActivity
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTeam
-import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
-import com.example.prototypefirebase.codeal.factories.CodealUserFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealTeamSupplier
+import com.example.prototypefirebase.codeal.suppliers.CodealUserSupplier
 import com.example.utils.recyclers.teammembers.TeamMemberAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -68,7 +68,7 @@ class ViewTeamDetailActivity : AppCompatActivity() {
             toBoard()
         }
 
-        teamMembersListener = CodealTeamFactory.get(teamID).addListener { team ->
+        teamMembersListener = CodealTeamSupplier.get(teamID).addListener { team ->
             editTeamName.setText(team.name)
             editTeamDesc.setText(team.description)
             mergeMembersWith(team.members)
@@ -76,8 +76,8 @@ class ViewTeamDetailActivity : AppCompatActivity() {
 
         val leaveTeamButton: Button = findViewById(R.id.leave_team_button)
         leaveTeamButton.setOnClickListener {
-            CodealTeamFactory.get(teamID).addOnReady {
-                CodealUserFactory.get().addOnReady { user ->
+            CodealTeamSupplier.get(teamID).addOnReady {
+                CodealUserSupplier.get().addOnReady { user ->
 
                     it.deletePersonFromTeam(user.id)
                     Toast.makeText(

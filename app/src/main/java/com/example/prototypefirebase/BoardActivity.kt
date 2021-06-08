@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTeam
-import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealTeamSupplier
 import com.example.utils.recyclers.lists.ListAdapter
 import java.lang.IllegalStateException
 
@@ -58,7 +58,7 @@ class BoardActivity : AppCompatActivity() {
 
         teamID = intent.getStringExtra("TeamID")!!
 
-        CodealTeamFactory.get(teamID).addOnReady { currentTeam = it }
+        CodealTeamSupplier.get(teamID).addOnReady { currentTeam = it }
 
         teamNameHolder = findViewById(com.example.prototypefirebase.R.id.textViewLabel)
 
@@ -70,7 +70,7 @@ class BoardActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        teamInfoListener = CodealTeamFactory.get(teamID).addListener { possiblyUpdatedTeam ->
+        teamInfoListener = CodealTeamSupplier.get(teamID).addListener { possiblyUpdatedTeam ->
             teamNameHolder.text = possiblyUpdatedTeam.name
             val possiblyUpdatedLists = possiblyUpdatedTeam.lists
             mergeListsWith(possiblyUpdatedLists)

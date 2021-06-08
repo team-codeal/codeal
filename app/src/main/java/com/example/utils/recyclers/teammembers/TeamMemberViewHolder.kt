@@ -12,7 +12,7 @@ import com.bumptech.glide.request.target.Target
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealUser
-import com.example.prototypefirebase.codeal.factories.CodealUserFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealUserSupplier
 
 class TeamMemberViewHolder(itemView: View)
     : RecyclerView.ViewHolder(itemView) {
@@ -34,7 +34,7 @@ class TeamMemberViewHolder(itemView: View)
 
     fun startListenerIfExists() {
         freeListenerIfExists()
-        listener = teamMemberID?.let { CodealUserFactory.get(it).addListener(::setView)}
+        listener = teamMemberID?.let { CodealUserSupplier.get(it).addListener(::setView)}
     }
 
     fun bindView(teamMemberID: String, context: Context) {

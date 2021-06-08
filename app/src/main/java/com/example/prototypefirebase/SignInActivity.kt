@@ -7,7 +7,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.prototypefirebase.codeal.CodealUser
-import com.example.prototypefirebase.codeal.factories.CodealUserFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealUserSupplier
 import com.firebase.ui.auth.AuthUI
 
 class SignInActivity : AppCompatActivity() {
@@ -50,7 +50,7 @@ class SignInActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 // signed in
                 try {
-                    CodealUserFactory.get().addOnReady {
+                    CodealUserSupplier.get().addOnReady {
                         user = it
                         Toast.makeText(this, "Hello ${user?.name}!", Toast.LENGTH_SHORT).show()
                     }

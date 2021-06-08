@@ -1,4 +1,4 @@
-package com.example.prototypefirebase.codeal.factories
+package com.example.prototypefirebase.codeal.suppliers
 
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.google.common.cache.CacheBuilder
@@ -6,7 +6,7 @@ import com.google.common.cache.CacheLoader
 import com.google.common.cache.LoadingCache
 import java.util.concurrent.TimeUnit
 
-abstract class CodealEntityCachingFactory<T : CodealEntity<T>> : CodealEntityFactory<T> {
+abstract class CodealEntityCachingSupplier<T : CodealEntity<T>> : CodealEntitySupplier<T> {
 
     protected val cachedEntities: LoadingCache<String, T> =
         CacheBuilder.newBuilder()

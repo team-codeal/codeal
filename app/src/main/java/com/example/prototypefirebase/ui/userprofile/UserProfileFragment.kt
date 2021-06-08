@@ -20,7 +20,7 @@ import com.example.prototypefirebase.R
 import com.example.prototypefirebase.SignInActivity
 import com.example.prototypefirebase.codeal.CodealEmotion
 import com.example.prototypefirebase.codeal.CodealUser
-import com.example.prototypefirebase.codeal.factories.*
+import com.example.prototypefirebase.codeal.suppliers.*
 import com.firebase.ui.auth.AuthUI
 import de.hdodenhof.circleimageview.CircleImageView
 import java.time.Instant
@@ -76,14 +76,14 @@ class UserProfileFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         val userAvatarHolder: CircleImageView = requireView().findViewById(R.id.user_avatar)
-        CodealUserFactory.get().addOnReady { user ->
+        CodealUserSupplier.get().addOnReady { user ->
             this.user = user
             updateUserProfileUI(view, user)
             loadUserAvatarToView(userAvatarHolder)
         }
 
         val heartReactionHolder: ImageView = requireView().findViewById(R.id.heart_reaction)
-        CodealUserFactory.get().incomingReactionCallback = {
+        CodealUserSupplier.get().incomingReactionCallback = {
             heartReactionHolder.visibility = View.VISIBLE
             heartReactionHolder.animate()
                 .scaleYBy(2f)
@@ -105,19 +105,19 @@ class UserProfileFragment : Fragment() {
         super.onResume()
         preUpdateStatistic()
 
-        CodealUserFactory.get().addOnReady { user ->
+        CodealUserSupplier.get().addOnReady { user ->
             this.user = user
             userTeamCountHolder.text = user.teams.size.toString()
 
             for (userTeam in user.teams) {
-                CodealTeamFactory.get(userTeam).addOnReady { team ->
+                CodealTeamSupplier.get(userTeam).addOnReady { team ->
                     for (userTask in team.tasks) {
-                        CodealTaskFactory.get(userTask).addOnReady { task ->
+                        CodealTaskSupplier.get(userTask).addOnReady { task ->
                             if(task.ownerID == user.id){
                                 getEmotions(task.emotions)
                             }
                             for (userComment in task.commentsIDs) {
-                                CodealCommentFactory.get(userComment).addOnReady { comment ->
+                                CodealCommentSupplier.get(userComment).addOnReady { comment ->
                                     if (comment.ownerID == user.id) {
                                         getEmotions(comment.emotions)
                                     }
@@ -131,7 +131,7 @@ class UserProfileFragment : Fragment() {
     }
     private fun getEmotions(emotions: List<String>){
         for (userEmotion in emotions) {
-            CodealEmotionFactory.get(userEmotion)
+            CodealEmotionSupplier.get(userEmotion)
                 .addOnReady { emotion ->
                     updateStatistic(emotion)
                 }

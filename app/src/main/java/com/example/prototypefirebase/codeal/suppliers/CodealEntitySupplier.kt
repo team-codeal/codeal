@@ -1,8 +1,8 @@
-package com.example.prototypefirebase.codeal.factories
+package com.example.prototypefirebase.codeal.suppliers
 
 import com.example.prototypefirebase.codeal.CodealEntity
 
-interface CodealEntityFactory<T: CodealEntity<T>> {
+interface CodealEntitySupplier<T: CodealEntity<T>> {
 
     /**
      * Get a CodealEntity object by it's id (or some identification).

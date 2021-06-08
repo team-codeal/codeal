@@ -1,7 +1,7 @@
 package com.example.prototypefirebase.codeal
 
-import com.example.prototypefirebase.codeal.factories.CodealEmotionFactory
-import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealEmotionSupplier
+import com.example.prototypefirebase.codeal.suppliers.CodealTeamSupplier
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -80,7 +80,7 @@ class CodealTask : CodealEntity<CodealTask>, Likeable<CodealTask> {
         this.deadline = deadline
 
         if (listName != prevListName) {
-            CodealTeamFactory.get(teamID).addOnReady {
+            CodealTeamSupplier.get(teamID).addOnReady {
                 it.deleteTask(id, prevListName)
                 it.addTask(id, listName)
             }
@@ -108,7 +108,7 @@ class CodealTask : CodealEntity<CodealTask>, Likeable<CodealTask> {
             // if the task is new
             tasksDB.add(taskInfo).addOnSuccessListener { taskDocument ->
                 id = taskDocument.id
-                CodealTeamFactory.get(teamID).addOnReady { it.addTask(id, listName) }
+                CodealTeamSupplier.get(teamID).addOnReady { it.addTask(id, listName) }
                 ready = true
                 if ((listeners.isNotEmpty() or oneTimeListeners.isNotEmpty())) {
                     setFirebaseListener()
@@ -120,7 +120,7 @@ class CodealTask : CodealEntity<CodealTask>, Likeable<CodealTask> {
     fun delete() {
         val db = FirebaseFirestore.getInstance()
 
-        CodealTeamFactory.get(teamID).addOnReady {
+        CodealTeamSupplier.get(teamID).addOnReady {
             it.deleteTask(id, listName)
 
             db.collection(TASKS_DB_COLLECTION_NAME).document(id).delete()
@@ -175,7 +175,7 @@ class CodealTask : CodealEntity<CodealTask>, Likeable<CodealTask> {
     }
 
     override fun likeBy(userID: String) {
-        CodealEmotionFactory.create(userID, id).addOnReady { emotion ->
+        CodealEmotionSupplier.create(userID, id).addOnReady { emotion ->
             val tasksDB = getDB()
             tasksDB.document(id).update(TASKS_DB_EMOTIONS_IDS_FIELD_NAME,
                 FieldValue.arrayUnion(emotion.id))
@@ -195,7 +195,7 @@ class CodealTask : CodealEntity<CodealTask>, Likeable<CodealTask> {
 
                 for (emotionDocument in queryResult.documents) {
                     val emotionID = emotionDocument.id
-                    CodealEmotionFactory.get(emotionID).addOnReady { emotion ->
+                    CodealEmotionSupplier.get(emotionID).addOnReady { emotion ->
                         val commentsDB = getDB()
                         commentsDB.document(id).update(TASKS_DB_EMOTIONS_IDS_FIELD_NAME,
                             FieldValue.arrayRemove(emotion.id))

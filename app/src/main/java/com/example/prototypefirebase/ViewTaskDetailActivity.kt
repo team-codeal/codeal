@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.codeal.CodealComment
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTask
-import com.example.prototypefirebase.codeal.factories.CodealCommentFactory
-import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
-import com.example.prototypefirebase.codeal.factories.CodealUserFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealCommentSupplier
+import com.example.prototypefirebase.codeal.suppliers.CodealTaskSupplier
+import com.example.prototypefirebase.codeal.suppliers.CodealUserSupplier
 import com.example.utils.recyclers.comments.CommentAdapter
 import kotlinx.android.synthetic.main.activity_task_detail.*
 import java.text.SimpleDateFormat
@@ -78,8 +78,8 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         commentsRecyclerView.layoutManager = LinearLayoutManager(this)
         commentsRecyclerView.adapter = CommentAdapter(comments, this)
 
-        CodealUserFactory.get().addOnReady { user ->
-            CodealTaskFactory.get(taskID).addOnReady { task ->
+        CodealUserSupplier.get().addOnReady { user ->
+            CodealTaskSupplier.get(taskID).addOnReady { task ->
                 taskNameHolder.text = task.name
                 taskTextHolder.text = task.content
                 taskListHolder.text = task.listName
@@ -87,7 +87,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
 
                 uploadCommentButton.setOnClickListener {
                     val commentContent = newCommentHolder.text.toString()
-                    CodealCommentFactory.create(task.id, commentContent, user.id)
+                    CodealCommentSupplier.create(task.id, commentContent, user.id)
                         .addOnReady(::addComment)
                     // https://stackoverflow.com/questions/1109022/how-do-you-close-hide-the-android-soft-keyboard-programmatically
                     // Only runs if there is a view that is currently focused
@@ -106,7 +106,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
             val taskName = taskNameHolder.text.toString()
             val taskText = taskTextHolder.text.toString()
 
-            CodealTaskFactory.get(taskID).addOnReady {
+            CodealTaskSupplier.get(taskID).addOnReady {
                 it.change(name = taskName, content = taskText, deadline = taskDeadline)
                 Toast.makeText(this@ViewTaskDetailActivity,
                     "Task updated successfully!",
@@ -116,7 +116,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         }
 
         deleteTaskButton.setOnClickListener {
-            CodealTaskFactory.get(taskID).addOnReady {
+            CodealTaskSupplier.get(taskID).addOnReady {
                 it.delete()
 
                 Toast.makeText(this@ViewTaskDetailActivity,
@@ -129,7 +129,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        commentsListener = CodealTaskFactory.get(taskID)
+        commentsListener = CodealTaskSupplier.get(taskID)
             .addListener { mergeCommentsWith(it.commentsIDs) }
     }
 
@@ -143,7 +143,7 @@ class ViewTaskDetailActivity : AppCompatActivity() {
         val currentCommentsIDs = comments.map { it.id }
         newCommentsIDs.forEach { commentID ->
             if (!currentCommentsIDs.contains(commentID)) {
-                CodealCommentFactory.get(commentID).addOnReady { addComment(it) }
+                CodealCommentSupplier.get(commentID).addOnReady { addComment(it) }
             }
         }
 

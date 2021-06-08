@@ -1,7 +1,6 @@
 package com.example.prototypefirebase.codeal
 
 import com.example.prototypefirebase.codeal.CodealEntity.*
-import com.example.prototypefirebase.codeal.factories.CodealUserFactory
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import java.util.stream.Collectors
