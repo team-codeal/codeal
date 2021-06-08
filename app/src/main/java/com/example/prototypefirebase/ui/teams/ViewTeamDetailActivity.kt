@@ -155,7 +155,6 @@ class ViewTeamDetailActivity : AppCompatActivity() {
                     ).show()
                 } else {
                     val userID = documents.documents[0].id
-                    val userName = documents.documents[0].data?.get("name")
                     val team = CodealTeam(teamID)
                     team.addPersonToTeam(userID)
                     Toast.makeText(

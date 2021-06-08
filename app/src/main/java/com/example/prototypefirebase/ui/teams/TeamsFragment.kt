@@ -38,7 +38,7 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         val addTeamButton: FloatingActionButton = view.findViewById(R.id.add_team_button)
-        addTeamButton.setOnClickListener(::openAddTeam)
+        addTeamButton.setOnClickListener{ openAddTeam() }
 
         teamsRecyclerView = view.findViewById(R.id.recycler_view_teams)!!
         teamsRecyclerView.adapter = teamAdapter
@@ -84,7 +84,7 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
     }
 
     @SuppressLint("ClickableViewAccessibility", "InflateParams")
-    private fun openAddTeam(notUsed: View){
+    private fun openAddTeam(){
 
         val inflater : LayoutInflater =  requireActivity()
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -132,7 +132,7 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
         dimBehindPopup(popupWindow)
     }
 
-    fun dimBehindPopup(popupWindow: PopupWindow) {
+    private fun dimBehindPopup(popupWindow: PopupWindow) {
         val container = popupWindow.contentView.rootView
         val context: Context = popupWindow.contentView.context
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
