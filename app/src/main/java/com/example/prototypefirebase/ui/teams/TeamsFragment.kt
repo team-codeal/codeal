@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
@@ -12,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.BoardActivity
 import com.example.prototypefirebase.R
-import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
-import com.example.prototypefirebase.codeal.factories.CodealUserFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealTeamSupplier
+import com.example.prototypefirebase.codeal.suppliers.CodealUserSupplier
 import com.example.utils.recyclers.teams.OnTeamClickListener
 import com.example.utils.recyclers.teams.TeamAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -51,7 +50,7 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
     }
 
     private fun loadTeams() {
-        CodealUserFactory.get().addOnReady {
+        CodealUserSupplier.get().addOnReady {
             val userTeams = it.teams
             getTeams(userTeams)
         }
@@ -70,7 +69,7 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
         teams.clear()
 
         for (team in userTeams) {
-            CodealTeamFactory.get(team).addOnReady {
+            CodealTeamSupplier.get(team).addOnReady {
                 teams.add(
                     Model(
                         it.name,
@@ -104,12 +103,12 @@ class TeamsFragment : Fragment(), OnTeamClickListener {
 
         createTeamButton.setOnClickListener {
 
-            CodealUserFactory.get().addOnReady {
+            CodealUserSupplier.get().addOnReady {
                 val teamName = teamNameHolder.text.toString()
                 val teamDesc = teamDescriptionHolder.text.toString()
                 val teamMembers: List<String> = listOf(it.id)
 
-                CodealTeamFactory.create(teamName, teamDesc, teamMembers).addOnReady { team ->
+                CodealTeamSupplier.create(teamName, teamDesc, teamMembers).addOnReady { team ->
                     Toast.makeText(
                         ctx,
                         "Team created successfully!",

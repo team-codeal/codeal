@@ -1,7 +1,7 @@
 package com.example.prototypefirebase.codeal
 
-import com.example.prototypefirebase.codeal.factories.CodealEmotionFactory
-import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealEmotionSupplier
+import com.example.prototypefirebase.codeal.suppliers.CodealTaskSupplier
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -49,7 +49,7 @@ class CodealComment : CodealEntity<CodealComment>, Likeable<CodealComment> {
     }
 
     override fun likeBy(userID: String) {
-        CodealEmotionFactory.create(userID, id).addOnReady { emotion ->
+        CodealEmotionSupplier.create(userID, id).addOnReady { emotion ->
             val commentsDB = getDB()
             commentsDB.document(id).update(COMMENTS_DB_EMOTIONS_IDS_FIELD_NAME,
                 FieldValue.arrayUnion(emotion.id))
@@ -74,7 +74,7 @@ class CodealComment : CodealEntity<CodealComment>, Likeable<CodealComment> {
 
                 for (emotionDocument in queryResult.documents) {
                     val emotionID = emotionDocument.id
-                    CodealEmotionFactory.get(emotionID).addOnReady { emotion ->
+                    CodealEmotionSupplier.get(emotionID).addOnReady { emotion ->
                         val commentsDB = getDB()
                         commentsDB.document(id).update(COMMENTS_DB_EMOTIONS_IDS_FIELD_NAME,
                             FieldValue.arrayRemove(emotion.id))
@@ -96,7 +96,7 @@ class CodealComment : CodealEntity<CodealComment>, Likeable<CodealComment> {
         )
         commentsDB.add(commentInfo).addOnSuccessListener { commentDocument ->
             id = commentDocument.id
-            CodealTaskFactory.get(parentTaskID).addOnReady { task ->
+            CodealTaskSupplier.get(parentTaskID).addOnReady { task ->
                 val oldCommentsIDs: List<String> = task.commentsIDs
                 val newCommentsIDs = ArrayList(oldCommentsIDs).apply { add(id) }
                 task.change(commentsIDs = newCommentsIDs)

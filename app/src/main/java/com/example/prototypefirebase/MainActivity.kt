@@ -10,7 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealUser
-import com.example.prototypefirebase.codeal.factories.CodealUserFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealUserSupplier
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        userInfoListener = CodealUserFactory.get().addListener { possiblyUpdatedUser ->
+        userInfoListener = CodealUserSupplier.get().addListener { possiblyUpdatedUser ->
             userNameHolder.text = possiblyUpdatedUser.name
         }
     }

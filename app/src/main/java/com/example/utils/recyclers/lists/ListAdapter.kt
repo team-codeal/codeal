@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.ViewTaskDetailActivity
-import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealTaskSupplier
 import com.example.utils.recyclers.tasks.TaskAdapter
 
 
@@ -84,7 +84,7 @@ class ListAdapter(
                             val newListName = listNames[listPosition + 1]
                             val taskID = list?.get(taskPosition)
                             taskID?.let {
-                                CodealTaskFactory.get(it).addOnReady { task ->
+                                CodealTaskSupplier.get(it).addOnReady { task ->
                                     task.change(listName = newListName)
                                 }
                             }
@@ -95,7 +95,7 @@ class ListAdapter(
                             val newListName = listNames[listPosition - 1]
                             val taskID = list?.get(taskPosition)
                             taskID?.let {
-                                CodealTaskFactory.get(it).addOnReady { task ->
+                                CodealTaskSupplier.get(it).addOnReady { task ->
                                     task.change(listName = newListName)
                                 }
                             }

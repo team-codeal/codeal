@@ -1,9 +1,9 @@
-package com.example.prototypefirebase.codeal.factories
+package com.example.prototypefirebase.codeal.suppliers
 
 import com.example.prototypefirebase.codeal.*
 import java.util.*
 
-object CodealUserFactory : CodealEntityCachingFactory<CodealUser>() {
+object CodealUserSupplier : CodealEntityCachingSupplier<CodealUser>() {
 
     private const val CURRENT_USER_SPECIAL_ID = ""
 
@@ -20,7 +20,7 @@ object CodealUserFactory : CodealEntityCachingFactory<CodealUser>() {
     fun get() = get(CURRENT_USER_SPECIAL_ID)
 }
 
-object CodealTeamFactory: CodealEntityCachingFactory<CodealTeam>() {
+object CodealTeamSupplier: CodealEntityCachingSupplier<CodealTeam>() {
     override fun constructByIDRaw(id: String?): CodealTeam
             = CodealTeam(id!!)
 
@@ -31,7 +31,7 @@ object CodealTeamFactory: CodealEntityCachingFactory<CodealTeam>() {
     }
 }
 
-object CodealTaskFactory: CodealEntityCachingFactory<CodealTask>() {
+object CodealTaskSupplier: CodealEntityCachingSupplier<CodealTask>() {
     override fun constructByIDRaw(id: String?): CodealTask
             = CodealTask(id!!)
 
@@ -47,7 +47,7 @@ object CodealTaskFactory: CodealEntityCachingFactory<CodealTask>() {
     }
 }
 
-object CodealEmotionFactory: CodealEntityCachingFactory<CodealEmotion>() {
+object CodealEmotionSupplier: CodealEntityCachingSupplier<CodealEmotion>() {
     override fun constructByIDRaw(id: String?): CodealEmotion
             = CodealEmotion(id!!)
 
@@ -58,7 +58,7 @@ object CodealEmotionFactory: CodealEntityCachingFactory<CodealEmotion>() {
     }
 }
 
-object CodealCommentFactory: CodealEntityCachingFactory<CodealComment>() {
+object CodealCommentSupplier: CodealEntityCachingSupplier<CodealComment>() {
     override fun constructByIDRaw(id: String?): CodealComment
             = CodealComment(id!!)
 

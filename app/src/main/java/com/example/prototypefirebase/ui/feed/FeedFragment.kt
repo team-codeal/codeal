@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prototypefirebase.R
 import com.example.prototypefirebase.ViewTaskDetailActivity
-import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
-import com.example.prototypefirebase.codeal.factories.CodealUserFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealTeamSupplier
+import com.example.prototypefirebase.codeal.suppliers.CodealUserSupplier
 import com.example.utils.recyclers.tasks.TaskAdapter
 
 class FeedFragment : Fragment() {
@@ -31,9 +31,9 @@ class FeedFragment : Fragment() {
             startActivity(intent)
         })
 
-        CodealUserFactory.get().addOnReady {
+        CodealUserSupplier.get().addOnReady {
             for(teamID in it.teams){
-                CodealTeamFactory.get(teamID).addOnReady { team ->
+                CodealTeamSupplier.get(teamID).addOnReady { team ->
                     val teamTasks = team.tasks
                     userTasks.addAll(teamTasks)
                     taskAdapter.notifyItemRangeInserted(

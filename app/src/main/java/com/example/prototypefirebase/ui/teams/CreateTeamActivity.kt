@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.prototypefirebase.BoardActivity
 import com.example.prototypefirebase.R
-import com.example.prototypefirebase.codeal.factories.CodealTeamFactory
-import com.example.prototypefirebase.codeal.factories.CodealUserFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealTeamSupplier
+import com.example.prototypefirebase.codeal.suppliers.CodealUserSupplier
 
 class CreateTeamActivity : AppCompatActivity() {
 
@@ -28,12 +28,12 @@ class CreateTeamActivity : AppCompatActivity() {
 
         createTeamButton.setOnClickListener {
 
-            CodealUserFactory.get().addOnReady {
+            CodealUserSupplier.get().addOnReady {
                 val teamName = teamNameHolder.text.toString()
                 val teamDesc = teamDescriptionHolder.text.toString()
                 val teamMembers: List<String> = listOf(it.id)
 
-                CodealTeamFactory.create(teamName, teamDesc, teamMembers).addOnReady { team ->
+                CodealTeamSupplier.create(teamName, teamDesc, teamMembers).addOnReady { team ->
                     Toast.makeText(this@CreateTeamActivity,
                         "Team created successfully!",
                         Toast.LENGTH_SHORT)

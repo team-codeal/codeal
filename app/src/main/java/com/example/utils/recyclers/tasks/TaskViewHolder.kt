@@ -10,9 +10,9 @@ import com.example.prototypefirebase.R
 import com.example.prototypefirebase.codeal.CodealEntity
 import com.example.prototypefirebase.codeal.CodealTask
 import com.example.prototypefirebase.codeal.CodealUser
-import com.example.prototypefirebase.codeal.factories.CodealEmotionFactory
-import com.example.prototypefirebase.codeal.factories.CodealTaskFactory
-import com.example.prototypefirebase.codeal.factories.CodealUserFactory
+import com.example.prototypefirebase.codeal.suppliers.CodealEmotionSupplier
+import com.example.prototypefirebase.codeal.suppliers.CodealTaskSupplier
+import com.example.prototypefirebase.codeal.suppliers.CodealUserSupplier
 import java.util.*
 
 class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -38,7 +38,7 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun startListenerIfExists() {
         listenerRegistration = taskID?.let {
-            CodealTaskFactory.get(it).addListener { task ->
+            CodealTaskSupplier.get(it).addListener { task ->
                 taskCommentCountHolder.text = task.commentsIDs.size.toString()
                 taskContentHolder.text = task.content
                 taskNameHolder.text = task.name
@@ -82,7 +82,7 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         taskLikeCountHolder.text = (task.emotions.size + 1).toString()
         taskLikeButton.setOnClickListener(null)
         task.likeBy(currentUser.id)
-        CodealUserFactory.get(task.ownerID).sendReaction()
+        CodealUserSupplier.get(task.ownerID).sendReaction()
     }
 
     private fun unlike(task: CodealTask, authorLike: CodealUser) {
@@ -95,11 +95,11 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private fun setView(task: CodealTask) {
         taskLikeButton.isChecked = lastLikeState == LikeState.LIKED
 
-        CodealUserFactory.get().addOnReady { currentUser ->
+        CodealUserSupplier.get().addOnReady { currentUser ->
             taskLikeButton.setOnClickListener { like(task, currentUser) }
 
             task.emotions.forEach { emotionID ->
-                CodealEmotionFactory.get(emotionID).addOnReady { emotion ->
+                CodealEmotionSupplier.get(emotionID).addOnReady { emotion ->
                     if (emotion.ownerID == currentUser.id) {
                         setLikeButtonState(LikeState.LIKED)
                         taskLikeButton.setOnClickListener { unlike(task, currentUser) }
