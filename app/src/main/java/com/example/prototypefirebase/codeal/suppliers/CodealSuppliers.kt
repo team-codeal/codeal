@@ -68,3 +68,22 @@ object CodealCommentSupplier: CodealEntityCachingSupplier<CodealComment>() {
         }
     }
 }
+
+/**
+ * All suppliers should be manually put in here
+ */
+private val CodealSuppliers: List<CodealEntityCachingSupplier<*>> = listOf(
+    CodealUserSupplier,
+    CodealTeamSupplier,
+    CodealTaskSupplier,
+    CodealEmotionSupplier,
+    CodealCommentSupplier
+)
+
+/**
+ * Clears all cached Codeal entities.
+ * This is usually performed when a user logs out.
+ */
+fun clearAllCaches() {
+    CodealSuppliers.forEach(CodealEntityCachingSupplier<*>::clear)
+}

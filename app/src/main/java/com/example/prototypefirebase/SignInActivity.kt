@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.prototypefirebase.codeal.CodealUser
 import com.example.prototypefirebase.codeal.suppliers.CodealUserSupplier
+import com.example.prototypefirebase.codeal.suppliers.clearAllCaches
 import com.firebase.ui.auth.AuthUI
 
 class SignInActivity : AppCompatActivity() {
@@ -18,6 +19,7 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide();
+        clearAllCaches()
         try {
             // TODO this violates the rules, but for checking auth we have to actually
             //  rebuild the user object

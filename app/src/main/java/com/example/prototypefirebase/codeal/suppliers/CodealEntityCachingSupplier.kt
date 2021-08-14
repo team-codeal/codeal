@@ -23,4 +23,6 @@ abstract class CodealEntityCachingSupplier<T : CodealEntity<T>> : CodealEntitySu
      */
     protected abstract fun constructByIDRaw(id: String?) : T
 
+    fun clear() = cachedEntities.invalidateAll()
+
 }
